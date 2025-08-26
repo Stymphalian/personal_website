@@ -62,13 +62,13 @@
   - [x] 1.6 Install additional dependencies (react-router-dom, lucide-react, etc.)
   - [x] 1.7 Configure build scripts and development environment
 
-- [ ] 2.0 Core Layout and Navigation
+- [x] 2.0 Core Layout and Navigation
   - [x] 2.1 Create main App component with React Router setup
   - [x] 2.2 Implement Navigation component with top-right positioning
   - [x] 2.3 Add responsive navigation menu for mobile devices
   - [x] 2.4 Implement smooth transitions and hover effects
   - [x] 2.5 Create layout wrapper component for consistent page structure
-  - [ ] 2.6 Add active state styling for current navigation item
+  - [x] 2.6 Add active state styling for current navigation item
 
 - [ ] 3.0 Home Page Implementation
   - [ ] 3.1 Create Home page component with bio section
