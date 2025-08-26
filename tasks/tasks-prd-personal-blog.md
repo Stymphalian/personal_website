@@ -80,7 +80,7 @@
   - [x] 3.6 Implement responsive design for mobile, tablet, and desktop
   - [x] 3.7 Add smooth animations and transitions for enhanced UX
 
-  - [ ] 4.0 Projects Page and Individual Project Pages
+- [ ] 4.0 Projects Page and Individual Project Pages
   - [x] 4.1 Create Projects page with card layout grid
   - [x] 4.2 Implement ProjectCard component with title, image, description, and tech stack
   - [x] 4.3 Create project data structure and populate with initial 3 projects

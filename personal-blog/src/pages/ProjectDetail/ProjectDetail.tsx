@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Layout } from '../../components/Layout';
+import MediaGallery from '../../components/MediaGallery/MediaGallery';
 import { getProjectById } from '../../data/projects';
 
 const ProjectDetail: React.FC = () => {
@@ -83,6 +84,9 @@ const ProjectDetail: React.FC = () => {
                             )}
                         </div>
                     </div>
+
+                    {/* Media Gallery */}
+                    <MediaGallery images={project.images} videos={project.videos} />
 
                     {/* Project Content */}
                     {project.content && (

@@ -1,12 +1,22 @@
 // Project data structure and initial projects
 // Completed in task 4.3
 
+export interface ProjectMedia {
+  type: 'image' | 'video';
+  src: string;
+  alt?: string;
+  caption?: string;
+  thumbnail?: string;
+}
+
 export interface Project {
   id: string;
   title: string;
   description: string;
   shortDescription: string;
-  image: string;
+  image: string; // Main/featured image
+  images?: ProjectMedia[]; // Additional images
+  videos?: ProjectMedia[]; // Video content
   techStack: string[];
   liveDemo?: string;
   githubRepo?: string;
@@ -28,6 +38,29 @@ export const projects: Project[] = [
     date: '2024-01-15',
     liveDemo: 'https://yourdomain.com',
     githubRepo: 'https://github.com/yourusername/personal-blog',
+    images: [
+      {
+        type: 'image',
+        src: '/headshot.jpg',
+        alt: 'Homepage screenshot',
+        caption: 'Responsive homepage with bio and project showcase'
+      },
+      {
+        type: 'image',
+        src: '/placeholder-project-2.jpg',
+        alt: 'Projects page',
+        caption: 'Grid layout of featured projects'
+      }
+    ],
+    videos: [
+      {
+        type: 'video',
+        src: 'https://www.youtube.com/embed/demo-video-id',
+        alt: 'Project walkthrough',
+        caption: 'Video demonstration of key features',
+        thumbnail: '/placeholder-project-3.jpg'
+      }
+    ],
     content: `
 # Personal Blog & Portfolio
 
@@ -71,6 +104,29 @@ This project demonstrates modern React development practices including:
     date: '2023-12-01',
     liveDemo: 'https://ecommerce-demo.com',
     githubRepo: 'https://github.com/yourusername/ecommerce-platform',
+    images: [
+      {
+        type: 'image',
+        src: '/placeholder-project-2.jpg',
+        alt: 'Product catalog',
+        caption: 'Product listing with search and filtering'
+      },
+      {
+        type: 'image',
+        src: '/placeholder-project-3.jpg',
+        alt: 'Shopping cart',
+        caption: 'Shopping cart with item management'
+      }
+    ],
+    videos: [
+      {
+        type: 'video',
+        src: 'https://www.youtube.com/embed/ecommerce-demo',
+        alt: 'E-commerce demo',
+        caption: 'Complete shopping experience walkthrough',
+        thumbnail: '/placeholder-project-2.jpg'
+      }
+    ],
     content: `
 # E-Commerce Platform
 
@@ -115,6 +171,29 @@ The platform follows a microservices architecture pattern with:
     date: '2023-10-15',
     liveDemo: 'https://taskmanager-demo.com',
     githubRepo: 'https://github.com/yourusername/task-management-app',
+    images: [
+      {
+        type: 'image',
+        src: '/placeholder-project-3.jpg',
+        alt: 'Task dashboard',
+        caption: 'Main task management dashboard'
+      },
+      {
+        type: 'image',
+        src: '/placeholder-project-2.jpg',
+        alt: 'Team collaboration',
+        caption: 'Team workspace with real-time updates'
+      }
+    ],
+    videos: [
+      {
+        type: 'video',
+        src: 'https://www.youtube.com/embed/task-manager-demo',
+        alt: 'Task manager demo',
+        caption: 'Real-time collaboration features demonstration',
+        thumbnail: '/placeholder-project-3.jpg'
+      }
+    ],
     content: `
 # Task Management Application
 
