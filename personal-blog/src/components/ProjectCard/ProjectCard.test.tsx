@@ -77,7 +77,7 @@ describe('ProjectCard', () => {
     const customClass = 'custom-class';
     render(<ProjectCard project={mockProject} className={customClass} />);
     
-    const card = screen.getByText('Test Project').closest('div')?.parentElement?.parentElement;
+    const card = screen.getByTestId('project-card');
     expect(card).toHaveClass('custom-class');
   });
 
@@ -87,7 +87,7 @@ describe('ProjectCard', () => {
     mockProject.techStack.forEach(tech => {
       const techTag = screen.getByText(tech);
       expect(techTag).toBeInTheDocument();
-      expect(techTag).toHaveClass('px-3', 'py-1', 'bg-blue-100', 'text-blue-800');
+      expect(techTag).toHaveClass('px-2', 'sm:px-3', 'py-1', 'bg-blue-100', 'text-blue-800');
     });
   });
 

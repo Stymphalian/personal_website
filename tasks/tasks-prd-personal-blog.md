@@ -90,7 +90,7 @@
   - [x] 4.5 Add support for multiple images, videos, and live demo links
   - [ ] 4.6 Implement markdown rendering for project blog content
   - [x] 4.7 Add navigation breadcrumbs and back-to-projects functionality
-  - [ ] 4.8 Create responsive vertical layout that adapts to different screen sizes
+  - [x] 4.8 Create responsive vertical layout that adapts to different screen sizes
 
 - [ ] 5.0 Blog Section Implementation
   - [ ] 5.1 Create Blog page component with article listing

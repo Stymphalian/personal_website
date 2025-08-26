@@ -19,9 +19,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   return (
-    <div className={`bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 ${className}`}>
-      <div className='flex flex-col md:flex-row'>
-        <div className='md:w-1/3 aspect-video md:aspect-square bg-gray-200 overflow-hidden'>
+    <div 
+      data-testid="project-card"
+      className={`bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 ${className}`}
+    >
+      <div className='flex flex-col lg:flex-row'>
+        {/* Image Section */}
+        <div className='w-full lg:w-1/3 aspect-video lg:aspect-square bg-gray-200 overflow-hidden'>
           <img
             src={project.image}
             alt={project.title}
@@ -32,38 +36,46 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               target.nextElementSibling?.classList.remove('hidden');
             }}
           />
-          <div className='hidden w-full h-full flex items-center justify-center text-4xl text-gray-400 bg-gray-100'>
+          <div className='hidden w-full h-full flex items-center justify-center text-2xl sm:text-4xl text-gray-400 bg-gray-100'>
             🚀
           </div>
         </div>
         
-        <div className='p-6 flex-1'>
-          <h3 className='text-xl font-semibold text-gray-900 mb-3'>
-            {project.title}
-          </h3>
-          <p className='text-gray-600 mb-4 overflow-hidden' style={{
-            display: '-webkit-box',
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical'
-          }}>
-            {project.description}
-          </p>
-          
-          <div className='mb-4'>
-            <div className='flex flex-wrap gap-2'>
-              {project.techStack.map((tech) => (
-                <span
-                  key={tech}
-                  className='px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full font-medium'
-                >
-                  {tech}
-                </span>
-              ))}
+        {/* Content Section */}
+        <div className='p-4 sm:p-6 flex-1 flex flex-col justify-between'>
+          <div>
+            <h3 className='text-lg sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-3 leading-tight'>
+              {project.title}
+            </h3>
+            <p className='text-gray-600 mb-3 sm:mb-4 text-sm sm:text-base overflow-hidden leading-relaxed' style={{
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical'
+            }}>
+              {project.description}
+            </p>
+            
+            {/* Tech Stack */}
+            <div className='mb-3 sm:mb-4'>
+              <div className='flex flex-wrap gap-1.5 sm:gap-2'>
+                {project.techStack.map((tech) => (
+                  <span
+                    key={tech}
+                    className='px-2 sm:px-3 py-1 bg-blue-100 text-blue-800 text-xs sm:text-sm rounded-full font-medium'
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
           
-          <div className='flex justify-between items-center'>
-            <span className='text-sm text-gray-500'>
+          {/* Footer Section */}
+          <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4 pt-2 sm:pt-0'>
+            <span className='text-xs sm:text-sm text-gray-500 flex items-center'>
+              <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
               {new Date(project.date).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long'
@@ -71,7 +83,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </span>
             <button 
               onClick={handleViewDetails}
-              className='px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-sm font-medium'
+              className='px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-xs sm:text-sm font-medium w-full sm:w-auto'
             >
               View Details
             </button>

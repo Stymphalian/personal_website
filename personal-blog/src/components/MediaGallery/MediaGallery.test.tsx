@@ -119,7 +119,7 @@ describe('MediaGallery', () => {
         render(<MediaGallery images={mockImages} />);
 
         const gridContainer = screen.getByText('Project Media').nextElementSibling;
-        expect(gridContainer).toHaveClass('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-3');
+        expect(gridContainer).toHaveClass('grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3');
     });
 
     it('applies hover effects to media items', () => {
