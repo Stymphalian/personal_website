@@ -53,14 +53,14 @@
 
 ## Tasks
 
-- [ ] 1.0 Project Setup and Configuration
+- [x] 1.0 Project Setup and Configuration
   - [x] 1.1 Initialize React project with Vite and TypeScript
   - [x] 1.2 Install and configure Tailwind CSS with custom theme
   - [x] 1.3 Set up project directory structure (components, pages, utils, data, styles)
   - [x] 1.4 Configure ESLint and Prettier for code quality
   - [x] 1.5 Set up Jest testing framework with React Testing Library
-  - [ ] 1.6 Install additional dependencies (react-router-dom, lucide-react, etc.)
-  - [ ] 1.7 Configure build scripts and development environment
+  - [x] 1.6 Install additional dependencies (react-router-dom, lucide-react, etc.)
+  - [x] 1.7 Configure build scripts and development environment
 
 - [ ] 2.0 Core Layout and Navigation
   - [ ] 2.1 Create main App component with React Router setup
