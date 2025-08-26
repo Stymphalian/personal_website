@@ -1,22 +1,34 @@
 import React from 'react';
+import { Layout } from '../../components/Layout';
+import { ProjectCard } from '../../components/ProjectCard';
+import { projects } from '../../data/projects';
 
 const Projects: React.FC = () => {
   return (
-    <div className='min-h-screen bg-white'>
-      {/* Projects page will be implemented in task 4.1 */}
+    <Layout>
       <div className='container mx-auto px-4 py-8'>
-        <div className='text-center'>
+        <div className='text-center mb-12'>
           <h1 className='heading-1 mb-6'>My Projects</h1>
-          <p className='body-text max-w-2xl mx-auto mb-8'>
-            This page will showcase my projects in a card layout grid.
-            Implementation will be completed in task 4.1.
+          <p className='body-text max-w-2xl mx-auto'>
+            Here are some of the projects I've worked on. Each represents a unique challenge 
+            and learning experience in software development.
           </p>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-            {/* Project cards will be rendered here */}
-          </div>
+        </div>
+        
+        <div className='space-y-6 max-w-4xl mx-auto'>
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onViewDetails={(projectId) => {
+                // TODO: Navigate to project detail page
+                console.log('View details for project:', projectId);
+              }}
+            />
+          ))}
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
