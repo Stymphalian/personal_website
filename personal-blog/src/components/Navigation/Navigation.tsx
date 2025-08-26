@@ -1,10 +1,13 @@
 import { Menu, X } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const location = useLocation();
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const navigationItems = [
     { path: '/', label: 'Home' },
@@ -12,6 +15,9 @@ const Navigation: React.FC = () => {
     { path: '/blog', label: 'Blog' },
     { path: '/contact', label: 'Contact' },
   ];
+
+  // Minimum swipe distance (in px)
+  const minSwipeDistance = 50;
 
   const isActive = (path: string) => {
     if (path === '/') {
@@ -27,6 +33,55 @@ const Navigation: React.FC = () => {
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+
+  // Touch gesture handlers for mobile
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    
+    if (isLeftSwipe && isMenuOpen) {
+      closeMenu();
+    }
+    
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+        closeMenu();
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
+  // Close menu on route change
+  useEffect(() => {
+    closeMenu();
+  }, [location.pathname]);
 
   return (
     <nav className="fixed top-0 right-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
@@ -62,7 +117,7 @@ const Navigation: React.FC = () => {
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors active:bg-gray-200"
               aria-expanded={isMenuOpen}
               aria-label={isMenuOpen ? 'Close main menu' : 'Open main menu'}
             >
@@ -77,24 +132,46 @@ const Navigation: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu - Only show when open */}
+      {/* Mobile Navigation Menu - Enhanced with animations and touch gestures */}
       {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t border-gray-200">
-            {navigationItems.map((item) => (
-              <Link
-                key={`mobile-${item.path}`}
-                to={item.path}
-                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                  isActive(item.path)
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                }`}
-                onClick={closeMenu}
-              >
-                {item.label}
-              </Link>
-            ))}
+        <div 
+          ref={mobileMenuRef}
+          className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-25"
+          onClick={closeMenu}
+        >
+          <div 
+            className="absolute right-0 top-16 w-64 h-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="px-4 pt-6 pb-8 space-y-2">
+              <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 px-3">
+                Navigation
+              </div>
+              {navigationItems.map((item) => (
+                <Link
+                  key={`mobile-${item.path}`}
+                  to={item.path}
+                  className={`block px-3 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                    isActive(item.path)
+                      ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600'
+                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50 active:bg-gray-100'
+                  }`}
+                  onClick={closeMenu}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+            
+            {/* Mobile menu footer */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-gray-50">
+              <div className="text-xs text-gray-500 text-center">
+                Swipe left to close
+              </div>
+            </div>
           </div>
         </div>
       )}

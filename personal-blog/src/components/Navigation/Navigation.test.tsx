@@ -105,4 +105,39 @@ describe('Navigation', () => {
     fireEvent.click(mobileMenuButton);
     expect(mobileMenuButton).toHaveAttribute('aria-expanded', 'true');
   });
+
+  it('has enhanced mobile menu styling', () => {
+    renderWithRouter(<Navigation />);
+    
+    const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
+    fireEvent.click(mobileMenuButton);
+    
+    // Check for enhanced mobile menu elements - look for the container with the specific classes
+    const mobileMenuContainer = screen.getByText('Navigation').parentElement?.parentElement;
+    expect(mobileMenuContainer).toHaveClass('w-64', 'h-full', 'bg-white', 'shadow-xl');
+  });
+
+  it('shows mobile menu header and footer', () => {
+    renderWithRouter(<Navigation />);
+    
+    const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
+    fireEvent.click(mobileMenuButton);
+    
+    expect(screen.getByText('Navigation')).toBeInTheDocument();
+    expect(screen.getByText('Swipe left to close')).toBeInTheDocument();
+  });
+
+  it('prevents body scroll when mobile menu is open', () => {
+    renderWithRouter(<Navigation />);
+    
+    const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
+    
+    // Open menu
+    fireEvent.click(mobileMenuButton);
+    expect(document.body.style.overflow).toBe('hidden');
+    
+    // Close menu
+    fireEvent.click(mobileMenuButton);
+    expect(document.body.style.overflow).toBe('unset');
+  });
 });
