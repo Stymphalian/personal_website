@@ -1,13 +1,13 @@
+import { ArrowLeft, BookOpen, Calendar, Clock, Tag, User } from 'lucide-react';
 import React from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock, User, Tag, BookOpen } from 'lucide-react';
-import { getPostBySlug } from '../../data/blog-posts';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import CodeBlock from '../../components/CodeBlock/CodeBlock';
+import { getPostBySlug } from '../../data/blog-posts';
 
 const BlogPostDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  
+
   const post = getPostBySlug(slug || '');
 
   if (!post) {
@@ -77,7 +77,7 @@ const BlogPostDetail: React.FC = () => {
     // Split content into lines for processing
     const lines = content.split('\n');
     const elements: React.ReactNode[] = [];
-    
+
     let currentCodeBlock = '';
     let inCodeBlock = false;
     let codeLanguage = '';
@@ -119,7 +119,7 @@ const BlogPostDetail: React.FC = () => {
       if (line.startsWith('#')) {
         const level = line.match(/^#+/)?.[0].length || 1;
         const text = line.replace(/^#+\s*/, '');
-        
+
         if (level === 1) {
           elements.push(
             <h1 key={index} className="text-3xl font-bold text-gray-900 mt-8 mb-4">
@@ -159,7 +159,7 @@ const BlogPostDetail: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pt-16">
       <div className="container mx-auto px-4 py-8">
         {/* Back Navigation */}
         <div className="mb-6">
@@ -245,7 +245,7 @@ const BlogPostDetail: React.FC = () => {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Blog
             </button>
-            
+
             <div className="text-sm text-gray-500">
               <span>Written by {post.author}</span>
               <span className="mx-2">•</span>

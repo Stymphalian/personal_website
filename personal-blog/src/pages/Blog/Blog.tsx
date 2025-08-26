@@ -13,7 +13,7 @@ const Blog: React.FC = () => {
   };
 
   return (
-    <div className='min-h-screen bg-white'>
+    <div className='min-h-screen bg-white pt-16'>
       <div className='container mx-auto px-4 py-8'>
         {/* Header Section */}
         <div className='text-center mb-12'>
