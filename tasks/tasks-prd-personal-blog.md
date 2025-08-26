@@ -94,7 +94,7 @@
 
 - [ ] 5.0 Blog Section Implementation
   - [x] 5.1 Create Blog page component with article listing
-  - [ ] 5.2 Implement blog post data structure and markdown support
+  - [x] 5.2 Implement blog post data structure.
   - [ ] 5.3 Create CodeBlock component for developer-focused content
   - [ ] 5.4 Add syntax highlighting for code snippets
   - [ ] 5.5 Implement blog post filtering and search functionality
