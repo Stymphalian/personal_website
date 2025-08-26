@@ -5,6 +5,10 @@
 - `package.json` - Project dependencies and scripts configuration
 - `vite.config.js` - Vite build configuration for React app
 - `tailwind.config.js` - Tailwind CSS configuration with custom theme
+- `jest.config.js` - Jest testing framework configuration
+- `tsconfig.test.json` - TypeScript configuration for Jest tests
+- `src/setupTests.ts` - Jest test setup and global mocks
+- `src/__mocks__/fileMock.js` - Mock file for static assets in tests
 - `src/App.tsx` - Main application component with routing
 - `src/App.test.tsx` - Unit tests for main App component
 - `src/components/Navigation/Navigation.tsx` - Top-right navigation bar component
@@ -50,11 +54,11 @@
 ## Tasks
 
 - [ ] 1.0 Project Setup and Configuration
-  - [ ] 1.1 Initialize React project with Vite and TypeScript
-  - [ ] 1.2 Install and configure Tailwind CSS with custom theme
-  - [ ] 1.3 Set up project directory structure (components, pages, utils, data, styles)
-  - [ ] 1.4 Configure ESLint and Prettier for code quality
-  - [ ] 1.5 Set up Jest testing framework with React Testing Library
+  - [x] 1.1 Initialize React project with Vite and TypeScript
+  - [x] 1.2 Install and configure Tailwind CSS with custom theme
+  - [x] 1.3 Set up project directory structure (components, pages, utils, data, styles)
+  - [x] 1.4 Configure ESLint and Prettier for code quality
+  - [x] 1.5 Set up Jest testing framework with React Testing Library
   - [ ] 1.6 Install additional dependencies (react-router-dom, lucide-react, etc.)
   - [ ] 1.7 Configure build scripts and development environment
 
