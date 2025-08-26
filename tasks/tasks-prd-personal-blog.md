@@ -83,14 +83,14 @@
   - [x] 3.7 Add smooth animations and transitions for enhanced UX
 
 - [ ] 4.0 Projects Page and Individual Project Pages
-  - [x] 4.1 Create Projects page with card layout grid
+  - [x] 4.1 Create Projects page with card vertical layout
   - [x] 4.2 Implement ProjectCard component with title, image, description, and tech stack
   - [x] 4.3 Create project data structure and populate with initial 3 projects
   - [x] 4.4 Implement ProjectDetail page component for individual project views
   - [x] 4.5 Add support for multiple images, videos, and live demo links
   - [ ] 4.6 Implement markdown rendering for project blog content
-  - [ ] 4.7 Add navigation breadcrumbs and back-to-projects functionality
-  - [ ] 4.8 Create responsive grid layout that adapts to different screen sizes
+  - [x] 4.7 Add navigation breadcrumbs and back-to-projects functionality
+  - [ ] 4.8 Create responsive vertical layout that adapts to different screen sizes
 
 - [ ] 5.0 Blog Section Implementation
   - [ ] 5.1 Create Blog page component with article listing

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Layout } from '../../components/Layout';
+import Breadcrumb from '../../components/Breadcrumb';
 import MediaGallery from '../../components/MediaGallery/MediaGallery';
 import { getProjectById } from '../../data/projects';
 
@@ -19,7 +20,7 @@ const ProjectDetail: React.FC = () => {
                         <p className="body-text mb-6">The project you're looking for doesn't exist.</p>
                         <button
                             onClick={() => navigate('/projects')}
-                            className="text-blue-600 hover:text-blue-800 transition-colors"
+                            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                         >
                             ← Back to Projects
                         </button>
@@ -29,16 +30,54 @@ const ProjectDetail: React.FC = () => {
         );
     }
 
+    const breadcrumbItems = [
+        { label: 'Projects', path: '/projects' },
+        { label: project.title, isCurrent: true }
+    ];
+
     return (
         <Layout>
             <div className="container mx-auto px-4 py-8">
                 <div className="max-w-4xl mx-auto">
-                    <button
-                        onClick={() => navigate('/projects')}
-                        className="mb-6 text-blue-600 hover:text-blue-800 transition-colors"
-                    >
-                        ← Back to Projects
-                    </button>
+                    {/* Breadcrumb Navigation */}
+                    <Breadcrumb items={breadcrumbItems} className="mb-6" />
+
+                    {/* Enhanced Back to Projects Button */}
+                    <div className="flex items-center justify-between mb-8">
+                        <button
+                            onClick={() => navigate('/projects')}
+                            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors font-medium"
+                        >
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Back to Projects
+                        </button>
+                        
+                        {/* Project Quick Actions */}
+                        <div className="flex gap-3">
+                            {project.liveDemo && (
+                                <a
+                                    href={project.liveDemo}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                                >
+                                    View Live Demo
+                                </a>
+                            )}
+                            {project.githubRepo && (
+                                <a
+                                    href={project.githubRepo}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors text-sm"
+                                >
+                                    View on GitHub
+                                </a>
+                            )}
+                        </div>
+                    </div>
 
                     {/* Project Header */}
                     <div className="mb-8">
@@ -59,30 +98,6 @@ const ProjectDetail: React.FC = () => {
                                 className="w-full h-64 object-cover rounded-lg shadow-md"
                             />
                         </div>
-
-                        {/* Action Buttons */}
-                        <div className="flex flex-wrap gap-4 mb-8">
-                            {project.liveDemo && (
-                                <a
-                                    href={project.liveDemo}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                                >
-                                    View Live Demo
-                                </a>
-                            )}
-                            {project.githubRepo && (
-                                <a
-                                    href={project.githubRepo}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
-                                >
-                                    View on GitHub
-                                </a>
-                            )}
-                        </div>
                     </div>
 
                     {/* Media Gallery */}
@@ -90,7 +105,7 @@ const ProjectDetail: React.FC = () => {
 
                     {/* Project Content */}
                     {project.content && (
-                        <div className="prose prose-lg max-w-none">
+                        <div className="prose prose-lg max-w-none mt-8">
                             <div
                                 className="markdown-content"
                                 dangerouslySetInnerHTML={{
