@@ -1,14 +1,14 @@
-import { 
-  blogPosts, 
-  getFeaturedPosts, 
-  getPostBySlug, 
-  getPostsByTag, 
-  getPostsByCategory, 
-  getPostsByDifficulty, 
-  searchPosts, 
-  getRecentPosts, 
-  getAllTags, 
-  getPostsByAuthor
+import {
+    blogPosts,
+    getAllTags,
+    getFeaturedPosts,
+    getPostBySlug,
+    getPostsByAuthor,
+    getPostsByCategory,
+    getPostsByDifficulty,
+    getPostsByTag,
+    getRecentPosts,
+    searchPosts
 } from './blog-posts';
 
 describe('Blog Posts Data Structure', () => {
