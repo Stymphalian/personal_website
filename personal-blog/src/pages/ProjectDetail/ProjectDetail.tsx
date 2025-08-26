@@ -1,10 +1,10 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
-interface ProjectDetailProps {
-  projectId: string;
-}
+const ProjectDetail: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const projectId = id || '';
 
-const ProjectDetail: React.FC<ProjectDetailProps> = ({ projectId }) => {
   return (
     <div className='min-h-screen bg-white'>
       {/* ProjectDetail page will be implemented in task 4.4 */}

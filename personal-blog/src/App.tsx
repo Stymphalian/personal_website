@@ -1,9 +1,23 @@
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import Navigation from './components/Navigation/Navigation';
+import { Blog, Contact, Home, ProjectDetail, Projects } from './pages';
+
 function App() {
   return (
-    <main>
-      <h1>Personal Blog & Portfolio</h1>
-      <p>Welcome to my developer portfolio</p>
-    </main>
+    <Router>
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <main className="pt-16">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/:id" element={<ProjectDetail />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 

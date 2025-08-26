@@ -15,6 +15,7 @@ To provide a concise summary (~200 words) of the current chat conversation that 
    - Deliverables Created
    - Implementation Approach
    - Next Steps
+5. Save this to `summary.md` file
 
 ## Output Format
 

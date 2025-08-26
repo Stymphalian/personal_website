@@ -63,7 +63,7 @@
   - [x] 1.7 Configure build scripts and development environment
 
 - [ ] 2.0 Core Layout and Navigation
-  - [ ] 2.1 Create main App component with React Router setup
+  - [x] 2.1 Create main App component with React Router setup
   - [ ] 2.2 Implement Navigation component with top-right positioning
   - [ ] 2.3 Add responsive navigation menu for mobile devices
   - [ ] 2.4 Implement smooth transitions and hover effects
