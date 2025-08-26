@@ -1,0 +1,60 @@
+# Rule: Working Directory Management for Personal Blog Project
+
+## Problem
+The AI assistant frequently runs commands from the wrong directory, causing errors like:
+- `npm run dev` from parent directory instead of `personal-blog/`
+- Checking wrong ports or file paths
+- Confusion about current working directory
+
+## Solution
+**ALWAYS verify and set the correct working directory before running any commands.**
+
+## Required Actions
+
+### 1. Before Every Command
+- **Check current directory first** using `cd` (Windows) or `pwd` (Unix)
+- **Navigate to correct directory** if needed:
+  - `cd personal-blog` for React app commands
+  - `cd ..` to return to parent directory
+
+### 2. Directory Structure
+- **Project root**: `C:\dev\lab\blog\ai-dev-tasks\`
+- **React app**: `C:\dev\lab\blog\ai-dev-tasks\personal-blog\`
+- **Task files**: `C:\dev\lab\blog\ai-dev-tasks\tasks\`
+
+### 3. Command Examples
+```bash
+# WRONG - Running from parent directory
+C:\dev\lab\blog\ai-dev-tasks> npm run dev
+
+# CORRECT - Navigate first, then run
+C:\dev\lab\blog\ai-dev-tasks> cd personal-blog
+C:\dev\lab\blog\ai-dev-tasks\personal-blog> npm run dev
+```
+
+### 4. Port Checking
+- **Development server**: Port 5173 (Vite default)
+- **Always check from personal-blog directory**
+- **Use correct command**: `netstat -an | findstr :5173`
+
+### 5. File Operations
+- **Package.json operations**: Must be in `personal-blog/` directory
+- **Git operations**: Can be in either directory (git finds root)
+- **Test running**: Must be in `personal-blog/` directory
+
+## Enforcement
+- **NEVER** run npm/yarn commands without first confirming correct directory
+- **ALWAYS** use `cd personal-blog` before React app commands
+- **VERIFY** current directory with `cd` command before proceeding
+- **DOCUMENT** directory changes in command explanations
+
+## Example Workflow
+1. Check current directory: `cd`
+2. Navigate if needed: `cd personal-blog`
+3. Run command: `npm run dev`
+4. Verify success: Check port 5173
+5. Document: "Development server started from personal-blog directory"
+description:
+globs:
+alwaysApply: true
+---

@@ -1,17 +1,17 @@
 ---
-description: Check the current workign directory before making npm commands.
+description: Check the current working directory before making npm commands.
 globs:
 alwaysApply: true
 ---
 
-# Cursor Rules for AI Dev Tasks Project
+Before running any terminal command you **must** know what is your current 
+working directory.
 
 ## Working Directory Management
 - ALWAYS check the current working directory before running terminal commands
 - The project root is: C:\dev\lab\blog\ai-dev-tasks
 - The personal-blog subdirectory is: C:\dev\lab\blog\ai-dev-tasks\personal-blog
-- Use `pwd` or `cd` to verify current location before executing commands
-- When in doubt, use absolute paths or explicitly change directories
+- Use `cd` to verify current location before executing commands
 
 ## Terminal Command Best Practices
 - Before running any command, verify current working directory
@@ -33,8 +33,6 @@ alwaysApply: true
 4. Verify output and working directory for next command
 
 ## Common Commands
-- `pwd` - Print working directory
 - `cd personal-blog` - Enter React project directory
 - `cd ..` - Return to parent directory
 - `dir` - List directory contents (Windows)
-- `ls` - List directory contents (if available)
