@@ -108,6 +108,7 @@ const Navigation: React.FC = () => {
                   }`}
                 >
                   {item.label}
+
                 </Link>
               ))}
             </div>

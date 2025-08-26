@@ -29,6 +29,7 @@
 - `src/components/ProjectCarousel/ProjectCarousel.test.tsx` - Unit tests for ProjectCarousel component
 - `src/components/CodeBlock/CodeBlock.tsx` - Developer-focused code block component
 - `src/components/CodeBlock/CodeBlock.test.tsx` - Unit tests for CodeBlock component
+- `src/pages/ProjectDetail/ProjectDetail.tsx` - Individual project detail page component
 - `src/data/projects.ts` - Project data structure and initial projects
 - `src/data/projects.test.ts` - Unit tests for project data
 - `src/data/blog-posts.ts` - Blog post data structure
@@ -82,8 +83,8 @@
   - [ ] 4.0 Projects Page and Individual Project Pages
   - [x] 4.1 Create Projects page with card layout grid
   - [x] 4.2 Implement ProjectCard component with title, image, description, and tech stack
-  - [ ] 4.3 Create project data structure and populate with initial 3 projects
-  - [ ] 4.4 Implement ProjectDetail page component for individual project views
+  - [x] 4.3 Create project data structure and populate with initial 3 projects
+  - [x] 4.4 Implement ProjectDetail page component for individual project views
   - [ ] 4.5 Add support for multiple images, videos, and live demo links
   - [ ] 4.6 Implement markdown rendering for project blog content
   - [ ] 4.7 Add navigation breadcrumbs and back-to-projects functionality

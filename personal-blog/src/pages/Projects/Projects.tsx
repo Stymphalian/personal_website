@@ -1,9 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Layout } from '../../components/Layout';
 import { ProjectCard } from '../../components/ProjectCard';
 import { projects } from '../../data/projects';
 
 const Projects: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <Layout>
       <div className='container mx-auto px-4 py-8'>
@@ -21,8 +24,7 @@ const Projects: React.FC = () => {
               key={project.id}
               project={project}
               onViewDetails={(projectId) => {
-                // TODO: Navigate to project detail page
-                console.log('View details for project:', projectId);
+                navigate(`/projects/${projectId}`);
               }}
             />
           ))}
