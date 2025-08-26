@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { blogPosts } from '../../data/blog-posts';
 
 const Blog: React.FC = () => {
@@ -26,9 +27,10 @@ const Blog: React.FC = () => {
         {/* Blog Posts Grid */}
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12'>
           {blogPosts.map((post) => (
-            <article
+            <Link
               key={post.id}
-              className='relative bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100'
+              to={`/blog/${post.slug}`}
+              className='block relative bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-100 hover:border-blue-200'
             >
               {/* Featured Badge */}
               {post.featured && (
@@ -70,7 +72,7 @@ const Blog: React.FC = () => {
 
               {/* Hover Effect Overlay */}
               <div className='absolute inset-0 bg-blue-500 bg-opacity-0 hover:bg-opacity-5 transition-all duration-300 pointer-events-none' />
-            </article>
+            </Link>
           ))}
         </div>
 

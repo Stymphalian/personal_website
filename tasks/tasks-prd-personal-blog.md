@@ -96,9 +96,7 @@
   - [x] 5.1 Create Blog page component with article listing
   - [x] 5.2 Implement blog post data structure.
   - [x] 5.3 Create CodeBlock component for developer-focused content
-  - [ ] 5.4 Add syntax highlighting for code snippets
-  - [ ] 5.6 Add pagination for blog posts
-  - [ ] 5.7 Create blog post preview cards with excerpts
+  - [x] 5.4 Add an example blog page.
 
 - [ ] 6.0 Contact Page Implementation
   - [ ] 6.1 Create Contact page component with contact information display
