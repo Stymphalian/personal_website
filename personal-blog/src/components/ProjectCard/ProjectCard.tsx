@@ -7,10 +7,10 @@ interface ProjectCardProps {
   className?: string;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ 
-  project, 
-  onViewDetails, 
-  className = '' 
+const ProjectCard: React.FC<ProjectCardProps> = ({
+  project,
+  onViewDetails,
+  className = ''
 }) => {
   const handleViewDetails = () => {
     if (onViewDetails) {
@@ -19,7 +19,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   return (
-    <div 
+    <div
       data-testid="project-card"
       className={`bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 ${className}`}
     >
@@ -40,7 +40,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             🚀
           </div>
         </div>
-        
+
         {/* Content Section */}
         <div className='p-4 sm:p-6 flex-1 flex flex-col justify-between'>
           <div>
@@ -54,7 +54,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             }}>
               {project.description}
             </p>
-            
+
             {/* Tech Stack */}
             <div className='mb-3 sm:mb-4'>
               <div className='flex flex-wrap gap-1.5 sm:gap-2'>
@@ -69,7 +69,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               </div>
             </div>
           </div>
-          
+
           {/* Footer Section */}
           <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4 pt-2 sm:pt-0'>
             <span className='text-xs sm:text-sm text-gray-500 flex items-center'>
@@ -81,7 +81,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 month: 'long'
               })}
             </span>
-            <button 
+            <button
               onClick={handleViewDetails}
               className='px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-xs sm:text-sm font-medium w-full sm:w-auto'
             >
