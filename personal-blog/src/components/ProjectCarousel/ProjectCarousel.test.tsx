@@ -90,11 +90,7 @@ describe('ProjectCarousel', () => {
     expect(screen.getByText('Weather Dashboard')).toBeInTheDocument();
   });
 
-  it('displays project counter', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
-    
-    expect(screen.getByText('1 of 3 projects')).toBeInTheDocument();
-  });
+
 
   it('shows live demo button when available', () => {
     render(<ProjectCarousel projects={mockProjects} />);
@@ -133,7 +129,6 @@ describe('ProjectCarousel', () => {
     
     expect(screen.queryByLabelText('Previous project')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('Next project')).not.toBeInTheDocument();
-    expect(screen.queryByText('1 of 1 projects')).toBeInTheDocument();
   });
 
   it('displays project date in readable format', () => {
@@ -154,6 +149,6 @@ describe('ProjectCarousel', () => {
     render(<ProjectCarousel projects={mockProjects} />);
     
     expect(screen.getByText('E-Commerce Platform')).toBeInTheDocument();
-    expect(screen.getByText('1 of 3 projects')).toBeInTheDocument();
+    expect(screen.getByText('Modern e-commerce solution')).toBeInTheDocument();
   });
 });

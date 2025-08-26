@@ -183,10 +183,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
         </>
       )}
 
-      {/* Project Counter */}
-      <div className="text-center mt-4 text-sm text-gray-500">
-        {currentIndex + 1} of {projects.length} projects
-      </div>
+
     </div>
   );
 };
