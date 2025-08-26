@@ -136,39 +136,42 @@ const Navigation: React.FC = () => {
       {isMenuOpen && (
         <div 
           ref={mobileMenuRef}
-          className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-25"
+          className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-25 backdrop-blur-sm transition-all duration-300 ease-in-out"
           onClick={closeMenu}
         >
           <div 
-            className="absolute right-0 top-16 w-64 h-full bg-white shadow-xl transform transition-transform duration-300 ease-in-out"
+            className="absolute right-0 top-16 w-64 h-full bg-white shadow-2xl transform transition-all duration-500 ease-out"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-4 pt-6 pb-8 space-y-2">
-              <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 px-3">
+              <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 px-3 transition-colors duration-300">
                 Navigation
               </div>
-              {navigationItems.map((item) => (
+              {navigationItems.map((item, index) => (
                 <Link
                   key={`mobile-${item.path}`}
                   to={item.path}
-                  className={`block px-3 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                  className={`block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:-translate-x-1 ${
                     isActive(item.path)
-                      ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600'
-                      : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50 active:bg-gray-100'
+                      ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600 shadow-md'
+                      : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 hover:shadow-md active:bg-gray-100 active:scale-95'
                   }`}
                   onClick={closeMenu}
+                  style={{
+                    animationDelay: `${index * 100}ms`
+                  }}
                 >
                   {item.label}
                 </Link>
               ))}
             </div>
             
-            {/* Mobile menu footer */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-gray-50">
-              <div className="text-xs text-gray-500 text-center">
+            {/* Mobile menu footer with enhanced styling */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50/30">
+              <div className="text-xs text-gray-500 text-center transition-colors duration-300 hover:text-blue-600">
                 Swipe left to close
               </div>
             </div>

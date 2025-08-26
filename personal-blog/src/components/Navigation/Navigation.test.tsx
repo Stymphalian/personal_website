@@ -114,7 +114,7 @@ describe('Navigation', () => {
     
     // Check for enhanced mobile menu elements - look for the container with the specific classes
     const mobileMenuContainer = screen.getByText('Navigation').parentElement?.parentElement;
-    expect(mobileMenuContainer).toHaveClass('w-64', 'h-full', 'bg-white', 'shadow-xl');
+    expect(mobileMenuContainer).toHaveClass('w-64', 'h-full', 'bg-white', 'shadow-2xl');
   });
 
   it('shows mobile menu header and footer', () => {
