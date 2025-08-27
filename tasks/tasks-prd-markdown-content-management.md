@@ -45,8 +45,8 @@
   - [x] 1.6 Create `public/images/` directory for media assets
 
 - [ ] 2.0 Implement Markdown Loading and Processing Infrastructure
-  - [ ] 2.1 Create `src/types/content.ts` with content management interfaces
-  - [ ] 2.2 Create `src/utils/content-loader.ts` for dynamic file loading
+  - [x] 2.1 Create `src/types/content.ts` with content management interfaces
+  - [x] 2.2 Create `src/utils/content-loader.ts` for dynamic file loading
   - [ ] 2.3 Implement markdown file discovery and metadata extraction
   - [ ] 2.4 Create content caching mechanism for performance
   - [ ] 2.5 Implement error handling for missing or malformed files
