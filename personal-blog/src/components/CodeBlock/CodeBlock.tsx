@@ -117,10 +117,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         return 'R';
       case 'matlab':
         return 'MATLAB';
-      case 'r':
-        return 'R';
-      case 'matlab':
-        return 'MATLAB';
       default:
         return lang.charAt(0).toUpperCase() + lang.slice(1);
     }
