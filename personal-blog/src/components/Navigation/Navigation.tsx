@@ -89,7 +89,7 @@ const Navigation: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo/Brand - Left side */}
           <div className="flex-shrink-0">
-            <Link to="/" className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+            <Link to="/" className="text-xl fgitont-bold text-gray-900 hover:text-blue-600 transition-colors">
               Jordan Yu
             </Link>
           </div>

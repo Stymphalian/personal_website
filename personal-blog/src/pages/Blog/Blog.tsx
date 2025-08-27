@@ -89,12 +89,7 @@ const Blog: React.FC = () => {
           </div>
         )}
 
-        {/* Footer Note */}
-        <div className='text-center text-gray-500 text-sm'>
-          <p>
-            Subscribe to stay updated with new blog posts and technical content.
-          </p>
-        </div>
+
       </div>
     </div>
   );
