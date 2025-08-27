@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Headshot from '../../components/Headshot';
 import Layout from '../../components/Layout/Layout';
 import ProjectCarousel from '../../components/ProjectCarousel/ProjectCarousel';
 import { getFeaturedProjects } from '../../data/projects';
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
   const featuredProjects = getFeaturedProjects();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -61,10 +63,23 @@ const Home: React.FC = () => {
             <div className={`flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start transition-all duration-700 delay-600 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}>
-              <button className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg text-sm md:text-base font-medium active:scale-95">
+              <button 
+                onClick={() => navigate('/projects')}
+                className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg text-sm md:text-base font-medium active:scale-95"
+              >
                 View My Work
               </button>
-              <button className="border-2 border-blue-600 text-blue-600 px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 text-sm md:text-base font-medium active:scale-95">
+              <button 
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = '/resume.pdf';
+                  link.download = 'Jordan_Resume.pdf';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                className="border-2 border-blue-600 text-blue-600 px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-blue-700 hover:text-white transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 text-sm md:text-base font-medium active:scale-95"
+              >
                 Download Resume
               </button>
             </div>
@@ -125,7 +140,10 @@ const Home: React.FC = () => {
             <ProjectCarousel projects={featuredProjects} />
           </div>
           <div className="text-center mt-6 md:mt-8">
-            <button className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg text-sm md:text-base font-medium active:scale-95">
+            <button 
+              onClick={() => navigate('/projects')}
+              className="bg-blue-600 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg text-sm md:text-base font-medium active:scale-95"
+            >
               View All Projects
             </button>
           </div>
@@ -176,24 +194,7 @@ const Home: React.FC = () => {
           </div>
         </div>
 
-        {/* Contact CTA */}
-        <div className={`bg-gradient-to-r from-gray-900 to-blue-900 rounded-xl p-6 md:p-8 text-center text-white transition-all duration-700 delay-1400 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-        }`}>
-          <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-3 md:mb-4">Let's Work Together</h3>
-          <p className="text-sm md:text-base lg:text-lg text-gray-300 mb-4 md:mb-6 max-w-2xl mx-auto">
-            I'm always interested in new opportunities, exciting projects, and collaborating with innovative teams. 
-            Whether you need a full-stack developer, technical consultant, or just want to discuss technology, let's connect!
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center">
-            <button className="bg-blue-500 text-white px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 text-sm md:text-base font-medium active:scale-95">
-              Get In Touch
-            </button>
-            <button className="border-2 border-white text-white px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-white hover:text-gray-900 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 text-sm md:text-base font-medium active:scale-95">
-              Schedule a Call
-            </button>
-          </div>
-        </div>
+
       </div>
     </Layout>
   );
