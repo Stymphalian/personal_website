@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumb';
 import { Layout } from '../../components/Layout';
@@ -9,13 +9,18 @@ const ProjectDetail: React.FC = () => {
     const { projectId } = useParams<{ projectId: string }>();
     const navigate = useNavigate();
 
+    // Scroll to top when component mounts or projectId changes
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [projectId]);
+
     const project = projectId ? getProjectById(projectId) : undefined;
 
     if (!project) {
         return (
-            <Layout>
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-                    <div className="max-w-4xl mx-auto text-center">
+            <Layout maxWidth="full" padding="lg">
+                <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+                    <div className="w-full max-w-7xl mx-auto text-center">
                         <h1 className="heading-1 mb-4 sm:mb-6">Project Not Found</h1>
                         <p className="body-text mb-4 sm:mb-6">The project you're looking for doesn't exist.</p>
                         <button
@@ -36,9 +41,9 @@ const ProjectDetail: React.FC = () => {
     ];
 
     return (
-        <Layout>
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-                <div className="max-w-4xl mx-auto">
+        <Layout maxWidth="full" padding="lg">
+            <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+                <div className="w-full max-w-7xl mx-auto">
                     {/* Breadcrumb Navigation */}
                     <Breadcrumb items={breadcrumbItems} className="mb-4 sm:mb-6" />
 

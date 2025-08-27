@@ -125,10 +125,11 @@
   - [x] 8.7 Set up health checks and monitoring for production deployment
   - [x] 8.8 Document deployment process and troubleshooting steps
 
-- [ ] 9.0 UI/UX Improvements and Bug Fixes
+- [x] 9.0 UI/UX Improvements and Bug Fixes
   - [x] 9.1 Fix "View My Work" and "Download Resume" button functionality
   - [x] 9.2 Remove "Let's Work Together" section from home page
   - [x] 9.3 Improve projects page horizontal space utilization (currently too narrow)
-  - [ ] 9.4 Update page title from "Vite + React + TS" to "Jordan's Blog"
-  - [ ] 9.5 Remove "Subscribe to stay updated for new blog posts..." statement from Blog page
-  - [ ] 9.6 Update footer text from "2025 Portfolio..." to "2025. Built with React & Tailwind & Cursor"
+  - [x] 9.4 Update page title from "Vite + React + TS" to "Jordan's Blog"
+  - [x] 9.5 Remove "Subscribe to stay updated for new blog posts..." statement from Blog page
+  - [x] 9.6 Update footer text from "2025 Portfolio..." to "2025. Built with React & Tailwind & Cursor"
+  - [ ] 9.7 The Projects Details page should use more horizontal space (currently too narrow)

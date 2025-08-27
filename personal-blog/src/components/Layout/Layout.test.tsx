@@ -8,7 +8,7 @@ describe('Layout', () => {
         <div data-testid="test-content">Test Content</div>
       </Layout>
     );
-    
+
     expect(screen.getByTestId('test-content')).toBeInTheDocument();
     expect(screen.getByText('Test Content')).toBeInTheDocument();
   });
@@ -19,7 +19,7 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     const mainElement = screen.getByRole('main');
     expect(mainElement).toHaveClass('max-w-2xl', 'px-8', 'py-12');
   });
@@ -30,7 +30,7 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     const mainElement = screen.getByRole('main');
     expect(mainElement).toHaveClass('max-w-lg');
   });
@@ -41,7 +41,7 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     const mainElement = screen.getByRole('main');
     expect(mainElement).toHaveClass('px-12', 'py-16');
   });
@@ -52,7 +52,7 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     expect(screen.getByText('Test Page')).toBeInTheDocument();
     expect(screen.getByText('Test Description')).toBeInTheDocument();
   });
@@ -63,7 +63,7 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     expect(screen.queryByText('Test Page')).not.toBeInTheDocument();
     expect(screen.queryByText('Test Description')).not.toBeInTheDocument();
   });
@@ -74,7 +74,7 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     // The custom class is applied to the outermost div (Parent 4)
     const layoutDiv = screen.getByText('Content').closest('div')?.parentElement?.parentElement?.parentElement?.parentElement;
     expect(layoutDiv).toHaveClass('custom-class');
@@ -86,7 +86,7 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     expect(screen.getByText('2025. Built with React & Tailwind & Cursor')).toBeInTheDocument();
   });
 
@@ -96,16 +96,16 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     let mainElement = screen.getByRole('main');
     expect(mainElement).toHaveClass('max-w-sm');
-    
+
     rerender(
       <Layout maxWidth="full">
         <div>Content</div>
       </Layout>
     );
-    
+
     mainElement = screen.getByRole('main');
     expect(mainElement).toHaveClass('max-w-full');
   });
@@ -116,16 +116,16 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     let mainElement = screen.getByRole('main');
     expect(mainElement).toHaveClass('px-4', 'py-6');
-    
+
     rerender(
       <Layout padding="none">
         <div>Content</div>
       </Layout>
     );
-    
+
     mainElement = screen.getByRole('main');
     expect(mainElement).not.toHaveClass('px-4', 'py-6');
   });
@@ -136,10 +136,10 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     const pageTitle = screen.getByText('Test Page');
     const pageDescription = screen.getByText('Test Description');
-    
+
     expect(pageTitle).toHaveClass('text-3xl', 'md:text-4xl', 'font-bold', 'text-gray-900');
     expect(pageDescription).toHaveClass('text-lg', 'text-gray-600');
   });
@@ -150,11 +150,11 @@ describe('Layout', () => {
         <div>Content</div>
       </Layout>
     );
-    
+
     // Check that main content is properly contained
     const mainElement = screen.getByRole('main');
     expect(mainElement).toHaveClass('max-w-xl', 'px-6', 'py-8');
-    
+
     // Check that content is wrapped in white container (Parent 1 with p-6 md:p-8)
     const contentContainer = screen.getByText('Content').parentElement;
     expect(contentContainer).toHaveClass('p-6', 'md:p-8');
