@@ -132,4 +132,4 @@
   - [x] 9.4 Update page title from "Vite + React + TS" to "Jordan's Blog"
   - [x] 9.5 Remove "Subscribe to stay updated for new blog posts..." statement from Blog page
   - [x] 9.6 Update footer text from "2025 Portfolio..." to "2025. Built with React & Tailwind & Cursor"
-  - [ ] 9.7 The Projects Details page should use more horizontal space (currently too narrow)
+  - [x] 9.7 The Projects Details page should use more horizontal space (currently too narrow)
