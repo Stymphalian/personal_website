@@ -72,7 +72,7 @@ const Layout: React.FC<LayoutProps> = ({
         <div className={`mx-auto ${maxWidthClasses[maxWidth]} ${paddingClasses[padding]}`}>
           <div className="text-center py-8">
             <p className="text-gray-500 text-sm">
-              © {new Date().getFullYear()} Portfolio. Built with React & Tailwind CSS.
+              2025. Built with React & Tailwind & Cursor
             </p>
           </div>
         </div>

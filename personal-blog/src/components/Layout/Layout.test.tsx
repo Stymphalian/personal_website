@@ -80,16 +80,14 @@ describe('Layout', () => {
     expect(layoutDiv).toHaveClass('custom-class');
   });
 
-  it('renders footer with current year', () => {
-    const currentYear = new Date().getFullYear();
-    
+  it('renders footer with correct text', () => {
     render(
       <Layout>
         <div>Content</div>
       </Layout>
     );
     
-    expect(screen.getByText(`© ${currentYear} Portfolio. Built with React & Tailwind CSS.`)).toBeInTheDocument();
+    expect(screen.getByText('2025. Built with React & Tailwind & Cursor')).toBeInTheDocument();
   });
 
   it('applies correct maxWidth classes for different sizes', () => {
