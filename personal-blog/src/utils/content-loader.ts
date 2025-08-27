@@ -2,19 +2,19 @@
 // Handles dynamic file loading, frontmatter parsing, and content caching
 
 import type {
-    BlogPostContent,
-    BlogPostFrontmatter,
-    ContentCache,
-    ContentFile,
-    ContentLoaderOptions,
-    ContentLoadingStateData,
-    ContentMetadata,
-    ContentSearchResult,
-    ContentType,
-    ContentUnion,
-    ContentValidationResult,
-    ProjectContent,
-    ProjectFrontmatter
+  BlogPostContent,
+  BlogPostFrontmatter,
+  ContentCache,
+  ContentFile,
+  ContentLoaderOptions,
+  ContentLoadingStateData,
+  ContentMetadata,
+  ContentSearchResult,
+  ContentType,
+  ContentUnion,
+  ContentValidationResult,
+  ProjectContent,
+  ProjectFrontmatter
 } from '../types/content';
 import { REQUIRED_BLOG_POST_FIELDS, REQUIRED_PROJECT_FIELDS } from '../types/content';
 
