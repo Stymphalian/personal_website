@@ -104,12 +104,32 @@ export const REQUIRED_PROJECT_FIELDS: (keyof ProjectFrontmatter)[] = [
 ];
 
 // Content loading states
-export type ContentLoadingState = 'idle' | 'loading' | 'loaded' | 'error';
+export type ContentLoadingState = 'idle' | 'loading' | 'loaded' | 'error' | 'not-found' | 'malformed';
 
 export interface ContentLoadingStateData {
   state: ContentLoadingState;
   error?: string;
   retryCount: number;
+  errorType?: 'network' | 'validation' | 'parsing' | 'not-found' | 'malformed';
+  suggestions?: string[];
+}
+
+// Enhanced error handling types
+export interface ContentError {
+  type: 'network' | 'validation' | 'parsing' | 'not-found' | 'malformed';
+  message: string;
+  filePath?: string;
+  details?: any;
+  suggestions?: string[];
+  recoverable: boolean;
+}
+
+export interface ErrorHandlingOptions {
+  retryOnFailure?: boolean;
+  maxRetries?: number;
+  fallbackContent?: boolean;
+  logErrors?: boolean;
+  gracefulDegradation?: boolean;
 }
 
 

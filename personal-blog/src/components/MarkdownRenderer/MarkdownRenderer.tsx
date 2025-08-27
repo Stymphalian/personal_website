@@ -12,6 +12,10 @@ export interface MarkdownRendererProps {
     };
     onError?: (error: Error) => void;
     loadingState?: ContentLoadingState;
+    loadingStateData?: any;
+    showRetryButton?: boolean;
+    retryLabel?: string;
+    emptyContentMessage?: string;
 }
 
 interface MarkdownRendererState {

@@ -433,3 +433,56 @@ export const handleContentError = (error: Error, retryCount: number = 0): Conten
     retryCount
   };
 };
+
+// Enhanced error handling for missing or malformed files
+export const handleMissingFile = (filePath: string): ContentLoadingStateData => ({
+  state: 'not-found',
+  error: `File not found: ${filePath}`,
+  retryCount: 0,
+  errorType: 'not-found',
+  suggestions: ['Check if the file exists', 'Verify the file path is correct']
+});
+
+export const handleMalformedContent = (filePath: string, details: string): ContentLoadingStateData => ({
+  state: 'malformed',
+  error: `Malformed content in ${filePath}: ${details}`,
+  retryCount: 0,
+  errorType: 'malformed',
+  suggestions: ['Check markdown syntax', 'Verify frontmatter format', 'Check file integrity']
+});
+
+export const handleValidationError = (filePath: string, errors: string[]): ContentLoadingStateData => ({
+  state: 'error',
+  error: `Validation failed for ${filePath}: ${errors.join(', ')}`,
+  retryCount: 0,
+  errorType: 'validation',
+  suggestions: ['Check required fields', 'Verify field types', 'Ensure proper formatting']
+});
+
+// Content recovery utilities
+export const isRecoverableError = (error: Error): boolean => {
+  const errorMessage = error.message.toLowerCase();
+  return !errorMessage.includes('not found') && !errorMessage.includes('404');
+};
+
+export const getErrorSuggestions = (error: Error): string[] => {
+  const errorMessage = error.message.toLowerCase();
+  
+  if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
+    return ['Check your internet connection', 'Verify the file path is correct', 'Try again later'];
+  }
+  
+  if (errorMessage.includes('not found') || errorMessage.includes('404')) {
+    return ['Check if the file exists', 'Verify the file path', 'Contact support if the problem persists'];
+  }
+  
+  if (errorMessage.includes('invalid frontmatter')) {
+    return ['Check frontmatter syntax', 'Verify required fields are present', 'Check markdown formatting'];
+  }
+  
+  if (errorMessage.includes('parsing')) {
+    return ['Check markdown syntax', 'Verify frontmatter delimiters', 'Ensure proper file encoding'];
+  }
+  
+  return ['Try again later', 'Check file integrity', 'Contact support if the problem persists'];
+};
