@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
+import ReactMarkdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
+import remarkGfm from 'remark-gfm';
 import type { ContentLoadingState } from '../../types/content';
-import { parseMarkdown } from '../../utils/markdown';
 
 export interface MarkdownRendererProps {
     content: string;
@@ -9,6 +11,8 @@ export interface MarkdownRendererProps {
         highlightCode?: boolean;
         allowHtml?: boolean;
         breaks?: boolean;
+        extractExcerpt?: boolean;
+        maxExcerptLength?: number;
     };
     onError?: (error: Error) => void;
     loadingState?: ContentLoadingState;
@@ -18,98 +22,35 @@ export interface MarkdownRendererProps {
     emptyContentMessage?: string;
 }
 
-interface MarkdownRendererState {
-    htmlContent: string;
-    error: Error | null;
-    isLoading: boolean;
-}
-
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
     content,
     className = '',
     options = {},
-    onError,
-    loadingState
+    loadingState,
+    loadingStateData,
+    emptyContentMessage = 'No content to display'
 }) => {
-    const [state, setState] = useState<MarkdownRendererState>({
-        htmlContent: '',
-        error: null,
-        isLoading: false
-    });
+    const {
+        highlightCode = true
+    } = options;
 
-    // Memoize options to prevent unnecessary re-renders
-    const memoizedOptions = useMemo(() => options, [
-        options.highlightCode,
-        options.allowHtml,
-        options.breaks
-    ]);
+    // Memoize plugins to prevent unnecessary re-renders
+    const plugins = useMemo(() => {
+        const pluginList = [remarkGfm];
+        return pluginList;
+    }, []);
 
-    // Parse content when content or options change
-    useEffect(() => {
-        if (!content) {
-            setState(prev => ({ ...prev, htmlContent: '', error: null, isLoading: false }));
-            return;
+    // Memoize rehype plugins for syntax highlighting
+    const rehypePlugins = useMemo(() => {
+        const rehypeList = [];
+        if (highlightCode) {
+            rehypeList.push(rehypeHighlight);
         }
+        return rehypeList;
+    }, [highlightCode]);
 
-        setState(prev => ({ ...prev, isLoading: true, error: null }));
-
-        try {
-            const htmlContent = parseMarkdown(content, memoizedOptions);
-            setState(prev => ({
-                ...prev,
-                htmlContent,
-                isLoading: false,
-                error: null
-            }));
-        } catch (error) {
-            const errorObj = error instanceof Error ? error : new Error('Failed to parse markdown');
-            setState(prev => ({
-                ...prev,
-                isLoading: false,
-                error: errorObj
-            }));
-
-            if (onError) {
-                onError(errorObj);
-            }
-        }
-    }, [content, memoizedOptions]);
-
-    // Memoize retry function
-    const handleRetry = useCallback(() => {
-        setState(prev => ({ ...prev, error: null }));
-        // Re-parse content on retry
-        if (content) {
-            setState(prev => ({ ...prev, isLoading: true, error: null }));
-            try {
-                const htmlContent = parseMarkdown(content, memoizedOptions);
-                setState(prev => ({
-                    ...prev,
-                    htmlContent,
-                    isLoading: false,
-                    error: null
-                }));
-            } catch (error) {
-                const errorObj = error instanceof Error ? error : new Error('Failed to parse markdown');
-                setState(prev => ({
-                    ...prev,
-                    isLoading: false,
-                    error: errorObj
-                }));
-            }
-        }
-    }, [content, memoizedOptions]);
-
-    // Handle loading state from props
-    useEffect(() => {
-        if (loadingState === 'loading') {
-            setState(prev => ({ ...prev, isLoading: true, error: null }));
-        } else if (loadingState === 'error') {
-            setState(prev => ({ ...prev, isLoading: false }));
-        }
-    }, [loadingState]);
-
-    if (state.isLoading) {
+    // Handle loading state
+    if (loadingState === 'loading') {
         return (
             <div className={`markdown-renderer loading ${className}`.trim()}>
                 <div className="loading-spinner">Loading...</div>
@@ -117,32 +58,150 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
         );
     }
 
-    if (state.error) {
+    // Handle error state
+    if (loadingState === 'error') {
         return (
             <div className={`markdown-renderer error ${className}`.trim()}>
                 <div className="error-message">
-                    <p>Error rendering markdown: {state.error.message}</p>
-                    <button onClick={handleRetry} className="retry-button">
-                        Retry
-                    </button>
+                    <p>Error loading content</p>
+                    {loadingStateData?.error && (
+                        <p>Details: {loadingStateData.error}</p>
+                    )}
                 </div>
             </div>
         );
     }
 
-    if (!state.htmlContent) {
+    // Handle empty content
+    if (!content || content.trim().length === 0) {
         return (
             <div className={`markdown-renderer empty ${className}`.trim()}>
-                <p>No content to display</p>
+                <p>{emptyContentMessage}</p>
             </div>
         );
     }
 
+    // Calculate content statistics
+    const wordCount = content.trim().split(/\s+/).filter(word => word.length > 0).length;
+    const readTime = Math.ceil(wordCount / 200); // Average reading speed: 200 words per minute
+
     return (
-        <div
-            className={`markdown-renderer ${className}`.trim()}
-            dangerouslySetInnerHTML={{ __html: state.htmlContent }}
-        />
+        <div className={`markdown-renderer ${className}`.trim()}>
+            <div className="markdown-content">
+                <ReactMarkdown
+                    remarkPlugins={plugins}
+                    rehypePlugins={rehypePlugins}
+                    components={{
+                        // Custom component overrides for better styling
+                        h1: ({ children, ...props }) => (
+                            <h1 className="text-3xl font-bold mb-4" {...props}>
+                                {children}
+                            </h1>
+                        ),
+                        h2: ({ children, ...props }) => (
+                            <h2 className="text-2xl font-bold mb-3" {...props}>
+                                {children}
+                            </h2>
+                        ),
+                        h3: ({ children, ...props }) => (
+                            <h3 className="text-xl font-bold mb-2" {...props}>
+                                {children}
+                            </h3>
+                        ),
+                        p: ({ children, ...props }) => (
+                            <p className="mb-4 leading-relaxed" {...props}>
+                                {children}
+                            </p>
+                        ),
+                        code: ({ className, children, ...props }) => (
+                            <code
+                                className={className}
+                                {...props}
+                            >
+                                {children}
+                            </code>
+                        ),
+                        pre: ({ children, ...props }) => (
+                            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto mb-4" {...props}>
+                                {children}
+                            </pre>
+                        ),
+                        blockquote: ({ children, ...props }) => (
+                            <blockquote className="border-l-4 border-gray-300 pl-4 italic mb-4" {...props}>
+                                {children}
+                            </blockquote>
+                        ),
+                        ul: ({ children, ...props }) => (
+                            <ul className="list-disc list-inside mb-4 space-y-1" {...props}>
+                                {children}
+                            </ul>
+                        ),
+                        ol: ({ children, ...props }) => (
+                            <ol className="list-decimal list-inside mb-4 space-y-1" {...props}>
+                                {children}
+                            </ol>
+                        ),
+                        li: ({ children, ...props }) => (
+                            <li className="ml-4" {...props}>
+                                {children}
+                            </li>
+                        ),
+                        a: ({ href, children, ...props }) => (
+                            <a
+                                href={href}
+                                className="text-blue-600 hover:text-blue-800 underline"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                {...props}
+                            >
+                                {children}
+                            </a>
+                        ),
+                        img: ({ src, alt, ...props }) => (
+                            <img
+                                src={src}
+                                alt={alt}
+                                className="max-w-full h-auto rounded-lg shadow-md mb-4"
+                                loading="lazy"
+                                {...props}
+                            />
+                        ),
+                        table: ({ children, ...props }) => (
+                            <div className="overflow-x-auto mb-4">
+                                <table className="min-w-full border-collapse border border-gray-300" {...props}>
+                                    {children}
+                                </table>
+                            </div>
+                        ),
+                        th: ({ children, ...props }) => (
+                            <th className="border border-gray-300 px-4 py-2 bg-gray-100 font-semibold" {...props}>
+                                {children}
+                            </th>
+                        ),
+                        td: ({ children, ...props }) => (
+                            <td className="border border-gray-300 px-4 py-2" {...props}>
+                                {children}
+                            </td>
+                        ),
+                        hr: () => (
+                            <hr className="border-t border-gray-300 my-6" />
+                        )
+                    }}
+                >
+                    {content}
+                </ReactMarkdown>
+            </div>
+
+            {/* Content statistics */}
+            <div className="content-stats mt-6 pt-4 border-t border-gray-200 text-sm text-gray-600">
+                <span className="mr-4">
+                    <strong>Words:</strong> {wordCount}
+                </span>
+                <span>
+                    <strong>Read time:</strong> {readTime} min
+                </span>
+            </div>
+        </div>
     );
 };
 

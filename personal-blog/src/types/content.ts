@@ -31,12 +31,18 @@ export interface BlogPostContent {
   frontmatter: BlogPostFrontmatter;
   content: string; // Raw markdown content
   htmlContent?: string; // Parsed HTML content
+  excerpt?: string; // Auto-generated excerpt
+  wordCount?: number; // Word count for content
+  readTime?: number; // Estimated reading time in minutes
 }
 
 export interface ProjectContent {
   frontmatter: ProjectFrontmatter;
   content: string; // Raw markdown content
   htmlContent?: string; // Parsed HTML content
+  excerpt?: string; // Auto-generated excerpt
+  wordCount?: number; // Word count for content
+  readTime?: number; // Estimated reading time in minutes
 }
 
 export interface ContentFile {
