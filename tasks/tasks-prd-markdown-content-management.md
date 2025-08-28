@@ -90,9 +90,9 @@
   - [x] 7.1 Create `src/pages/ErrorPage/ErrorPage.tsx` component
   - [x] 7.2 Implement graceful fallbacks for missing content
   - [x] 7.3 Handle malformed markdown files gracefully
-  - [ ] 7.4 Implement 404 handling for non-existent posts/projects
-  - [ ] 7.5 Add logging for content loading errors
-  - [ ] 7.6 Test error scenarios and edge cases
+  - [x] 7.4 Implement 404 handling for non-existent posts/projects
+  - [x] 7.5 Add logging for content loading errors
+  - [x] 7.6 Test error scenarios and edge cases
 
 - [ ] 8.0 Testing and Performance Optimization
   - [ ] 8.1 Write unit tests for all new components and utilities

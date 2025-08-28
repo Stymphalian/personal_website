@@ -42,7 +42,23 @@ const BlogPostDetail: React.FC = () => {
 
   useEffect(() => { loadContent(slug); }, [slug]);
 
+  // Handle content loading errors
+  if (loadingState === 'error' && error) {
+    console.error(`Failed to load blog post content for slug "${slug}":`, error);
+    return (
+      <ErrorPage
+        errorType="content-error"
+        title="Content Loading Error"
+        message="The blog post exists but its content could not be loaded."
+        error={error}
+        showBackButton={true}
+        showHomeButton={true}
+      />
+    );
+  }
+
   if (!post) {
+    console.warn(`Blog post with slug "${slug}" not found in metadata`);
     return (
       <ErrorPage
         errorType="not-found"

@@ -324,25 +324,31 @@ export const loadBlogPostContent = async (
 ): Promise<BlogPostContent> => {
   const opts = { ...DEFAULT_OPTIONS, ...options };
   
-  // Check cache first
-  if (opts.cacheEnabled && contentCache[filePath]) {
-    const cached = contentCache[filePath];
-    if (Date.now() < cached.expiresAt) {
-      return cached.content as BlogPostContent;
-    } else {
-      delete contentCache[filePath];
-    }
-  }
-  
   try {
+    console.log(`Loading blog post content from: "${filePath}"`);
+    
+    // Check cache first
+    if (opts.cacheEnabled && contentCache[filePath]) {
+      const cached = contentCache[filePath];
+      if (Date.now() < cached.expiresAt) {
+        console.log(`Cache hit for blog post: "${filePath}"`);
+        return cached.content as BlogPostContent;
+      } else {
+        delete contentCache[filePath];
+      }
+    }
+    
     // In a real implementation, this would fetch the file content
     // For now, we'll simulate loading content from the markdown files
     const response = await fetch(filePath);
     if (!response.ok) {
-      throw new Error(`Failed to load content from ${filePath}: ${response.statusText}`);
+      const errorMsg = `Failed to load content from ${filePath}: ${response.statusText}`;
+      console.error(errorMsg);
+      throw new Error(errorMsg);
     }
     
     const content = await response.text();
+    console.log(`Successfully loaded content from: "${filePath}"`);
   
     const { frontmatter: yamlFrontmatter, markdown } = parseFrontmatter(content);
     const frontmatterData = parseYamlFrontmatter(yamlFrontmatter);
@@ -350,7 +356,9 @@ export const loadBlogPostContent = async (
     if (opts.validateFrontmatter) {
       const validation = validateBlogPostFrontmatter(frontmatterData);
       if (!validation.isValid) {
-        throw new Error(`Invalid frontmatter: ${validation.errors.join(', ')}`);
+        const errorMsg = `Invalid frontmatter: ${validation.errors.join(', ')}`;
+        console.error(`Validation failed for "${filePath}":`, errorMsg);
+        throw new Error(errorMsg);
       }
     }
     
@@ -371,10 +379,13 @@ export const loadBlogPostContent = async (
         timestamp: Date.now(),
         expiresAt: Date.now() + opts.cacheExpiry
       };
+      console.log(`Cached blog post content for: "${filePath}"`);
     }
     
+    console.log(`Successfully processed blog post content from: "${filePath}"`);
     return blogPostContent;
   } catch (error) {
+    console.error(`Error loading blog post content from "${filePath}":`, error);
     throw new Error(`Failed to load blog post content: ${error instanceof Error ? error.message : String(error)}`);
   }
 };
@@ -385,31 +396,40 @@ export const loadProjectContent = async (
 ): Promise<ProjectContent> => {
   const opts = { ...DEFAULT_OPTIONS, ...options };
   
-  // Check cache first
-  if (opts.cacheEnabled && contentCache[filePath]) {
-    const cached = contentCache[filePath];
-    if (Date.now() < cached.expiresAt) {
-      return cached.content as ProjectContent;
-    } else {
-      delete contentCache[filePath];
-    }
-  }
-  
   try {
+    console.log(`Loading project content from: "${filePath}"`);
+    
+    // Check cache first
+    if (opts.cacheEnabled && contentCache[filePath]) {
+      const cached = contentCache[filePath];
+      if (Date.now() < cached.expiresAt) {
+        console.log(`Cache hit for project: "${filePath}"`);
+        return cached.content as ProjectContent;
+      } else {
+        delete contentCache[filePath];
+      }
+    }
+    
     // In a real implementation, this would fetch the file content
     const response = await fetch(filePath);
     if (!response.ok) {
-      throw new Error(`Failed to load content from ${filePath}: ${response.statusText}`);
+      const errorMsg = `Failed to load content from ${filePath}: ${response.statusText}`;
+      console.error(errorMsg);
+      throw new Error(errorMsg);
     }
     
     const content = await response.text();
+    console.log(`Successfully loaded content from: "${filePath}"`);
+    
     const { frontmatter: yamlFrontmatter, markdown } = parseFrontmatter(content);
     const frontmatterData = parseYamlFrontmatter(yamlFrontmatter);
     
     if (opts.validateFrontmatter) {
       const validation = validateProjectFrontmatter(frontmatterData);
       if (!validation.isValid) {
-        throw new Error(`Invalid frontmatter: ${validation.errors.join(', ')}`);
+        const errorMsg = `Invalid frontmatter: ${validation.errors.join(', ')}`;
+        console.error(`Validation failed for "${filePath}":`, errorMsg);
+        throw new Error(errorMsg);
       }
     }
     
@@ -418,7 +438,7 @@ export const loadProjectContent = async (
     const projectContent: ProjectContent = {
       frontmatter: frontmatterData as ProjectFrontmatter,
       content: processedContent.content,
-      excerpt: frontmatterData.description, // Use description as excerpt for projects
+      excerpt: frontmatterData.excerpt,
       wordCount: processedContent.wordCount,
       readTime: processedContent.readTime
     };
@@ -430,10 +450,13 @@ export const loadProjectContent = async (
         timestamp: Date.now(),
         expiresAt: Date.now() + opts.cacheExpiry
       };
+      console.log(`Cached project content for: "${filePath}"`);
     }
     
+    console.log(`Successfully processed project content from: "${filePath}"`);
     return projectContent;
   } catch (error) {
+    console.error(`Error loading project content from "${filePath}":`, error);
     throw new Error(`Failed to load project content: ${error instanceof Error ? error.message : String(error)}`);
   }
 };

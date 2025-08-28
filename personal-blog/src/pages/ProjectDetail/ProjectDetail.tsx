@@ -52,7 +52,23 @@ const ProjectDetail: React.FC = () => {
 
     const project = projectId ? getProjectById(projectId) : undefined;
 
+    // Handle content loading errors
+    if (loadingState === 'error' && error) {
+        console.error(`Failed to load project content for ID "${projectId}":`, error);
+        return (
+            <ErrorPage
+                errorType="content-error"
+                title="Content Loading Error"
+                message="The project exists but its content could not be loaded."
+                error={error}
+                showBackButton={true}
+                showHomeButton={true}
+            />
+        );
+    }
+
     if (!project) {
+        console.warn(`Project with ID "${projectId}" not found in metadata`);
         return (
             <ErrorPage
                 errorType="not-found"
