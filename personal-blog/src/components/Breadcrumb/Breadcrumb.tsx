@@ -1,6 +1,6 @@
+import { ChevronRight, Home } from 'lucide-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Home } from 'lucide-react';
 
 export interface BreadcrumbItem {
   label: string;
@@ -23,7 +23,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className = '' }) => {
       >
         <Home className="w-3 h-3 sm:w-4 sm:h-4" />
       </Link>
-      
+
       {items.map((item, index) => (
         <React.Fragment key={index}>
           <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-vs-editor-text2" data-testid="chevron-right" />
