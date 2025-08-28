@@ -5,12 +5,10 @@ import ErrorPage from './ErrorPage';
 
 // Mock react-router-dom hooks
 const mockNavigate = jest.fn();
-const mockUseRouteError = jest.fn();
 
 jest.mock('react-router-dom', () => ({
     ...jest.requireActual('react-router-dom'),
-    useNavigate: () => mockNavigate,
-    useRouteError: () => mockUseRouteError()
+    useNavigate: () => mockNavigate
 }));
 
 // Mock Headshot component
@@ -29,7 +27,6 @@ const renderWithRouter = (component: React.ReactElement) => {
 describe('ErrorPage', () => {
     beforeEach(() => {
         mockNavigate.mockClear();
-        mockUseRouteError.mockReturnValue(null);
     });
 
     describe('Default Error Page', () => {
@@ -46,7 +43,6 @@ describe('ErrorPage', () => {
 
             expect(screen.getByText('Try refreshing the page')).toBeInTheDocument();
             expect(screen.getByText('Clear your browser cache')).toBeInTheDocument();
-            expect(screen.getByText('Contact support if the problem persists')).toBeInTheDocument();
         });
     });
 
@@ -134,15 +130,7 @@ describe('ErrorPage', () => {
             expect(screen.queryByText('Error Details:')).not.toBeInTheDocument();
         });
 
-        it('shows route error when available', () => {
-            const routeError = 'Route error message';
-            mockUseRouteError.mockReturnValue(routeError);
 
-            renderWithRouter(<ErrorPage />);
-
-            expect(screen.getByText('Error Details:')).toBeInTheDocument();
-            expect(screen.getByText(routeError)).toBeInTheDocument();
-        });
     });
 
     describe('Navigation Actions', () => {
@@ -164,14 +152,6 @@ describe('ErrorPage', () => {
             expect(mockNavigate).toHaveBeenCalledWith(-1);
         });
 
-        it('navigates to contact page when Contact Support is clicked', () => {
-            renderWithRouter(<ErrorPage />);
-
-            const contactButton = screen.getByText('Contact Support');
-            fireEvent.click(contactButton);
-
-            expect(mockNavigate).toHaveBeenCalledWith('/contact');
-        });
     });
 
     describe('Button Visibility', () => {
@@ -231,7 +211,6 @@ describe('ErrorPage', () => {
 
             expect(screen.getByRole('button', { name: 'Go Back' })).toBeInTheDocument();
             expect(screen.getByRole('button', { name: 'Go Home' })).toBeInTheDocument();
-            expect(screen.getByRole('button', { name: 'Contact Support' })).toBeInTheDocument();
         });
     });
 });

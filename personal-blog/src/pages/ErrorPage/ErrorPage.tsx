@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useRouteError } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface ErrorPageProps {
     error?: Error | string;
@@ -21,10 +21,9 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
     className = ''
 }) => {
     const navigate = useNavigate();
-    const routeError = useRouteError();
 
-    // Determine error details from props or route error
-    const errorDetails = error || routeError;
+    // Determine error details from props
+    const errorDetails = error;
     const errorMessage = message || (errorDetails instanceof Error ? errorDetails.message : String(errorDetails));
 
     // Get error-specific content
@@ -48,8 +47,7 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
                     icon: '📄',
                     suggestions: [
                         'Try refreshing the page',
-                        'Check your internet connection',
-                        'Contact support if the problem persists'
+                        'Check your internet connection'
                     ]
                 };
             case 'network-error':
@@ -81,8 +79,7 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
                     icon: '❌',
                     suggestions: [
                         'Try refreshing the page',
-                        'Clear your browser cache',
-                        'Contact support if the problem persists'
+                        'Clear your browser cache'
                     ]
                 };
         }
@@ -155,19 +152,6 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
                             Go Home
                         </button>
                     )}
-                </div>
-
-                {/* Contact Information */}
-                <div className="mt-8 pt-6 border-t border-gray-200">
-                    <p className="text-sm text-gray-500 mb-2">
-                        Still having trouble?
-                    </p>
-                    <button
-                        onClick={() => navigate('/contact')}
-                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                    >
-                        Contact Support
-                    </button>
                 </div>
             </div>
         </div>
