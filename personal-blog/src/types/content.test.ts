@@ -105,13 +105,11 @@ describe('Content Types', () => {
           category: 'tutorial',
           difficulty: 'beginner'
         },
-        content: '# Blog Post Content\n\nThis is the markdown content.',
-        htmlContent: '<h1>Blog Post Content</h1><p>This is the markdown content.</p>'
+        content: '# Blog Post Content\n\nThis is the markdown content.'
       };
 
       expect(blogPostContent.frontmatter.title).toBe('Blog Title');
       expect(blogPostContent.content).toContain('# Blog Post Content');
-      expect(blogPostContent.htmlContent).toContain('<h1>Blog Post Content</h1>');
     });
   });
 
@@ -130,13 +128,11 @@ describe('Content Types', () => {
           image: '/image.jpg',
           techStack: ['React', 'TypeScript']
         },
-        content: '# Project Content\n\nThis is the project markdown content.',
-        htmlContent: '<h1>Project Content</h1><p>This is the project markdown content.</p>'
+        content: '# Project Content\n\nThis is the project markdown content.'
       };
 
       expect(projectContent.frontmatter.title).toBe('Project Title');
       expect(projectContent.content).toContain('# Project Content');
-      expect(projectContent.htmlContent).toContain('<h1>Project Content</h1>');
     });
   });
 

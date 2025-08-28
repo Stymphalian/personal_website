@@ -30,8 +30,7 @@ export interface ProjectFrontmatter extends BaseContent {
 export interface BlogPostContent {
   frontmatter: BlogPostFrontmatter;
   content: string; // Raw markdown content
-  htmlContent?: string; // Parsed HTML content
-  excerpt?: string; // Auto-generated excerpt
+  excerpt?: string; // From frontmatter
   wordCount?: number; // Word count for content
   readTime?: number; // Estimated reading time in minutes
 }
@@ -39,8 +38,7 @@ export interface BlogPostContent {
 export interface ProjectContent {
   frontmatter: ProjectFrontmatter;
   content: string; // Raw markdown content
-  htmlContent?: string; // Parsed HTML content
-  excerpt?: string; // Auto-generated excerpt
+  excerpt?: string; // From frontmatter
   wordCount?: number; // Word count for content
   readTime?: number; // Estimated reading time in minutes
 }

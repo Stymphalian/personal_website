@@ -1,16 +1,16 @@
-import { ContentType } from '../types/content';
+import type { ContentType } from '../types/content';
 import {
-    clearCache,
-    createLoadingState,
-    discoverContentFiles,
-    getCacheStats,
-    getContentMetadata,
-    handleContentError,
-    loadBlogPostContent,
-    loadContent,
-    loadProjectContent,
-    removeFromCache,
-    searchContent
+  clearCache,
+  createLoadingState,
+  discoverContentFiles,
+  getCacheStats,
+  getContentMetadata,
+  handleContentError,
+  loadBlogPostContent,
+  loadContent,
+  loadProjectContent,
+  removeFromCache,
+  searchContent
 } from './content-loader';
 
 // Mock fetch for testing
@@ -482,6 +482,7 @@ excerpt: "This is a 'quoted' excerpt"
       const mockMarkdown = `---
 id: test-blog
 title: Test Blog Post
+excerpt: Test excerpt
 tags: [React, TypeScript, "Node.js"]
 ---
 
@@ -504,6 +505,7 @@ tags: [React, TypeScript, "Node.js"]
       const mockMarkdown = `---
 id: test-blog
 title: Test Blog Post
+excerpt: Test excerpt
 featured: true
 published: false
 ---

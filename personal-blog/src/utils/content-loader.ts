@@ -17,7 +17,7 @@ import type {
   ProjectFrontmatter
 } from '../types/content';
 import { REQUIRED_BLOG_POST_FIELDS, REQUIRED_PROJECT_FIELDS } from '../types/content';
-import { extractExcerptFromText, getContentStats, parseMarkdown, validateMarkdownContent } from './markdown';
+import { getContentStats, parseMarkdown, validateMarkdownContent } from './markdown';
 
 // Default options for content loading
 const DEFAULT_OPTIONS: Required<ContentLoaderOptions> = {
@@ -93,7 +93,7 @@ const parseYamlFrontmatter = (yamlString: string): Record<string, any> => {
 const processContent = (
   markdownContent: string,
   options: ContentLoaderOptions = {}
-): { content: string; htmlContent?: string; excerpt?: string; wordCount?: number; readTime?: number } => {
+): { content: string; wordCount?: number; readTime?: number } => {
   const { parseMarkdown: shouldParseMarkdown = false } = options;
   
   if (!shouldParseMarkdown) {
@@ -107,19 +107,11 @@ const processContent = (
       console.warn('Markdown validation warnings:', validation.errors);
     }
     
-    // Parse markdown with enhanced options
-    const parsed = parseMarkdown(markdownContent, {
-      highlightCode: true,
-      allowHtml: false,
-      breaks: false,
-      extractExcerpt: true,
-      maxExcerptLength: 200
-    });
+    // Parse markdown for statistics only
+    const parsed = parseMarkdown(markdownContent);
     
     return {
       content: markdownContent,
-      htmlContent: parsed.htmlContent,
-      excerpt: parsed.excerpt,
       wordCount: parsed.wordCount,
       readTime: parsed.readTime
     };
@@ -127,11 +119,9 @@ const processContent = (
     console.error('Error processing markdown content:', error);
     // Fallback to basic content processing
     const stats = getContentStats(markdownContent);
-    const excerpt = extractExcerptFromText(markdownContent, 200);
     
     return {
       content: markdownContent,
-      excerpt,
       wordCount: stats.wordCount,
       readTime: stats.readTime
     };
@@ -244,8 +234,7 @@ export const loadBlogPostContent = async (
     const blogPostContent: BlogPostContent = {
       frontmatter: frontmatterData as BlogPostFrontmatter,
       content: processedContent.content,
-      htmlContent: processedContent.htmlContent,
-      excerpt: processedContent.excerpt,
+      excerpt: frontmatterData.excerpt,
       wordCount: processedContent.wordCount,
       readTime: processedContent.readTime
     };
@@ -304,8 +293,7 @@ export const loadProjectContent = async (
     const projectContent: ProjectContent = {
       frontmatter: frontmatterData as ProjectFrontmatter,
       content: processedContent.content,
-      htmlContent: processedContent.htmlContent,
-      excerpt: processedContent.excerpt,
+      excerpt: frontmatterData.description, // Use description as excerpt for projects
       wordCount: processedContent.wordCount,
       readTime: processedContent.readTime
     };
