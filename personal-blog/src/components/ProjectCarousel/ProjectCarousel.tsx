@@ -1,5 +1,6 @@
-import { ChevronLeft, ChevronRight, ExternalLink, Github } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ExternalLink, Github, Eye } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Project {
   id: string;
@@ -27,6 +28,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
+  const navigate = useNavigate();
 
   // Auto-play functionality
   useEffect(() => {
@@ -53,6 +55,11 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
+  };
+
+  const handleViewDetails = () => {
+    const currentProject = projects[currentIndex];
+    navigate(`/projects/${currentProject.id}`);
   };
 
   if (!projects || projects.length === 0) {
@@ -106,8 +113,18 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
               ))}
             </div>
             
-            {/* Action Buttons */}
-            <div className="flex gap-3">
+            {/* Action Buttons - Restructured to prevent overlap */}
+            <div className="flex flex-wrap gap-3">
+              {/* View Details Button - Always visible */}
+              <button
+                onClick={handleViewDetails}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors duration-200"
+              >
+                <Eye className="w-4 h-4" />
+                View Details
+              </button>
+              
+              {/* Live Demo Button - Only if available */}
               {currentProject.liveDemo && (
                 <a
                   href={currentProject.liveDemo}
@@ -119,6 +136,8 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
                   Live Demo
                 </a>
               )}
+              
+              {/* GitHub Button - Only if available */}
               {currentProject.githubRepo && (
                 <a
                   href={currentProject.githubRepo}
@@ -143,13 +162,13 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
         </div>
       </div>
 
-      {/* Navigation Controls */}
+      {/* Navigation Controls - Repositioned to avoid overlap */}
       {projects.length > 1 && (
         <>
-          {/* Previous/Next Buttons */}
+          {/* Previous/Next Buttons - Moved to avoid overlapping with action buttons */}
           <button
             onClick={goToPrevious}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 z-10"
+            className="absolute left-4 top-1/3 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 z-20"
             aria-label="Previous project"
           >
             <ChevronLeft className="w-6 h-6 text-gray-700" />
@@ -157,7 +176,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
           
           <button
             onClick={goToNext}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 z-10"
+            className="absolute right-4 top-1/3 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 z-20"
             aria-label="Next project"
           >
             <ChevronRight className="w-6 h-6 text-gray-700" />
@@ -178,12 +197,8 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
               />
             ))}
           </div>
-
-
         </>
       )}
-
-
     </div>
   );
 };
