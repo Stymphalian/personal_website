@@ -1,7 +1,8 @@
 import { ArrowLeft, BookOpen, Calendar, Clock, Tag, User } from 'lucide-react';
 import React from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import CodeBlock from '../../components/CodeBlock/CodeBlock';
+// TODO: Re-enable when Task 5.0 is implemented to use dynamic content loading
+// import CodeBlock from '../../components/CodeBlock/CodeBlock';
 import { getPostBySlug } from '../../data/blog-posts';
 
 const BlogPostDetail: React.FC = () => {
@@ -72,91 +73,92 @@ const BlogPostDetail: React.FC = () => {
     }
   };
 
+  // TODO: Replace with dynamic content loading in Task 5.0
   // Simple markdown parser for basic formatting
-  const parseMarkdown = (content: string) => {
-    // Split content into lines for processing
-    const lines = content.split('\n');
-    const elements: React.ReactNode[] = [];
+  // const parseMarkdown = (content: string) => {
+  //   // Split content into lines for processing
+  //   const lines = content.split('\n');
+  //   const elements: React.ReactNode[] = [];
 
-    let currentCodeBlock = '';
-    let inCodeBlock = false;
-    let codeLanguage = '';
+  //   let currentCodeBlock = '';
+  //   let inCodeBlock = false;
+  //   let codeLanguage = '';
 
-    lines.forEach((line, index) => {
-      // Handle code blocks
-      if (line.startsWith('```')) {
-        if (!inCodeBlock) {
-          // Start of code block
-          inCodeBlock = true;
-          codeLanguage = line.slice(3).trim() || 'typescript';
-          currentCodeBlock = '';
-        } else {
-          // End of code block
-          inCodeBlock = false;
-          if (currentCodeBlock.trim()) {
-            elements.push(
-              <div key={`code-${index}`} className="my-6">
-                <CodeBlock
-                  code={currentCodeBlock.trim()}
-                  language={codeLanguage}
-                  showLineNumbers={true}
-                  showCopyButton={true}
-                />
-              </div>
-            );
-          }
-          currentCodeBlock = '';
-        }
-        return;
-      }
+  //   lines.forEach((line, index) => {
+  //     // Handle code blocks
+  //     if (line.startsWith('```')) {
+  //       if (!inCodeBlock) {
+  //         // Start of code block
+  //         inCodeBlock = true;
+  //         codeLanguage = line.slice(3).trim() || 'typescript';
+  //         currentCodeBlock = '';
+  //         } else {
+  //         // End of code block
+  //         inCodeBlock = false;
+  //         if (currentCodeBlock.trim()) {
+  //           elements.push(
+  //             <div key={`code-${index}`} className="my-6">
+  //               <CodeBlock
+  //                 code={currentCodeBlock.trim()}
+  //                 language={code-blue-500
+  //                 showLineNumbers={true}
+  //                 showCopyButton={true}
+  //               />
+  //             </div>
+  //           );
+  //         }
+  //         currentCodeBlock = '';
+  //       }
+  //       return;
+  //     }
 
-      if (inCodeBlock) {
-        currentCodeBlock += line + '\n';
-        return;
-      }
+  //     if (inCodeBlock) {
+  //       currentCodeBlock += line + '\n';
+  //       return;
+  //     }
 
-      // Handle headers
-      if (line.startsWith('#')) {
-        const level = line.match(/^#+/)?.[0].length || 1;
-        const text = line.replace(/^#+\s*/, '');
+  //     // Handle headers
+  //     if (line.startsWith('#')) {
+  //         const level = line.match(/^#+/)?.[0].length || 1;
+  //         const text = line.replace(/^#+\s*/, '');
 
-        if (level === 1) {
-          elements.push(
-            <h1 key={index} className="text-3xl font-bold text-gray-900 mt-8 mb-4">
-              {text}
-            </h1>
-          );
-        } else if (level === 2) {
-          elements.push(
-            <h2 key={index} className="text-2xl font-bold text-gray-900 mt-6 mb-3">
-              {text}
-            </h2>
-          );
-        } else if (level === 3) {
-          elements.push(
-            <h3 key={index} className="text-xl font-bold text-gray-900 mt-4 mb-2">
-              {text}
-            </h3>
-          );
-        }
-        return;
-      }
+  //         if (level === 1) {
+  //           elements.push(
+  //             <h1 key={index} className="text-3xl font-bold text-gray-900 mt-8 mb-4">
+  //               {text}
+  //             </h1>
+  //           );
+  //         } else if (level === 2) {
+  //           elements.push(
+  //             <h2 key={index} className="text-2xl font-bold text-gray-900 mt-6 mb-3">
+  //             {text}
+  //           </h2>
+  //         );
+  //       } else if (level === 3) {
+  //         elements.push(
+  //           <h3 key={index} className="text-xl font-bold text-gray-900 mt-4 mb-2">
+  //             {text}
+  //           </h3>
+  //         );
+  //       }
+  //       return;
+  //     }
 
-      // Handle paragraphs
-      if (line.trim()) {
-        elements.push(
-          <p key={index} className="text-gray-700 leading-relaxed mb-4">
-            {line}
-          </p>
-        );
-      } else {
-        // Empty line for spacing
-        elements.push(<div key={index} className="h-4" />);
-      }
-    });
+  //     // Handle paragraphs
+  //     if (line.trim()) {
+  //       elements.push(
+  //         <p key={index} className="text-gray-700 leading-relaxed mb-4">
+  //         {line}
+  //       </p>
+  //     );
+  //   } else {
+  //     // Empty line for spacing
+  //     elements.push(<div key={index} className="h-4" />);
+  //   }
+  // });
 
-    return elements;
-  };
+  //   return elements;
+  // };
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -230,8 +232,9 @@ const BlogPostDetail: React.FC = () => {
           </p>
 
           {/* Content */}
+          {/* TODO: Replace with dynamic content loading in Task 5.0 */}
           <div className="prose prose-lg max-w-none">
-            {parseMarkdown(post.content)}
+            <p className="text-gray-600">Content loading will be implemented in Task 5.0</p>
           </div>
         </article>
 

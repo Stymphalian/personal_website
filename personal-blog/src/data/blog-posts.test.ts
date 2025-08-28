@@ -20,7 +20,6 @@ describe('Blog Posts Data Structure', () => {
       expect(post).toHaveProperty('title');
       expect(post).toHaveProperty('slug');
       expect(post).toHaveProperty('excerpt');
-      expect(post).toHaveProperty('content');
       expect(post).toHaveProperty('author');
       expect(post).toHaveProperty('date');
       expect(post).toHaveProperty('tags');
@@ -276,12 +275,6 @@ describe('Blog Posts Data Structure', () => {
   });
 
   describe('Content Quality', () => {
-    it('should have meaningful content length', () => {
-      blogPosts.forEach(post => {
-        expect(post.content.length).toBeGreaterThan(100);
-      });
-    });
-
     it('should have descriptive excerpts', () => {
       blogPosts.forEach(post => {
         expect(post.excerpt.length).toBeGreaterThan(20);

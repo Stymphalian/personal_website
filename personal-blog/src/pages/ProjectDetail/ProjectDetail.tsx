@@ -119,7 +119,8 @@ const ProjectDetail: React.FC = () => {
                     <MediaGallery images={project.images} videos={project.videos} />
 
                     {/* Project Content */}
-                    {project.content && (
+                    {/* TODO: Replace with dynamic content loading in Task 5.0 */}
+                    {/* {project.content && (
                         <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mt-6 sm:mt-8">
                             <div
                                 className="markdown-content"
@@ -128,7 +129,7 @@ const ProjectDetail: React.FC = () => {
                                 }}
                             />
                         </div>
-                    )}
+                    )} */}
                 </div>
             </div>
         </Layout>

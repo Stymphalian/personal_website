@@ -7,6 +7,7 @@ import ProjectCard from './ProjectCard';
 const mockProject: Project = {
   id: 'test-project-1',
   title: 'Test Project',
+  slug: 'test-project-1',
   description: 'This is a test project description that should be displayed in the card.',
   shortDescription: 'Test project',
   image: '/test-image.jpg',
@@ -14,13 +15,14 @@ const mockProject: Project = {
   featured: true,
   date: '2024-01-15',
   liveDemo: 'https://example.com',
-  githubRepo: 'https://github.com/example/test'
+  githubRepo: 'https://github.com/example/test',
+  tags: ['React', 'TypeScript', 'Web Development']
 };
 
 describe('ProjectCard', () => {
   it('renders project information correctly', () => {
     render(<ProjectCard project={mockProject} />);
-    
+
     expect(screen.getByText('Test Project')).toBeInTheDocument();
     expect(screen.getByText('This is a test project description that should be displayed in the card.')).toBeInTheDocument();
     expect(screen.getByText('React')).toBeInTheDocument();
@@ -31,7 +33,7 @@ describe('ProjectCard', () => {
 
   it('displays project image with correct alt text', () => {
     render(<ProjectCard project={mockProject} />);
-    
+
     const image = screen.getByAltText('Test Project');
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', '/test-image.jpg');
@@ -39,16 +41,16 @@ describe('ProjectCard', () => {
 
   it('shows fallback emoji when image fails to load', () => {
     render(<ProjectCard project={mockProject} />);
-    
+
     const image = screen.getByAltText('Test Project');
     const fallback = screen.getByText('🚀');
-    
+
     // Initially hidden
     expect(fallback).toHaveClass('hidden');
-    
+
     // Simulate image load error
     fireEvent.error(image);
-    
+
     // Fallback should now be visible
     expect(fallback).not.toHaveClass('hidden');
   });
@@ -56,34 +58,34 @@ describe('ProjectCard', () => {
   it('calls onViewDetails when View Details button is clicked', () => {
     const mockOnViewDetails = jest.fn();
     render(<ProjectCard project={mockProject} onViewDetails={mockOnViewDetails} />);
-    
+
     const viewDetailsButton = screen.getByText('View Details');
     fireEvent.click(viewDetailsButton);
-    
+
     expect(mockOnViewDetails).toHaveBeenCalledWith('test-project-1');
   });
 
   it('does not call onViewDetails when callback is not provided', () => {
     const mockOnViewDetails = jest.fn();
     render(<ProjectCard project={mockProject} />);
-    
+
     const viewDetailsButton = screen.getByText('View Details');
     fireEvent.click(viewDetailsButton);
-    
+
     expect(mockOnViewDetails).not.toHaveBeenCalled();
   });
 
   it('applies custom className when provided', () => {
     const customClass = 'custom-class';
     render(<ProjectCard project={mockProject} className={customClass} />);
-    
+
     const card = screen.getByTestId('project-card');
     expect(card).toHaveClass('custom-class');
   });
 
   it('renders tech stack tags correctly', () => {
     render(<ProjectCard project={mockProject} />);
-    
+
     mockProject.techStack.forEach(tech => {
       const techTag = screen.getByText(tech);
       expect(techTag).toBeInTheDocument();
@@ -96,9 +98,9 @@ describe('ProjectCard', () => {
       ...mockProject,
       date: '2024-12-25'
     };
-    
+
     render(<ProjectCard project={projectWithDifferentDate} />);
-    
+
     expect(screen.getByText('December 2024')).toBeInTheDocument();
   });
 
@@ -107,9 +109,9 @@ describe('ProjectCard', () => {
       ...mockProject,
       techStack: []
     };
-    
+
     render(<ProjectCard project={projectWithNoTech} />);
-    
+
     // Should not crash and should still show other project info
     expect(screen.getByText('Test Project')).toBeInTheDocument();
     expect(screen.getByText('View Details')).toBeInTheDocument();
