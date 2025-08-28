@@ -6,6 +6,7 @@ import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer
 import MediaGallery from '../../components/MediaGallery/MediaGallery';
 import { getProjectById, loadProjectContent } from '../../data/projects';
 import type { ContentLoadingState, ProjectContent } from '../../types/content';
+import ErrorPage from '../ErrorPage/ErrorPage';
 
 const ProjectDetail: React.FC = () => {
     const { projectId } = useParams<{ projectId: string }>();
@@ -53,20 +54,13 @@ const ProjectDetail: React.FC = () => {
 
     if (!project) {
         return (
-            <Layout maxWidth="full" padding="lg">
-                <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-                    <div className="w-full max-w-7xl mx-auto text-center">
-                        <h1 className="heading-1 mb-4 sm:mb-6">Project Not Found</h1>
-                        <p className="body-text mb-4 sm:mb-6">The project you're looking for doesn't exist.</p>
-                        <button
-                            onClick={() => navigate('/projects')}
-                            className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
-                        >
-                            ← Back to Projects
-                        </button>
-                    </div>
-                </div>
-            </Layout>
+            <ErrorPage
+                errorType="not-found"
+                title="Project Not Found"
+                message="The project you're looking for doesn't exist."
+                showBackButton={true}
+                showHomeButton={true}
+            />
         );
     }
 

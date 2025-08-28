@@ -6,7 +6,7 @@ description: 'A modern, responsive personal blog and portfolio website built wit
 shortDescription: 'Modern personal blog and portfolio website'
 image: '/headshot.jpg'
 techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Jest']
-tags: ['things']
+tags: ['React', 'TypeScript', 'Portfolio', 'Blog', 'Web Development']
 featured: true
 date: '2024-01-15'
 liveDemo: 'https://yourdomain.com'

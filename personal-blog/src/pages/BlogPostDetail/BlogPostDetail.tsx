@@ -1,9 +1,10 @@
 import { ArrowLeft, BookOpen, Calendar, Clock, Tag, User } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import { getPostBySlug, loadBlogPostContent } from '../../data/blog-posts';
 import type { BlogPostContent, ContentLoadingState } from '../../types/content';
+import ErrorPage from '../ErrorPage/ErrorPage';
 
 const BlogPostDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -43,26 +44,13 @@ const BlogPostDetail: React.FC = () => {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-white">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center py-12">
-            <div className="text-gray-400 text-6xl mb-4">📝</div>
-            <h1 className="text-2xl font-semibold text-gray-600 mb-2">
-              Blog post not found
-            </h1>
-            <p className="text-gray-500 mb-6">
-              The blog post you're looking for doesn't exist.
-            </p>
-            <Link
-              to="/blog"
-              className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Blog
-            </Link>
-          </div>
-        </div>
-      </div>
+      <ErrorPage
+        errorType="not-found"
+        title="Blog Post Not Found"
+        message="The blog post you're looking for doesn't exist."
+        showBackButton={true}
+        showHomeButton={true}
+      />
     );
   }
 

@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Navigation from './components/Navigation/Navigation';
-import { Blog, BlogPostDetail, Contact, Home, Projects } from './pages';
+import { Blog, BlogPostDetail, Contact, ErrorPage, Home, Projects } from './pages';
 import ProjectDetail from './pages/ProjectDetail/ProjectDetail';
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPostDetail />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<ErrorPage errorType="not-found" />} />
         </Routes>
       </div>
     </Router>

@@ -32,13 +32,41 @@ const DEFAULT_OPTIONS: Required<ContentLoaderOptions> = {
 // Content cache for performance optimization
 let contentCache: ContentCache = {};
 
-// Frontmatter parsing utilities - dead simple approach
+// Frontmatter parsing utilities - dead simple approach with graceful fallbacks
 const parseFrontmatter = (content: string): { frontmatter: string; markdown: string } => {
   // Split by --- and take the middle part as frontmatter
   const parts = content.split('---');
   
   if (parts.length < 3) {
-    throw new Error('Invalid frontmatter format: missing --- delimiters');
+    // Try to recover from malformed frontmatter
+    if (parts.length === 1) {
+      // No frontmatter at all, treat entire content as markdown
+      console.warn('No frontmatter found, treating entire content as markdown');
+      return {
+        frontmatter: '',
+        markdown: content.trim()
+      };
+    } else if (parts.length === 2) {
+      // Only one delimiter, try to determine if it's opening or closing
+      if (content.startsWith('---')) {
+        // Starts with frontmatter but no closing delimiter
+        console.warn('Frontmatter missing closing delimiter, treating as markdown');
+        return {
+          frontmatter: '',
+          markdown: content.trim()
+        };
+      } else {
+        // Ends with frontmatter but no opening delimiter
+        console.warn('Frontmatter missing opening delimiter, treating as markdown');
+        return {
+          frontmatter: '',
+          markdown: content.trim()
+        };
+      }
+    }
+    
+    // If we can't recover, throw a more descriptive error
+    throw new Error(`Invalid frontmatter format: expected 3 parts separated by ---, got ${parts.length}`);
   }
   
   return {
@@ -51,15 +79,31 @@ const parseYamlFrontmatter = (yamlString: string): Record<string, any> => {
   const lines = yamlString.split('\n');
   const result: Record<string, any> = {};
   
+  // If no frontmatter content, return empty object
+  if (!yamlString.trim()) {
+    console.warn('Empty frontmatter, using default values');
+    return result;
+  }
+  
   for (const line of lines) {
     const trimmedLine = line.trim();
     if (!trimmedLine || trimmedLine.startsWith('#')) continue;
     
     const colonIndex = trimmedLine.indexOf(':');
-    if (colonIndex === -1) continue;
+    if (colonIndex === -1) {
+      // Line without colon, log warning but continue
+      console.warn(`Skipping malformed frontmatter line: "${trimmedLine}"`);
+      continue;
+    }
     
     const key = trimmedLine.substring(0, colonIndex).trim();
     let value: any = trimmedLine.substring(colonIndex + 1).trim();
+    
+    // Skip empty keys
+    if (!key) {
+      console.warn('Skipping line with empty key');
+      continue;
+    }
     
     // Handle quoted strings
     if (value.startsWith('"') && value.endsWith('"')) {
@@ -70,7 +114,12 @@ const parseYamlFrontmatter = (yamlString: string): Record<string, any> => {
     
     // Handle arrays
     if (value.startsWith('[') && value.endsWith(']')) {
-      value = value.slice(1, -1).split(',').map((item: string) => item.trim());
+      try {
+        value = value.slice(1, -1).split(',').map((item: string) => item.trim());
+      } catch (error) {
+        console.warn(`Failed to parse array value for key "${key}":`, error);
+        value = []; // Fallback to empty array
+      }
     }
     
     // Handle booleans - must be exact string matches
@@ -130,36 +179,77 @@ const processContent = (
   }
 };
 
-// Validation utilities
+// Validation utilities with graceful fallbacks
 const validateBlogPostFrontmatter = (frontmatter: any): ContentValidationResult => {
   const errors: string[] = [];
   const warnings: string[] = [];
   
+  // Check for missing required fields
   for (const field of REQUIRED_BLOG_POST_FIELDS) {
     if (frontmatter[field] === undefined || frontmatter[field] === null) {
       errors.push(`Missing required field: ${field}`);
     }
   }
   
-  // Validate specific field types
-  if (frontmatter.readTime && typeof frontmatter.readTime !== 'number') {
-    errors.push('readTime must be a number');
+  // Validate specific field types with fallbacks
+  if (frontmatter.readTime !== undefined && frontmatter.readTime !== null) {
+    if (typeof frontmatter.readTime !== 'number') {
+      warnings.push('readTime should be a number, attempting to convert');
+      const converted = Number(frontmatter.readTime);
+      if (!isNaN(converted)) {
+        frontmatter.readTime = converted;
+      } else {
+        errors.push('readTime must be a valid number');
+      }
+    }
   }
   
-  if (frontmatter.category && !['tutorial', 'project-showcase', 'tech-review', 'career-advice'].includes(frontmatter.category)) {
-    errors.push('Invalid category value');
+  if (frontmatter.category !== undefined && frontmatter.category !== null) {
+    if (!['tutorial', 'project-showcase', 'tech-review', 'career-advice'].includes(frontmatter.category)) {
+      warnings.push(`Invalid category value: ${frontmatter.category}, defaulting to tutorial`);
+      frontmatter.category = 'tutorial';
+    }
   }
   
-  if (frontmatter.difficulty && !['beginner', 'intermediate', 'advanced'].includes(frontmatter.difficulty)) {
-    errors.push('Invalid difficulty value');
+  if (frontmatter.difficulty !== undefined && frontmatter.difficulty !== null) {
+    if (!['beginner', 'intermediate', 'advanced'].includes(frontmatter.difficulty)) {
+      warnings.push(`Invalid difficulty value: ${frontmatter.difficulty}, defaulting to intermediate`);
+      frontmatter.difficulty = 'intermediate';
+    }
   }
   
-  if (frontmatter.tags && !Array.isArray(frontmatter.tags)) {
-    errors.push('tags must be an array');
+  if (frontmatter.tags !== undefined && frontmatter.tags !== null) {
+    if (!Array.isArray(frontmatter.tags)) {
+      warnings.push('tags should be an array, attempting to convert');
+      if (typeof frontmatter.tags === 'string') {
+        frontmatter.tags = [frontmatter.tags];
+      } else {
+        errors.push('tags must be an array or string');
+      }
+    }
   }
   
-  if (frontmatter.featured && typeof frontmatter.featured !== 'boolean') {
-    errors.push('featured must be a boolean');
+  if (frontmatter.featured !== undefined && frontmatter.featured !== null) {
+    if (typeof frontmatter.featured !== 'boolean') {
+      warnings.push(`featured should be a boolean, converting "${frontmatter.featured}" to false`);
+      frontmatter.featured = false;
+    }
+  }
+  
+  // Provide default values for critical fields if missing
+  if (!frontmatter.id && frontmatter.slug) {
+    frontmatter.id = frontmatter.slug;
+    warnings.push('Using slug as id since id is missing');
+  }
+  
+  if (!frontmatter.date) {
+    frontmatter.date = new Date().toISOString().split('T')[0];
+    warnings.push('Using current date as default since date is missing');
+  }
+  
+  if (!frontmatter.author) {
+    frontmatter.author = 'Unknown Author';
+    warnings.push('Using default author since author is missing');
   }
   
   return {
@@ -173,19 +263,51 @@ const validateProjectFrontmatter = (frontmatter: any): ContentValidationResult =
   const errors: string[] = [];
   const warnings: string[] = [];
   
+  // Check for missing required fields
   for (const field of REQUIRED_PROJECT_FIELDS) {
     if (frontmatter[field] === undefined || frontmatter[field] === null) {
       errors.push(`Missing required field: ${field}`);
     }
   }
   
-  // Validate specific field types
-  if (frontmatter.techStack && !Array.isArray(frontmatter.techStack)) {
-    errors.push('techStack must be an array');
+  // Validate specific field types with fallbacks
+  if (frontmatter.techStack !== undefined && frontmatter.techStack !== null) {
+    if (!Array.isArray(frontmatter.techStack)) {
+      warnings.push('techStack should be an array, attempting to convert');
+      if (typeof frontmatter.techStack === 'string') {
+        frontmatter.techStack = [frontmatter.techStack];
+      } else {
+        errors.push('techStack must be an array or string');
+      }
+    }
   }
   
-  if (frontmatter.featured && typeof frontmatter.featured !== 'boolean') {
-    errors.push('featured must be a boolean');
+  if (frontmatter.featured !== undefined && frontmatter.featured !== null) {
+    if (typeof frontmatter.featured !== 'boolean') {
+      warnings.push(`featured should be a boolean, converting "${frontmatter.featured}" to false`);
+      frontmatter.featured = false;
+    }
+  }
+  
+  // Provide default values for critical fields if missing
+  if (!frontmatter.id && frontmatter.slug) {
+    frontmatter.id = frontmatter.slug;
+    warnings.push('Using slug as id since id is missing');
+  }
+  
+  if (!frontmatter.date) {
+    frontmatter.date = new Date().toISOString().split('T')[0];
+    warnings.push('Using current date as default since date is missing');
+  }
+  
+  if (!frontmatter.description && frontmatter.shortDescription) {
+    frontmatter.description = frontmatter.shortDescription;
+    warnings.push('Using shortDescription as description since description is missing');
+  }
+  
+  if (!frontmatter.shortDescription && frontmatter.description) {
+    frontmatter.shortDescription = frontmatter.description.substring(0, 100) + '...';
+    warnings.push('Generated shortDescription from description');
   }
   
   return {

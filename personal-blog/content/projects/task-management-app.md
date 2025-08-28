@@ -6,7 +6,7 @@ description: 'A collaborative task management application with real-time updates
 shortDescription: 'Collaborative task management app'
 image: '/placeholder-project-3.jpg'
 techStack: ['React', 'Node.js', 'Socket.io', 'PostgreSQL', 'Redis']
-tags: ['things']
+tags: ['Task Management', 'Collaboration', 'Real-time', 'React', 'Node.js']
 featured: true
 date: '2023-10-15'
 liveDemo: 'https://taskmanager-demo.com'

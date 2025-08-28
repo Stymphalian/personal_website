@@ -6,7 +6,7 @@ description: 'A full-stack e-commerce solution with user authentication, product
 shortDescription: 'Full-stack e-commerce solution'
 image: '/placeholder-project-2.jpg'
 techStack: ['Node.js', 'Express', 'MongoDB', 'React', 'Stripe API']
-tags: ['things']
+tags: ['E-commerce', 'Full-stack', 'Node.js', 'React', 'MongoDB']
 featured: true
 date: '2023-12-01'
 liveDemo: 'https://ecommerce-demo.com'
