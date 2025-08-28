@@ -1,6 +1,42 @@
 import react from '@vitejs/plugin-react'
-import { resolve } from 'path'
+import { copyFileSync, mkdirSync, readdirSync, statSync } from 'fs'
+import { join, resolve } from 'path'
 import { defineConfig, loadEnv } from 'vite'
+
+// Custom plugin to copy content files to build output
+function copyContentPlugin() {
+  return {
+    name: 'copy-content',
+    generateBundle() {
+      const copyDir = (src: string, dest: string) => {
+        if (!statSync(src).isDirectory()) return
+        
+        try {
+          mkdirSync(dest, { recursive: true })
+        } catch (error) {
+          // Directory might already exist
+        }
+        
+        const files = readdirSync(src)
+        for (const file of files) {
+          const srcPath = join(src, file)
+          const destPath = join(dest, file)
+          
+          if (statSync(srcPath).isDirectory()) {
+            copyDir(srcPath, destPath)
+          } else {
+            copyFileSync(srcPath, destPath)
+          }
+        }
+      }
+      
+      // Copy content directory to build output
+      const contentSrc = resolve(__dirname, 'content')
+      const contentDest = resolve(__dirname, 'dist/content')
+      copyDir(contentSrc, contentDest)
+    }
+  }
+}
 
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -8,7 +44,10 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      copyContentPlugin()
+    ],
     
     // Base public path when served in production
     base: env.BASE_URL || '/',
@@ -23,6 +62,7 @@ export default defineConfig(({ command, mode }) => {
         '@data': resolve(__dirname, 'src/data'),
         '@styles': resolve(__dirname, 'src/styles'),
         '@assets': resolve(__dirname, 'src/assets'),
+        '@content': resolve(__dirname, 'content'),
       },
     },
     
@@ -71,6 +111,9 @@ export default defineConfig(({ command, mode }) => {
             if (/css/i.test(ext || '')) {
               return `assets/css/[name]-[hash][extname]`
             }
+            if (/md/i.test(ext || '')) {
+              return `content/[name][extname]`
+            }
             return `assets/[name]-[hash][extname]`
           },
           chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -103,5 +146,8 @@ export default defineConfig(({ command, mode }) => {
       __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
       __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
     },
+    
+    // Asset handling configuration
+    assetsInclude: ['**/*.md'],
   }
 })
