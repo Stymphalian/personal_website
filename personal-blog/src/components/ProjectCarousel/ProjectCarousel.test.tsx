@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import ProjectCarousel from './ProjectCarousel';
 
 // Mock projects data
@@ -38,16 +39,25 @@ const mockProjects = [
   }
 ];
 
+// Helper function to render with Router
+const renderWithRouter = (component: React.ReactElement) => {
+  return render(
+    <BrowserRouter>
+      {component}
+    </BrowserRouter>
+  );
+};
+
 describe('ProjectCarousel', () => {
   it('renders with projects', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     expect(screen.getByText('E-Commerce Platform')).toBeInTheDocument();
     expect(screen.getByText('Modern e-commerce solution')).toBeInTheDocument();
   });
 
   it('displays project information correctly', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     expect(screen.getByText('E-Commerce Platform')).toBeInTheDocument();
     expect(screen.getByText('A full-stack e-commerce platform built with React and Node.js')).toBeInTheDocument();
@@ -57,14 +67,14 @@ describe('ProjectCarousel', () => {
   });
 
   it('shows navigation controls when there are multiple projects', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     expect(screen.getByLabelText('Previous project')).toBeInTheDocument();
     expect(screen.getByLabelText('Next project')).toBeInTheDocument();
   });
 
   it('navigates to next project when next button is clicked', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     const nextButton = screen.getByLabelText('Next project');
     fireEvent.click(nextButton);
@@ -73,7 +83,7 @@ describe('ProjectCarousel', () => {
   });
 
   it('navigates to previous project when previous button is clicked', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     const prevButton = screen.getByLabelText('Previous project');
     fireEvent.click(prevButton);
@@ -82,7 +92,7 @@ describe('ProjectCarousel', () => {
   });
 
   it('navigates to specific project when dot indicator is clicked', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     const dotButtons = screen.getAllByLabelText(/Go to project/);
     fireEvent.click(dotButtons[2]); // Click third dot
@@ -90,10 +100,15 @@ describe('ProjectCarousel', () => {
     expect(screen.getByText('Weather Dashboard')).toBeInTheDocument();
   });
 
-
+  it('shows View Details button for all projects', () => {
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
+    
+    const viewDetailsButton = screen.getByText('View Details');
+    expect(viewDetailsButton).toBeInTheDocument();
+  });
 
   it('shows live demo button when available', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     const liveDemoButton = screen.getByText('Live Demo');
     expect(liveDemoButton).toBeInTheDocument();
@@ -101,7 +116,7 @@ describe('ProjectCarousel', () => {
   });
 
   it('shows GitHub button when available', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     const githubButton = screen.getByText('View Code');
     expect(githubButton).toBeInTheDocument();
@@ -109,36 +124,34 @@ describe('ProjectCarousel', () => {
   });
 
   it('displays tech stack tags', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     expect(screen.getByText('React')).toBeInTheDocument();
     expect(screen.getByText('Node.js')).toBeInTheDocument();
     expect(screen.getByText('MongoDB')).toBeInTheDocument();
   });
 
-
-
   it('handles empty projects array', () => {
-    render(<ProjectCarousel projects={[]} />);
+    renderWithRouter(<ProjectCarousel projects={[]} />);
     
     expect(screen.getByText('No projects to display')).toBeInTheDocument();
   });
 
   it('handles single project without navigation controls', () => {
-    render(<ProjectCarousel projects={[mockProjects[0]]} />);
+    renderWithRouter(<ProjectCarousel projects={[mockProjects[0]]} />);
     
     expect(screen.queryByLabelText('Previous project')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('Next project')).not.toBeInTheDocument();
   });
 
   it('displays project date in readable format', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     expect(screen.getByText(/Featured •/)).toBeInTheDocument();
   });
 
   it('has proper accessibility attributes', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     expect(screen.getByLabelText('Previous project')).toBeInTheDocument();
     expect(screen.getByLabelText('Next project')).toBeInTheDocument();
@@ -146,7 +159,7 @@ describe('ProjectCarousel', () => {
   });
 
   it('renders without errors', () => {
-    render(<ProjectCarousel projects={mockProjects} />);
+    renderWithRouter(<ProjectCarousel projects={mockProjects} />);
     
     expect(screen.getByText('E-Commerce Platform')).toBeInTheDocument();
     expect(screen.getByText('Modern e-commerce solution')).toBeInTheDocument();

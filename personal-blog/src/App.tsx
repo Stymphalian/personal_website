@@ -1,5 +1,5 @@
-import { Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
 import Navigation from './components/Navigation/Navigation';
 import { Blog, BlogPostDetail, Contact, ErrorPage, Home, Projects } from './pages';
 import ProjectDetail from './pages/ProjectDetail/ProjectDetail';
@@ -11,7 +11,7 @@ const ScrollToTop: React.FC = () => {
   useEffect(() => {
     // Scroll to top on every route change
     window.scrollTo(0, 0);
-    
+
     // Handle scroll restoration for browser back/forward navigation
     const handleBeforeUnload = () => {
       sessionStorage.setItem('scrollPosition', window.scrollY.toString());

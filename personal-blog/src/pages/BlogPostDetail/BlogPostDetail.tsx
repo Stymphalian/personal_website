@@ -125,8 +125,9 @@ const BlogPostDetail: React.FC = () => {
 
         {/* Article Header */}
         <article className="max-w-4xl mx-auto">
-          {/* Meta Information */}
+          {/* Meta Information - Repositioned for better layout */}
           <div className="mb-6">
+            {/* Primary Meta Info - Author, Date, Category */}
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
               <div className="flex items-center">
                 <User className="w-4 h-4 mr-1" />
@@ -135,10 +136,6 @@ const BlogPostDetail: React.FC = () => {
               <div className="flex items-center">
                 <Calendar className="w-4 h-4 mr-1" />
                 {formatDate(post.date)}
-              </div>
-              <div className="flex items-center">
-                <Clock className="w-4 h-4 mr-1" />
-                {post.readTime} min read
               </div>
               <div className="flex items-center">
                 <BookOpen className="w-4 h-4 mr-1" />
@@ -156,17 +153,26 @@ const BlogPostDetail: React.FC = () => {
               </span>
             </div>
 
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
-                >
-                  <Tag className="w-3 h-3 mr-1" />
-                  {tag}
-                </span>
-              ))}
+            {/* Tags and Read Time - Now positioned together at the top */}
+            <div className="flex flex-wrap items-center gap-4 mb-4">
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
+                  >
+                    <Tag className="w-3 h-3 mr-1" />
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Read Time - Now positioned beside tags */}
+              <div className="flex items-center text-sm text-gray-500">
+                <Clock className="w-4 h-4 mr-1" />
+                {post.readTime} min read
+              </div>
             </div>
           </div>
 

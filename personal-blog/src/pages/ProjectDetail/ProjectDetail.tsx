@@ -1,3 +1,4 @@
+import { Clock, Tag } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumb';
@@ -51,6 +52,13 @@ const ProjectDetail: React.FC = () => {
     }, [projectId]);
 
     const project = projectId ? getProjectById(projectId) : undefined;
+
+    // Calculate read time based on content length
+    const calculateReadTime = (content: string): number => {
+        const wordsPerMinute = 200;
+        const wordCount = content.split(/\s+/).length;
+        return Math.ceil(wordCount / wordsPerMinute);
+    };
 
     // Handle content loading errors
     if (loadingState === 'error' && error) {
@@ -134,7 +142,7 @@ const ProjectDetail: React.FC = () => {
                         <h1 className="heading-1 mb-3 sm:mb-4 text-lg sm:text-2xl lg:text-3xl">{project.title}</h1>
                         <p className="body-text text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">{project.description}</p>
 
-                        {/* Project Meta Info */}
+                        {/* Project Meta Info - Repositioned for better layout */}
                         <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6">
                             <span className="flex items-center">
                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,6 +156,30 @@ const ProjectDetail: React.FC = () => {
                                 </svg>
                                 {project.techStack.join(', ')}
                             </span>
+                        </div>
+
+                        {/* Tags and Read Time - Now positioned together at the top */}
+                        <div className="flex flex-wrap items-center gap-4 mb-4 sm:mb-6">
+                            {/* Tags */}
+                            <div className="flex flex-wrap gap-2">
+                                {project.tags?.map((tag) => (
+                                    <span
+                                        key={tag}
+                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
+                                    >
+                                        <Tag className="w-3 h-3 mr-1" />
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+
+                            {/* Read Time - Now positioned beside tags */}
+                            {content?.content && (
+                                <div className="flex items-center text-xs sm:text-sm text-gray-500">
+                                    <Clock className="w-4 h-4 mr-1" />
+                                    {calculateReadTime(content.content)} min read
+                                </div>
+                            )}
                         </div>
 
                         {/* Project Image */}
