@@ -1,0 +1,8 @@
+---
+description: All CSS/Themes should use the vs-code themes and styling
+globs:
+alwaysApply: true
+---
+
+Always use the project specific CSS themes and colors when possible.
+Use the theme styling found in tailwind.config.js

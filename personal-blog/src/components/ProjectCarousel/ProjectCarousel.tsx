@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, ExternalLink, Eye, Github } from 'lucide-react';
+import { ExternalLink, Eye, Github } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -45,14 +45,6 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
   const handleMouseEnter = () => setIsAutoPlaying(false);
   const handleMouseLeave = () => setIsAutoPlaying(autoPlay);
 
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
-  };
-
-  const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + projects.length) % projects.length);
-  };
-
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
   };
@@ -65,7 +57,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
   if (!projects || projects.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-vs-editor-text2">No projects to display</p>
+        <p className="text-gray-500">No projects to display</p>
       </div>
     );
   }
@@ -98,7 +90,6 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
 
           {/* Project Info Overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <h3 className="text-2xl md:text-3xl font-bold mb-2">{currentProject.title}</h3>
             <p className="text-lg text-vs-editor-text2 mb-4">{currentProject.shortDescription}</p>
 
             {/* Tech Stack */}
@@ -162,41 +153,21 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
         </div>
       </div>
 
-      {/* Navigation Controls - Repositioned to avoid overlap */}
+      {/* Navigation Controls - Only dots indicator */}
       {projects.length > 1 && (
-        <>
-          {/* Previous/Next Buttons - Moved to avoid overlapping with action buttons */}
-          <button
-            onClick={goToPrevious}
-            className="absolute left-4 top-1/3 -translate-y-1/2 w-12 h-12 bg-vs-editor-surface/90 hover:bg-vs-editor-surface rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 z-20"
-            aria-label="Previous project"
-          >
-            <ChevronLeft className="w-6 h-6 text-vs-editor-text" />
-          </button>
-
-          <button
-            onClick={goToNext}
-            className="absolute right-4 top-1/3 -translate-y-1/2 w-12 h-12 bg-vs-editor-surface/90 hover:bg-vs-editor-surface rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 z-20"
-            aria-label="Next project"
-          >
-            <ChevronRight className="w-6 h-6 text-vs-editor-text" />
-          </button>
-
-          {/* Dots Indicator */}
-          <div className="flex justify-center mt-6 space-x-2">
-            {projects.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-200 ${index === currentIndex
-                  ? 'bg-crystal-blue-500 scale-125'
-                  : 'bg-vs-editor-border hover:bg-vs-editor-text2'
-                  }`}
-                aria-label={`Go to project ${index + 1}`}
-              />
-            ))}
-          </div>
-        </>
+        <div className="flex justify-center mt-6 space-x-2">
+          {projects.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-200 ${index === currentIndex
+                ? 'bg-crystal-blue-500 scale-125'
+                : 'bg-vs-editor-border hover:bg-vs-editor-text2'
+                }`}
+              aria-label={`Go to project ${index + 1}`}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
