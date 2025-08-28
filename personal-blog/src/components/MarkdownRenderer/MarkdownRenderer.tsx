@@ -118,12 +118,12 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                             </code>
                         ),
                         pre: ({ children, ...props }) => (
-                            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto mb-4" {...props}>
+                            <pre className="bg-vs-editor-bg p-4 rounded-lg overflow-x-auto mb-4 border border-vs-editor-border" {...props}>
                                 {children}
                             </pre>
                         ),
                         blockquote: ({ children, ...props }) => (
-                            <blockquote className="border-l-4 border-gray-300 pl-4 italic mb-4" {...props}>
+                            <blockquote className="border-l-4 border-vs-editor-border pl-4 italic mb-4 text-vs-editor-text2" {...props}>
                                 {children}
                             </blockquote>
                         ),
@@ -145,7 +145,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                         a: ({ href, children, ...props }) => (
                             <a
                                 href={href}
-                                className="text-blue-600 hover:text-blue-800 underline"
+                                className="text-crystal-blue-400 hover:text-crystal-blue-300 underline"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 {...props}
@@ -164,23 +164,23 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                         ),
                         table: ({ children, ...props }) => (
                             <div className="overflow-x-auto mb-4">
-                                <table className="min-w-full border-collapse border border-gray-300" {...props}>
+                                <table className="min-w-full border-collapse border border-vs-editor-border" {...props}>
                                     {children}
                                 </table>
                             </div>
                         ),
                         th: ({ children, ...props }) => (
-                            <th className="border border-gray-300 px-4 py-2 bg-gray-100 font-semibold" {...props}>
+                            <th className="border border-vs-editor-border px-4 py-2 bg-vs-editor-surface font-semibold" {...props}>
                                 {children}
                             </th>
                         ),
                         td: ({ children, ...props }) => (
-                            <td className="border border-gray-300 px-4 py-2" {...props}>
+                            <td className="border border-vs-editor-border px-4 py-2" {...props}>
                                 {children}
                             </td>
                         ),
                         hr: () => (
-                            <hr className="border-t border-gray-300 my-6" />
+                            <hr className="border-t border-vs-editor-border my-6" />
                         )
                     }}
                 >

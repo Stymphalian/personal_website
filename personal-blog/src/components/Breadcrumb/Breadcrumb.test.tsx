@@ -39,14 +39,14 @@ describe('Breadcrumb', () => {
     
     const projectsLink = screen.getByText('Projects');
     expect(projectsLink).toHaveAttribute('href', '/projects');
-    expect(projectsLink).toHaveClass('text-gray-500', 'hover:text-gray-700', 'transition-colors');
+    expect(projectsLink).toHaveClass('text-vs-editor-text2', 'hover:text-vs-editor-text', 'transition-colors');
   });
 
   it('renders current page item without link', () => {
     renderWithRouter(<Breadcrumb items={mockItems} />);
     
     const currentItem = screen.getByText('Project Name');
-    expect(currentItem).toHaveClass('text-gray-900', 'font-medium');
+    expect(currentItem).toHaveClass('text-vs-editor-text', 'font-medium');
     expect(currentItem).toHaveAttribute('aria-current', 'page');
   });
 
@@ -75,7 +75,7 @@ describe('Breadcrumb', () => {
     renderWithRouter(<Breadcrumb items={itemsWithoutPaths} />);
     
     const sectionItem = screen.getByText('Section');
-    expect(sectionItem).toHaveClass('text-gray-500');
+    expect(sectionItem).toHaveClass('text-vs-editor-text2');
     expect(sectionItem).not.toHaveAttribute('href');
   });
 

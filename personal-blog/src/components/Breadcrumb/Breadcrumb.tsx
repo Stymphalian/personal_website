@@ -18,7 +18,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className = '' }) => {
     <nav className={`flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm ${className}`} aria-label="Breadcrumb">
       <Link
         to="/"
-        className="flex items-center text-gray-500 hover:text-gray-700 transition-colors p-1"
+        className="flex items-center text-vs-editor-text2 hover:text-vs-editor-text transition-colors p-1"
         aria-label="Go to home page"
       >
         <Home className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -26,20 +26,20 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className = '' }) => {
       
       {items.map((item, index) => (
         <React.Fragment key={index}>
-          <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400" data-testid="chevron-right" />
+          <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-vs-editor-text2" data-testid="chevron-right" />
           {item.isCurrent ? (
-            <span className="text-gray-900 font-medium px-1" aria-current="page">
+            <span className="text-vs-editor-text font-medium px-1" aria-current="page">
               {item.label}
             </span>
           ) : item.path ? (
             <Link
               to={item.path}
-              className="text-gray-500 hover:text-gray-700 transition-colors px-1"
+              className="text-vs-editor-text2 hover:text-vs-editor-text transition-colors px-1"
             >
               {item.label}
             </Link>
           ) : (
-            <span className="text-gray-500 px-1">{item.label}</span>
+            <span className="text-vs-editor-text2 px-1">{item.label}</span>
           )}
         </React.Fragment>
       ))}

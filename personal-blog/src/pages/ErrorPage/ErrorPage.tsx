@@ -96,26 +96,26 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
     };
 
     return (
-        <div className={`min-h-screen bg-gray-50 flex items-center justify-center px-4 ${className}`}>
-            <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+        <div className={`min-h-screen bg-vs-editor-bg flex items-center justify-center px-4 ${className}`}>
+            <div className="max-w-md w-full bg-vs-editor-surface rounded-lg shadow-lg p-8 text-center">
                 {/* Error Icon */}
                 <div className="text-6xl mb-4">{errorContent.icon}</div>
 
                 {/* Error Title */}
-                <h1 className="text-2xl font-bold text-gray-900 mb-4">
+                <h1 className="text-2xl font-bold text-vs-editor-text mb-4">
                     {errorContent.title}
                 </h1>
 
                 {/* Error Message */}
-                <p className="text-gray-600 mb-6">
+                <p className="text-vs-editor-text2 mb-6">
                     {errorContent.message}
                 </p>
 
                 {/* Error Details (if available) */}
                 {errorMessage && errorMessage !== errorContent.message && (
-                    <div className="bg-gray-100 rounded-lg p-4 mb-6 text-left">
-                        <p className="text-sm text-gray-700 font-medium mb-2">Error Details:</p>
-                        <p className="text-sm text-gray-600 font-mono break-words">
+                    <div className="bg-vs-editor-surface2 rounded-lg p-4 mb-6 text-left">
+                        <p className="text-sm text-vs-editor-text font-medium mb-2">Error Details:</p>
+                        <p className="text-sm text-vs-editor-text2 font-mono break-words">
                             {errorMessage}
                         </p>
                     </div>
@@ -123,11 +123,11 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
 
                 {/* Suggestions */}
                 <div className="mb-8">
-                    <h3 className="text-sm font-medium text-gray-700 mb-3">Try these solutions:</h3>
-                    <ul className="text-sm text-gray-600 space-y-1">
+                    <h3 className="text-sm font-medium text-vs-editor-text mb-3">Try these solutions:</h3>
+                    <ul className="text-sm text-vs-editor-text2 space-y-1">
                         {errorContent.suggestions.map((suggestion, index) => (
                             <li key={index} className="flex items-center justify-center">
-                                <span className="text-blue-500 mr-2">•</span>
+                                <span className="text-crystal-blue-400 mr-2">•</span>
                                 {suggestion}
                             </li>
                         ))}
@@ -139,7 +139,7 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
                     {showBackButton && (
                         <button
                             onClick={handleGoBack}
-                            className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                            className="px-4 py-2 bg-vs-editor-surface2 text-vs-editor-text rounded-lg hover:bg-vs-editor-hover transition-colors"
                         >
                             Go Back
                         </button>
@@ -147,7 +147,7 @@ const ErrorPage: React.FC<ErrorPageProps> = ({
                     {showHomeButton && (
                         <button
                             onClick={handleGoHome}
-                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                            className="px-4 py-2 bg-crystal-blue-600 text-white rounded-lg hover:bg-crystal-blue-700 transition-colors"
                         >
                             Go Home
                         </button>

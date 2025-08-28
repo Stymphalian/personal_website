@@ -92,7 +92,7 @@ describe('Navigation', () => {
     // Since we're on the root path in tests, Home should be active
     const homeLinks = screen.getAllByText('Home');
     const desktopHomeLink = homeLinks[0];
-    expect(desktopHomeLink).toHaveClass('text-blue-600', 'bg-blue-50');
+    expect(desktopHomeLink).toHaveClass('text-crystal-blue-400', 'bg-vs-editor-selection');
   });
 
   it('has proper accessibility attributes', () => {
@@ -114,7 +114,7 @@ describe('Navigation', () => {
 
     // Check for enhanced mobile menu elements - look for the container with the specific classes
     const mobileMenuContainer = screen.getByText('Navigation').parentElement?.parentElement;
-    expect(mobileMenuContainer).toHaveClass('w-64', 'h-full', 'bg-white', 'shadow-2xl');
+    expect(mobileMenuContainer).toHaveClass('w-64', 'h-full', 'bg-vs-editor-surface', 'shadow-2xl');
   });
 
   it('shows mobile menu header and footer', () => {

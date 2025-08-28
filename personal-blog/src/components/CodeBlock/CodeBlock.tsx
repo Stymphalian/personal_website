@@ -146,16 +146,16 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
 
   const getThemeClasses = () => {
     if (theme === 'dark') {
-      return 'bg-gray-900 text-gray-100 border-gray-700';
+      return 'bg-vs-editor-bg text-vs-editor-text border-vs-editor-border';
     }
-    return 'bg-gray-50 text-gray-900 border-gray-200';
+    return 'bg-vs-editor-surface text-vs-editor-text border-vs-editor-border';
   };
 
   const getHeaderThemeClasses = () => {
     if (theme === 'dark') {
-      return 'bg-gray-800 border-gray-700 text-gray-300';
+      return 'bg-vs-editor-surface border-vs-editor-border text-vs-editor-text2';
     }
-    return 'bg-gray-100 border-gray-200 text-gray-600';
+    return 'bg-vs-editor-surface2 border-vs-editor-border text-vs-editor-text2';
   };
 
   return (
@@ -167,7 +167,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
             {getLanguageIcon(language)}
             <span className="text-sm font-medium">
               {filename && (
-                <span className="mr-2 text-gray-400">
+                <span className="mr-2 text-vs-editor-text3">
                   {filename}
                 </span>
               )}
@@ -179,8 +179,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
             <button
               onClick={handleCopy}
               className={`p-1.5 rounded-md transition-colors ${theme === 'dark'
-                ? 'hover:bg-gray-700 text-gray-400 hover:text-gray-200'
-                : 'hover:bg-gray-200 text-gray-500 hover:text-gray-700'
+                ? 'hover:bg-vs-editor-hover text-vs-editor-text2 hover:text-vs-editor-text'
+                : 'hover:bg-vs-editor-hover text-vs-editor-text2 hover:text-vs-editor-text'
                 }`}
               title="Copy code"
               aria-label="Copy code to clipboard"
@@ -216,8 +216,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         {showLineNumbers && code.trim() && (
           <div
             className={`absolute top-0 left-0 w-12 h-full text-xs font-mono select-none pointer-events-none ${theme === 'dark'
-              ? 'bg-gray-900 text-gray-500 border-r border-gray-700'
-              : 'bg-gray-50 text-gray-400 border-gray-200'
+              ? 'bg-vs-editor-bg text-vs-editor-text3 border-r border-vs-editor-border'
+              : 'bg-vs-editor-surface text-vs-editor-text3 border-r border-vs-editor-border'
               }`}
             style={{
               fontFamily: 'JetBrains Mono, Fira Code, Consolas, Monaco, monospace',

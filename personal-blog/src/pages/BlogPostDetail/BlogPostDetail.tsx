@@ -82,41 +82,41 @@ const BlogPostDetail: React.FC = () => {
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'beginner':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-500/20 text-green-400';
       case 'intermediate':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-500/20 text-yellow-400';
       case 'advanced':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-500/20 text-red-400';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-vs-editor-surface2 text-vs-editor-text2';
     }
   };
 
   const getCategoryColor = (category: string) => {
     switch (category) {
       case 'tutorial':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-crystal-blue-500/20 text-crystal-blue-400';
       case 'project-showcase':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-purple-500/20 text-purple-400';
       case 'tech-review':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-orange-500/20 text-orange-400';
       case 'career-advice':
-        return 'bg-indigo-100 text-indigo-800';
+        return 'bg-indigo-500/20 text-indigo-400';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-vs-editor-surface2 text-vs-editor-text2';
     }
   };
 
 
 
   return (
-    <div className="min-h-screen bg-white pt-16">
+    <div className="min-h-screen bg-vs-editor-bg pt-16">
       <div className="container mx-auto px-4 py-8">
         {/* Back Navigation */}
         <div className="mb-6">
           <button
             onClick={() => navigate('/blog')}
-            className="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center text-vs-editor-text2 hover:text-vs-editor-text transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Blog
@@ -128,7 +128,7 @@ const BlogPostDetail: React.FC = () => {
           {/* Meta Information - Repositioned for better layout */}
           <div className="mb-6">
             {/* Primary Meta Info - Author, Date, Category */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-4">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-vs-editor-text3 mb-4">
               <div className="flex items-center">
                 <User className="w-4 h-4 mr-1" />
                 {post.author}
@@ -160,7 +160,7 @@ const BlogPostDetail: React.FC = () => {
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-vs-editor-surface2 text-vs-editor-text2"
                   >
                     <Tag className="w-3 h-3 mr-1" />
                     {tag}
@@ -169,7 +169,7 @@ const BlogPostDetail: React.FC = () => {
               </div>
 
               {/* Read Time and Word Count - Now positioned beside tags */}
-              <div className="flex items-center gap-4 text-sm text-gray-500">
+              <div className="flex items-center gap-4 text-sm text-vs-editor-text3">
                 <div className="flex items-center">
                   <Clock className="w-4 h-4 mr-1" />
                   {post.readTime} min read
@@ -185,12 +185,12 @@ const BlogPostDetail: React.FC = () => {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-4xl font-bold text-vs-editor-text mb-6 leading-tight">
             {post.title}
           </h1>
 
           {/* Excerpt */}
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+          <p className="text-xl text-vs-editor-text2 mb-8 leading-relaxed">
             {post.excerpt}
           </p>
 
@@ -200,7 +200,7 @@ const BlogPostDetail: React.FC = () => {
               content={content?.content || ''}
               loadingState={loadingState}
               loadingStateData={{ error }}
-              className="prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900"
+              className="prose-headings:text-vs-editor-text prose-p:text-vs-editor-text2 prose-strong:text-vs-editor-text"
               options={{
                 highlightCode: true,
                 breaks: true
@@ -215,17 +215,17 @@ const BlogPostDetail: React.FC = () => {
         </article>
 
         {/* Footer Navigation */}
-        <div className="max-w-4xl mx-auto mt-12 pt-8 border-t border-gray-200">
+        <div className="max-w-4xl mx-auto mt-12 pt-8 border-t border-vs-editor-border">
           <div className="flex justify-between items-center">
             <button
               onClick={() => navigate('/blog')}
-              className="inline-flex items-center px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors"
+              className="inline-flex items-center px-4 py-2 text-vs-editor-text2 hover:text-vs-editor-text transition-colors"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Blog
             </button>
 
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-vs-editor-text3">
               <span>Written by {post.author}</span>
               <span className="mx-2">•</span>
               <span>{formatDate(post.date)}</span>

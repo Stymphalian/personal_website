@@ -105,7 +105,7 @@ const ProjectDetail: React.FC = () => {
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
                         <button
                             onClick={() => navigate('/projects')}
-                            className="flex items-center text-blue-600 hover:text-blue-800 transition-colors font-medium text-sm sm:text-base"
+                            className="flex items-center text-crystal-blue-400 hover:text-crystal-blue-300 transition-colors font-medium text-sm sm:text-base"
                         >
                             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -120,7 +120,7 @@ const ProjectDetail: React.FC = () => {
                                     href={project.liveDemo}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs sm:text-sm text-center"
+                                    className="px-3 sm:px-4 py-2 bg-crystal-blue-600 text-white rounded-lg hover:bg-crystal-blue-700 transition-colors text-xs sm:text-sm text-center"
                                 >
                                     View Live Demo
                                 </a>
@@ -141,7 +141,7 @@ const ProjectDetail: React.FC = () => {
                     {/* Project Header */}
                     <div className="mb-6 sm:mb-8">
                         <h1 className="heading-1 mb-3 sm:mb-4 text-lg sm:text-2xl lg:text-3xl">{project.title}</h1>
-                        <p className="body-text text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">{project.description}</p>
+                        <p className="body-text text-vs-editor-text2 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">{project.description}</p>
 
                         {/* Tags and Read Time - Now positioned together at the top */}
                         <div className="flex flex-wrap items-center gap-4 mb-4 sm:mb-6">
@@ -150,7 +150,7 @@ const ProjectDetail: React.FC = () => {
                                 {project.tags?.map((tag) => (
                                     <span
                                         key={tag}
-                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700"
+                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-vs-editor-surface2 text-vs-editor-text2"
                                     >
                                         <Tag className="w-3 h-3 mr-1" />
                                         {tag}
@@ -159,7 +159,7 @@ const ProjectDetail: React.FC = () => {
                             </div>
 
                             {/* Read Time and Word Count - Now positioned beside tags, always visible */}
-                            <div className="flex items-center gap-4 text-xs sm:text-sm text-gray-500">
+                            <div className="flex items-center gap-4 text-xs sm:text-sm text-vs-editor-text3">
                                 <div className="flex items-center">
                                     <Clock className="w-4 h-4 mr-1" />
                                     {content?.content ? calculateReadTime(content.content) : 'Loading...'} min read
@@ -192,7 +192,7 @@ const ProjectDetail: React.FC = () => {
                             content={content?.content || ''}
                             loadingState={loadingState}
                             loadingStateData={{ error }}
-                            className="prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900"
+                            className="prose-headings:text-vs-editor-text prose-p:text-vs-editor-text2 prose-strong:text-vs-editor-text"
                             options={{
                                 highlightCode: true,
                                 breaks: true

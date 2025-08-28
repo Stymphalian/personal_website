@@ -140,8 +140,8 @@ describe('Layout', () => {
     const pageTitle = screen.getByText('Test Page');
     const pageDescription = screen.getByText('Test Description');
 
-    expect(pageTitle).toHaveClass('text-3xl', 'md:text-4xl', 'font-bold', 'text-gray-900');
-    expect(pageDescription).toHaveClass('text-lg', 'text-gray-600');
+    expect(pageTitle).toHaveClass('text-3xl', 'md:text-4xl', 'font-bold', 'text-vs-editor-text');
+    expect(pageDescription).toHaveClass('text-lg', 'text-vs-editor-text2');
   });
 
   it('maintains consistent structure across different configurations', () => {

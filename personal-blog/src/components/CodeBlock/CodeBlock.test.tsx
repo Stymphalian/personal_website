@@ -161,20 +161,20 @@ line3`;
         it('applies dark theme by default', () => {
             render(<CodeBlock {...defaultProps} />);
             const codeBlock = screen.getByText(/console\.log\("Hello, World!"\);/).closest('.code-block');
-            expect(codeBlock).toHaveClass('bg-gray-900', 'text-gray-100');
+            expect(codeBlock).toHaveClass('bg-vs-editor-bg', 'text-vs-editor-text');
         });
 
         it('applies light theme when specified', () => {
             render(<CodeBlock {...defaultProps} theme="light" />);
             const codeBlock = screen.getByText(/console\.log\("Hello, World!"\);/).closest('.code-block');
-            expect(codeBlock).toHaveClass('bg-gray-50', 'text-gray-900');
+            expect(codeBlock).toHaveClass('bg-vs-editor-surface', 'text-vs-editor-text');
         });
 
         it('applies correct header theme classes', () => {
             render(<CodeBlock {...defaultProps} theme="light" />);
             // Find the header container that has the theme classes
-            const header = screen.getByText('JavaScript').closest('div[class*="bg-gray-100"]');
-            expect(header).toHaveClass('bg-gray-100', 'border-gray-200');
+            const header = screen.getByText('JavaScript').closest('div[class*="bg-vs-editor-surface2"]');
+            expect(header).toHaveClass('bg-vs-editor-surface2', 'border-vs-editor-border');
         });
     });
 

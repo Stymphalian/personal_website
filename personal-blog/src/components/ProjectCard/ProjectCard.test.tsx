@@ -89,7 +89,7 @@ describe('ProjectCard', () => {
     mockProject.techStack.forEach(tech => {
       const techTag = screen.getByText(tech);
       expect(techTag).toBeInTheDocument();
-      expect(techTag).toHaveClass('px-2', 'sm:px-3', 'py-1', 'bg-blue-100', 'text-blue-800');
+      expect(techTag).toHaveClass('px-2', 'sm:px-3', 'py-1', 'bg-crystal-blue-500/20', 'text-crystal-blue-400');
     });
   });
 
