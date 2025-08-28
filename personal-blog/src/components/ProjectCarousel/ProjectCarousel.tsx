@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, ExternalLink, Github, Eye } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ExternalLink, Eye, Github } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,10 +21,10 @@ interface ProjectCarouselProps {
   autoPlayInterval?: number;
 }
 
-const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ 
-  projects, 
-  autoPlay = true, 
-  autoPlayInterval = 5000 
+const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
+  projects,
+  autoPlay = true,
+  autoPlayInterval = 5000
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
@@ -73,7 +73,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
   const currentProject = projects[currentIndex];
 
   return (
-    <div 
+    <div
       className="relative w-full max-w-4xl mx-auto"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -92,15 +92,15 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
               className="w-full h-full object-cover"
             />
           )}
-          
+
           {/* Project Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          
+
           {/* Project Info Overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
             <h3 className="text-2xl md:text-3xl font-bold mb-2">{currentProject.title}</h3>
             <p className="text-lg text-gray-200 mb-4">{currentProject.shortDescription}</p>
-            
+
             {/* Tech Stack */}
             <div className="flex flex-wrap gap-2 mb-4">
               {currentProject.techStack.map((tech, index) => (
@@ -112,7 +112,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
                 </span>
               ))}
             </div>
-            
+
             {/* Action Buttons - Restructured to prevent overlap */}
             <div className="flex flex-wrap gap-3">
               {/* View Details Button - Always visible */}
@@ -123,7 +123,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
                 <Eye className="w-4 h-4" />
                 View Details
               </button>
-              
+
               {/* Live Demo Button - Only if available */}
               {currentProject.liveDemo && (
                 <a
@@ -136,7 +136,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
                   Live Demo
                 </a>
               )}
-              
+
               {/* GitHub Button - Only if available */}
               {currentProject.githubRepo && (
                 <a
@@ -173,7 +173,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
           >
             <ChevronLeft className="w-6 h-6 text-gray-700" />
           </button>
-          
+
           <button
             onClick={goToNext}
             className="absolute right-4 top-1/3 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-200 hover:scale-110 z-20"
@@ -188,11 +188,10 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                  index === currentIndex
-                    ? 'bg-blue-600 scale-125'
-                    : 'bg-gray-300 hover:bg-gray-400'
-                }`}
+                className={`w-3 h-3 rounded-full transition-all duration-200 ${index === currentIndex
+                  ? 'bg-blue-600 scale-125'
+                  : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
                 aria-label={`Go to project ${index + 1}`}
               />
             ))}
