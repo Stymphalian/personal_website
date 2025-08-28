@@ -168,10 +168,18 @@ const BlogPostDetail: React.FC = () => {
                 ))}
               </div>
 
-              {/* Read Time - Now positioned beside tags */}
-              <div className="flex items-center text-sm text-gray-500">
-                <Clock className="w-4 h-4 mr-1" />
-                {post.readTime} min read
+              {/* Read Time and Word Count - Now positioned beside tags */}
+              <div className="flex items-center gap-4 text-sm text-gray-500">
+                <div className="flex items-center">
+                  <Clock className="w-4 h-4 mr-1" />
+                  {post.readTime} min read
+                </div>
+                {content?.content && (
+                  <div className="flex items-center">
+                    <span className="mr-1">📝</span>
+                    {content.content.trim().split(/\s+/).filter(word => word.length > 0).length} words
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { Clock, Tag } from 'lucide-react';
+import { Clock, Tag } from 'lucide-react'; // Added lucide-react for icons
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumb';
@@ -53,13 +53,6 @@ const ProjectDetail: React.FC = () => {
 
     const project = projectId ? getProjectById(projectId) : undefined;
 
-    // Calculate read time based on content length
-    const calculateReadTime = (content: string): number => {
-        const wordsPerMinute = 200;
-        const wordCount = content.split(/\s+/).length;
-        return Math.ceil(wordCount / wordsPerMinute);
-    };
-
     // Handle content loading errors
     if (loadingState === 'error' && error) {
         console.error(`Failed to load project content for ID "${projectId}":`, error);
@@ -92,6 +85,14 @@ const ProjectDetail: React.FC = () => {
         { label: 'Projects', path: '/projects' },
         { label: project.title, isCurrent: true }
     ];
+
+    // Helper function to calculate read time (example: 100 words per minute)
+    const calculateReadTime = (markdownContent: string) => {
+        const words = markdownContent.replace(/<[^>]*>/g, '').split(/\s+/).filter(word => word.length > 0);
+        const wpm = 100; // Words per minute
+        const minutes = Math.ceil(words.length / wpm);
+        return minutes;
+    };
 
     return (
         <Layout maxWidth="full" padding="lg">
@@ -142,22 +143,6 @@ const ProjectDetail: React.FC = () => {
                         <h1 className="heading-1 mb-3 sm:mb-4 text-lg sm:text-2xl lg:text-3xl">{project.title}</h1>
                         <p className="body-text text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">{project.description}</p>
 
-                        {/* Project Meta Info - Repositioned for better layout */}
-                        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6">
-                            <span className="flex items-center">
-                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                {new Date(project.date).toLocaleDateString()}
-                            </span>
-                            <span className="flex items-center">
-                                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                                </svg>
-                                {project.techStack.join(', ')}
-                            </span>
-                        </div>
-
                         {/* Tags and Read Time - Now positioned together at the top */}
                         <div className="flex flex-wrap items-center gap-4 mb-4 sm:mb-6">
                             {/* Tags */}
@@ -173,13 +158,19 @@ const ProjectDetail: React.FC = () => {
                                 ))}
                             </div>
 
-                            {/* Read Time - Now positioned beside tags */}
-                            {content?.content && (
-                                <div className="flex items-center text-xs sm:text-sm text-gray-500">
+                            {/* Read Time and Word Count - Now positioned beside tags, always visible */}
+                            <div className="flex items-center gap-4 text-xs sm:text-sm text-gray-500">
+                                <div className="flex items-center">
                                     <Clock className="w-4 h-4 mr-1" />
-                                    {calculateReadTime(content.content)} min read
+                                    {content?.content ? calculateReadTime(content.content) : 'Loading...'} min read
                                 </div>
-                            )}
+                                {content?.content && (
+                                    <div className="flex items-center">
+                                        <span className="mr-1">📝</span>
+                                        {content.content.trim().split(/\s+/).filter(word => word.length > 0).length} words
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         {/* Project Image */}

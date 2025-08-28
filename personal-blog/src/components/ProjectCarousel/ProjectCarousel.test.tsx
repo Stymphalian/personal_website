@@ -51,14 +51,14 @@ const renderWithRouter = (component: React.ReactElement) => {
 describe('ProjectCarousel', () => {
   it('renders with projects', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     expect(screen.getByText('E-Commerce Platform')).toBeInTheDocument();
     expect(screen.getByText('Modern e-commerce solution')).toBeInTheDocument();
   });
 
   it('displays project information correctly', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     expect(screen.getByText('E-Commerce Platform')).toBeInTheDocument();
     expect(screen.getByText('A full-stack e-commerce platform built with React and Node.js')).toBeInTheDocument();
     expect(screen.getByText('React')).toBeInTheDocument();
@@ -68,48 +68,48 @@ describe('ProjectCarousel', () => {
 
   it('shows navigation controls when there are multiple projects', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     expect(screen.getByLabelText('Previous project')).toBeInTheDocument();
     expect(screen.getByLabelText('Next project')).toBeInTheDocument();
   });
 
   it('navigates to next project when next button is clicked', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     const nextButton = screen.getByLabelText('Next project');
     fireEvent.click(nextButton);
-    
+
     expect(screen.getByText('Task Management App')).toBeInTheDocument();
   });
 
   it('navigates to previous project when previous button is clicked', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     const prevButton = screen.getByLabelText('Previous project');
     fireEvent.click(prevButton);
-    
+
     expect(screen.getByText('Weather Dashboard')).toBeInTheDocument();
   });
 
   it('navigates to specific project when dot indicator is clicked', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     const dotButtons = screen.getAllByLabelText(/Go to project/);
     fireEvent.click(dotButtons[2]); // Click third dot
-    
+
     expect(screen.getByText('Weather Dashboard')).toBeInTheDocument();
   });
 
   it('shows View Details button for all projects', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     const viewDetailsButton = screen.getByText('View Details');
     expect(viewDetailsButton).toBeInTheDocument();
   });
 
   it('shows live demo button when available', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     const liveDemoButton = screen.getByText('Live Demo');
     expect(liveDemoButton).toBeInTheDocument();
     expect(liveDemoButton.closest('a')).toHaveAttribute('href', 'https://demo.com');
@@ -117,7 +117,7 @@ describe('ProjectCarousel', () => {
 
   it('shows GitHub button when available', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     const githubButton = screen.getByText('View Code');
     expect(githubButton).toBeInTheDocument();
     expect(githubButton.closest('a')).toHaveAttribute('href', 'https://github.com/project1');
@@ -125,7 +125,7 @@ describe('ProjectCarousel', () => {
 
   it('displays tech stack tags', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     expect(screen.getByText('React')).toBeInTheDocument();
     expect(screen.getByText('Node.js')).toBeInTheDocument();
     expect(screen.getByText('MongoDB')).toBeInTheDocument();
@@ -133,26 +133,26 @@ describe('ProjectCarousel', () => {
 
   it('handles empty projects array', () => {
     renderWithRouter(<ProjectCarousel projects={[]} />);
-    
+
     expect(screen.getByText('No projects to display')).toBeInTheDocument();
   });
 
   it('handles single project without navigation controls', () => {
     renderWithRouter(<ProjectCarousel projects={[mockProjects[0]]} />);
-    
+
     expect(screen.queryByLabelText('Previous project')).not.toBeInTheDocument();
     expect(screen.queryByLabelText('Next project')).not.toBeInTheDocument();
   });
 
   it('displays project date in readable format', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     expect(screen.getByText(/Featured •/)).toBeInTheDocument();
   });
 
   it('has proper accessibility attributes', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     expect(screen.getByLabelText('Previous project')).toBeInTheDocument();
     expect(screen.getByLabelText('Next project')).toBeInTheDocument();
     expect(screen.getByLabelText('Go to project 1')).toBeInTheDocument();
@@ -160,7 +160,7 @@ describe('ProjectCarousel', () => {
 
   it('renders without errors', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
-    
+
     expect(screen.getByText('E-Commerce Platform')).toBeInTheDocument();
     expect(screen.getByText('Modern e-commerce solution')).toBeInTheDocument();
   });

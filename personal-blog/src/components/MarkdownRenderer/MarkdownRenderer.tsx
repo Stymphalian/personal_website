@@ -81,10 +81,6 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
         );
     }
 
-    // Calculate content statistics
-    const wordCount = content.trim().split(/\s+/).filter(word => word.length > 0).length;
-    const readTime = Math.ceil(wordCount / 200); // Average reading speed: 200 words per minute
-
     return (
         <div className={`markdown-renderer ${className}`.trim()}>
             <div className="markdown-content">
@@ -190,16 +186,6 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                 >
                     {content}
                 </ReactMarkdown>
-            </div>
-
-            {/* Content statistics */}
-            <div className="content-stats mt-6 pt-4 border-t border-gray-200 text-sm text-gray-600">
-                <span className="mr-4">
-                    <strong>Words:</strong> {wordCount}
-                </span>
-                <span>
-                    <strong>Read time:</strong> {readTime} min
-                </span>
             </div>
         </div>
     );

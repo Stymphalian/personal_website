@@ -25,23 +25,23 @@
 
 ## Tasks
 
-- [ ] 1.0 Fix Featured Projects Carousel Button Overlap and Add Project Detail Navigation
-  - [ ] 1.1 Fix carousel left/right navigation buttons overlapping with "Live Demo" button
-  - [ ] 1.2 Add "View Details" button to open specific project detail pages
-  - [ ] 1.3 Ensure proper z-index layering for all carousel controls
-  - [ ] 1.4 Update carousel layout to accommodate additional button without overlap
+- [x] 1.0 Fix Featured Projects Carousel Button Overlap and Add Project Detail Navigation
+  - [x] 1.1 Fix carousel left/right navigation buttons overlapping with "Live Demo" button
+  - [x] 1.2 Add "View Details" button to open specific project detail pages
+  - [x] 1.3 Ensure proper z-index layering for all carousel controls
+  - [x] 1.4 Update carousel layout to accommodate additional button without overlap
 
-- [ ] 2.0 Implement Global Scroll-to-Top for Page Routing
-  - [ ] 2.1 Add scroll-to-top functionality for all page navigation
-  - [ ] 2.2 Implement scroll restoration for browser back/forward navigation
-  - [ ] 2.3 Ensure scroll behavior works consistently across all routes
-  - [ ] 2.4 Test scroll behavior with different navigation methods (View Details, View All Projects, blog navigation)
+- [x] 2.0 Implement Global Scroll-to-Top for Page Routing
+  - [x] 2.1 Add scroll-to-top functionality for all page navigation
+  - [x] 2.2 Implement scroll restoration for browser back/forward navigation
+  - [x] 2.3 Ensure scroll behavior works consistently across all routes
+  - [x] 2.4 Test scroll behavior with different navigation methods (View Details, View All Projects, blog navigation)
 
-- [ ] 3.0 Reposition Metadata Blocks on Detail Pages
-  - [ ] 3.1 Move Words and Read Time block to top of BlogPostDetail page beside tags
-  - [ ] 3.2 Move Words and Read Time block to top of ProjectDetail page beside tags
-  - [ ] 3.3 Ensure consistent metadata layout across both detail page types
-  - [ ] 3.4 Update responsive design for metadata positioning
+- [x] 3.0 Reposition Metadata Blocks on Detail Pages
+  - [x] 3.1 Move Words and Read Time block to top of BlogPostDetail page beside tags
+  - [x] 3.2 Move Words and Read Time block to top of ProjectDetail page beside tags
+  - [x] 3.3 Ensure consistent metadata layout across both detail page types
+  - [x] 3.4 Update responsive design for metadata positioning
 
 - [ ] 4.0 Compact Contact Page Layout
   - [ ] 4.1 Reduce excessive white space on Contact page
