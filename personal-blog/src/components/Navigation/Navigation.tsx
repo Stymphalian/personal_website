@@ -84,12 +84,12 @@ const Navigation: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <nav className="fixed top-0 right-0 z-50 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+    <nav className="fixed top-0 right-0 z-50 w-full bg-vs-editor-surface/95 backdrop-blur-sm border-b border-vs-editor-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo/Brand - Left side */}
           <div className="flex-shrink-0">
-            <Link to="/" className="text-xl fgitont-bold text-gray-900 hover:text-blue-600 transition-colors">
+            <Link to="/" className="text-xl font-bold text-vs-editor-text hover:text-crystal-blue-400 transition-colors">
               Jordan Yu
             </Link>
           </div>
@@ -102,8 +102,8 @@ const Navigation: React.FC = () => {
                   key={item.path}
                   to={item.path}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive(item.path)
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                    ? 'text-crystal-blue-400 bg-vs-editor-selection'
+                    : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover'
                     }`}
                 >
                   {item.label}
@@ -117,7 +117,7 @@ const Navigation: React.FC = () => {
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors active:bg-gray-200"
+              className="inline-flex items-center justify-center p-2 rounded-md text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover focus:outline-none focus:ring-2 focus:ring-inset focus:ring-crystal-blue-500 transition-colors active:bg-vs-editor-surface2"
               aria-expanded={isMenuOpen}
               aria-label={isMenuOpen ? 'Close main menu' : 'Open main menu'}
             >
@@ -140,14 +140,14 @@ const Navigation: React.FC = () => {
           onClick={closeMenu}
         >
           <div
-            className="absolute right-0 top-16 w-64 h-full bg-white shadow-2xl transform transition-all duration-500 ease-out"
+            className="absolute right-0 top-16 w-64 h-full bg-vs-editor-surface shadow-2xl transform transition-all duration-500 ease-out"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-4 pt-6 pb-8 space-y-2">
-              <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4 px-3 transition-colors duration-300">
+              <div className="text-xs font-semibold text-vs-editor-text2 uppercase tracking-wider mb-4 px-3 transition-colors duration-300">
                 Navigation
               </div>
               {navigationItems.map((item, index) => (
@@ -155,8 +155,8 @@ const Navigation: React.FC = () => {
                   key={`mobile-${item.path}`}
                   to={item.path}
                   className={`block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:-translate-x-1 ${isActive(item.path)
-                    ? 'text-blue-600 bg-blue-50 border-l-4 border-blue-600 shadow-md'
-                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50/50 hover:shadow-md active:bg-gray-100 active:scale-95'
+                    ? 'text-crystal-blue-400 bg-vs-editor-selection border-l-4 border-crystal-blue-400 shadow-md'
+                    : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover hover:shadow-md active:bg-vs-editor-surface2 active:scale-95'
                     }`}
                   onClick={closeMenu}
                   style={{
@@ -169,8 +169,8 @@ const Navigation: React.FC = () => {
             </div>
 
             {/* Mobile menu footer with enhanced styling */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50/30">
-              <div className="text-xs text-gray-500 text-center transition-colors duration-300 hover:text-blue-600">
+            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-vs-editor-border bg-gradient-to-r from-vs-editor-surface to-vs-editor-surface2">
+              <div className="text-xs text-vs-editor-text2 text-center transition-colors duration-300 hover:text-crystal-blue-400">
                 Swipe left to close
               </div>
             </div>

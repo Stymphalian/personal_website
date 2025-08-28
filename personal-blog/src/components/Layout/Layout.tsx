@@ -38,17 +38,17 @@ const Layout: React.FC<LayoutProps> = ({
   };
 
   return (
-    <div className={`min-h-screen bg-gray-50 pt-16 ${className}`}>
+    <div className={`min-h-screen bg-vs-editor-bg pt-16 ${className}`}>
       {/* Page Header Section */}
       {showPageTitle && (
-        <div className="bg-white border-b border-gray-200 shadow-sm">
+        <div className="bg-vs-editor-surface border-b border-vs-editor-border shadow-sm">
           <div className={`mx-auto ${maxWidthClasses[maxWidth]} ${paddingClasses[padding]}`}>
             <div className="text-center">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-vs-editor-text mb-2">
                 {pageTitle}
               </h1>
               {pageDescription && (
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                <p className="text-lg text-vs-editor-text2 max-w-2xl mx-auto">
                   {pageDescription}
                 </p>
               )}
@@ -59,7 +59,7 @@ const Layout: React.FC<LayoutProps> = ({
 
       {/* Main Content Section */}
       <main className={`mx-auto ${maxWidthClasses[maxWidth]} ${paddingClasses[padding]}`}>
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-vs-editor-surface rounded-lg shadow-sm border border-vs-editor-border overflow-hidden">
           {/* Content Container */}
           <div className="p-6 md:p-8">
             {children}
@@ -68,10 +68,10 @@ const Layout: React.FC<LayoutProps> = ({
       </main>
 
       {/* Page Footer Section */}
-      <footer className="bg-white border-t border-gray-200 mt-16">
+              <footer className="bg-vs-editor-surface border-t border-vs-editor-border mt-16">
         <div className={`mx-auto ${maxWidthClasses[maxWidth]} ${paddingClasses[padding]}`}>
           <div className="text-center py-8">
-            <p className="text-gray-500 text-sm">
+            <p className="text-vs-editor-text2 text-sm">
               2025. Built with React & Tailwind & Cursor
             </p>
           </div>

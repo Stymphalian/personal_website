@@ -7,7 +7,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Custom color scheme: black-white-crystal blue
+        // VSCode-style dark theme colors
+        'vs-dark': {
+          50: '#f8f9fa',
+          100: '#e9ecef',
+          200: '#dee2e6',
+          300: '#ced4da',
+          400: '#adb5bd',
+          500: '#6c757d',
+          600: '#495057',
+          700: '#343a40',
+          800: '#212529',
+          900: '#1a1d20',
+        },
+        // VSCode editor colors
+        'vs-editor': {
+          bg: '#1e1e1e',           // Main editor background
+          surface: '#252526',       // Surface elements
+          surface2: '#2d2d30',     // Secondary surface
+          border: '#3c3c3c',       // Borders
+          text: '#cccccc',         // Primary text
+          text2: '#9cdcfe',        // Secondary text (blue tint)
+          text3: '#ce9178',        // Tertiary text (orange tint)
+          accent: '#007acc',       // Blue accent (VSCode blue)
+          accent2: '#0e639c',      // Darker blue accent
+          selection: '#264f78',    // Selection background
+          hover: '#2a2d2e',        // Hover states
+        },
+        // Keep crystal blue for accents
         'crystal-blue': {
           50: '#f0f9ff',
           100: '#e0f2fe',

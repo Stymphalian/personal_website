@@ -15,7 +15,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className='min-h-screen bg-gradient-secondary pt-16'>
+    <div className='min-h-screen bg-vs-editor-bg pt-16'>
       <div className='container mx-auto px-4 py-4'>
         <div className='text-center mb-4 md:mb-6'>
           <h1 className='heading-1 mb-2 md:mb-3 text-3xl md:text-4xl lg:text-5xl'>Get In Touch</h1>
@@ -29,12 +29,12 @@ const Contact: React.FC = () => {
           {/* Contact Information Cards */}
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4'>
             {/* Personal Contact */}
-            <div className='bg-white/10 backdrop-blur-sm rounded-lg p-3 md:p-4 border border-white/20 hover:border-white/30 transition-all duration-300 hover:shadow-lg hover:shadow-white/10'>
+            <div className='bg-vs-editor-surface/80 backdrop-blur-sm rounded-lg p-3 md:p-4 border border-vs-editor-border hover:border-crystal-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-crystal-blue-500/20'>
               <h2 className='heading-2 mb-2 md:mb-3 text-center text-xl md:text-2xl'>Personal Contact</h2>
               <div className='space-y-1.5 md:space-y-2'>
                 <button
                   onClick={handleEmailClick}
-                  className='flex items-center space-x-3 w-full p-1.5 md:p-2.5 rounded-lg hover:bg-white/10 hover:scale-[1.02] transition-all duration-200 group cursor-pointer'
+                  className='flex items-center space-x-3 w-full p-1.5 md:p-2.5 rounded-lg hover:bg-vs-editor-hover hover:scale-[1.02] transition-all duration-200 group cursor-pointer'
                   title='Click to send email'
                 >
                   <Mail className='w-4 h-4 md:w-5 md:h-5 text-blue-400 flex-shrink-0 group-hover:scale-110 transition-transform duration-200' />
@@ -45,7 +45,7 @@ const Contact: React.FC = () => {
                     <Mail className='w-3 h-3 text-blue-400' />
                   </div>
                 </button>
-                <div className='flex items-center space-x-3 p-1.5 md:p-2.5 rounded-lg hover:bg-white/5 transition-colors duration-200'>
+                <div className='flex items-center space-x-3 p-1.5 md:p-2.5 rounded-lg hover:bg-vs-editor-hover transition-colors duration-200'>
                   <MapPin className='w-4 h-4 md:w-5 md:h-5 text-red-400 flex-shrink-0' />
                   <span className='body-text text-sm md:text-base'>Canada</span>
                 </div>
@@ -53,12 +53,12 @@ const Contact: React.FC = () => {
             </div>
 
             {/* Professional Links */}
-            <div className='bg-white/10 backdrop-blur-sm rounded-lg p-3 md:p-4 border border-white/20 hover:border-white/30 transition-all duration-300 hover:shadow-lg hover:shadow-white/10'>
+            <div className='bg-vs-editor-surface/80 backdrop-blur-sm rounded-lg p-3 md:p-4 border border-vs-editor-border hover:border-crystal-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-crystal-blue-500/20'>
               <h2 className='heading-2 mb-2 md:mb-3 text-center text-xl md:text-2xl'>Professional Links</h2>
               <div className='space-y-1.5 md:space-y-2'>
                 <button
                   onClick={handleGithubClick}
-                  className='flex items-center space-x-3 w-full p-1.5 md:p-2.5 rounded-lg hover:bg-white/10 hover:scale-[1.02] transition-all duration-200 group cursor-pointer'
+                  className='flex items-center space-x-3 w-full p-1.5 md:p-2.5 rounded-lg hover:bg-vs-editor-hover hover:scale-[1.02] transition-all duration-200 group cursor-pointer'
                   title='Click to visit GitHub profile'
                 >
                   <Github className='w-4 h-4 md:w-5 md:h-5 text-gray-300 flex-shrink-0 group-hover:scale-110 transition-transform duration-200' />
@@ -71,7 +71,7 @@ const Contact: React.FC = () => {
                 </button>
                 <button
                   onClick={handleLinkedinClick}
-                  className='flex items-center space-x-3 w-full p-1.5 md:p-2.5 rounded-lg hover:bg-white/10 hover:scale-[1.02] transition-all duration-200 group cursor-pointer'
+                  className='flex items-center space-x-3 w-full p-1.5 md:p-2.5 rounded-lg hover:bg-vs-editor-hover hover:scale-[1.02] transition-all duration-200 group cursor-pointer'
                   title='Click to visit LinkedIn profile'
                 >
                   <Linkedin className='w-4 h-4 md:w-5 md:h-5 text-blue-500 flex-shrink-0 group-hover:scale-110 transition-transform duration-200' />
