@@ -1,15 +1,45 @@
 import { ArrowLeft, BookOpen, Calendar, Clock, Tag, User } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-// TODO: Re-enable when Task 5.0 is implemented to use dynamic content loading
-// import CodeBlock from '../../components/CodeBlock/CodeBlock';
-import { getPostBySlug } from '../../data/blog-posts';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
+import { getPostBySlug, loadBlogPostContent } from '../../data/blog-posts';
+import type { BlogPostContent, ContentLoadingState } from '../../types/content';
 
 const BlogPostDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
 
+  const [content, setContent] = useState<BlogPostContent | null>(null);
+  const [loadingState, setLoadingState] = useState<ContentLoadingState>('loading');
+  const [error, setError] = useState<string | null>(null);
+
   const post = getPostBySlug(slug || '');
+
+  const loadContent = async (slug: string | undefined) => {
+    if (!slug) {
+      setLoadingState('error');
+      setError('No slug provided');
+      return;
+    }
+
+    try {
+      setLoadingState('loading');
+      const blogContent = await loadBlogPostContent(slug);
+
+      if (blogContent) {
+        setContent(blogContent);
+        setLoadingState('loaded');
+      } else {
+        setLoadingState('error');
+        setError('Content not found');
+      }
+    } catch (err) {
+      setLoadingState('error');
+      setError(err instanceof Error ? err.message : 'Failed to load content');
+    }
+  };
+
+  useEffect(() => { loadContent(slug); }, [slug]);
 
   if (!post) {
     return (
@@ -73,92 +103,7 @@ const BlogPostDetail: React.FC = () => {
     }
   };
 
-  // TODO: Replace with dynamic content loading in Task 5.0
-  // Simple markdown parser for basic formatting
-  // const parseMarkdown = (content: string) => {
-  //   // Split content into lines for processing
-  //   const lines = content.split('\n');
-  //   const elements: React.ReactNode[] = [];
 
-  //   let currentCodeBlock = '';
-  //   let inCodeBlock = false;
-  //   let codeLanguage = '';
-
-  //   lines.forEach((line, index) => {
-  //     // Handle code blocks
-  //     if (line.startsWith('```')) {
-  //       if (!inCodeBlock) {
-  //         // Start of code block
-  //         inCodeBlock = true;
-  //         codeLanguage = line.slice(3).trim() || 'typescript';
-  //         currentCodeBlock = '';
-  //         } else {
-  //         // End of code block
-  //         inCodeBlock = false;
-  //         if (currentCodeBlock.trim()) {
-  //           elements.push(
-  //             <div key={`code-${index}`} className="my-6">
-  //               <CodeBlock
-  //                 code={currentCodeBlock.trim()}
-  //                 language={code-blue-500
-  //                 showLineNumbers={true}
-  //                 showCopyButton={true}
-  //               />
-  //             </div>
-  //           );
-  //         }
-  //         currentCodeBlock = '';
-  //       }
-  //       return;
-  //     }
-
-  //     if (inCodeBlock) {
-  //       currentCodeBlock += line + '\n';
-  //       return;
-  //     }
-
-  //     // Handle headers
-  //     if (line.startsWith('#')) {
-  //         const level = line.match(/^#+/)?.[0].length || 1;
-  //         const text = line.replace(/^#+\s*/, '');
-
-  //         if (level === 1) {
-  //           elements.push(
-  //             <h1 key={index} className="text-3xl font-bold text-gray-900 mt-8 mb-4">
-  //               {text}
-  //             </h1>
-  //           );
-  //         } else if (level === 2) {
-  //           elements.push(
-  //             <h2 key={index} className="text-2xl font-bold text-gray-900 mt-6 mb-3">
-  //             {text}
-  //           </h2>
-  //         );
-  //       } else if (level === 3) {
-  //         elements.push(
-  //           <h3 key={index} className="text-xl font-bold text-gray-900 mt-4 mb-2">
-  //             {text}
-  //           </h3>
-  //         );
-  //       }
-  //       return;
-  //     }
-
-  //     // Handle paragraphs
-  //     if (line.trim()) {
-  //       elements.push(
-  //         <p key={index} className="text-gray-700 leading-relaxed mb-4">
-  //         {line}
-  //       </p>
-  //     );
-  //   } else {
-  //     // Empty line for spacing
-  //     elements.push(<div key={index} className="h-4" />);
-  //   }
-  // });
-
-  //   return elements;
-  // };
 
   return (
     <div className="min-h-screen bg-white pt-16">
@@ -232,9 +177,22 @@ const BlogPostDetail: React.FC = () => {
           </p>
 
           {/* Content */}
-          {/* TODO: Replace with dynamic content loading in Task 5.0 */}
           <div className="prose prose-lg max-w-none">
-            <p className="text-gray-600">Content loading will be implemented in Task 5.0</p>
+            <MarkdownRenderer
+              content={content?.content || ''}
+              loadingState={loadingState}
+              loadingStateData={{ error }}
+              className="prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900"
+              options={{
+                highlightCode: true,
+                breaks: true
+              }}
+              emptyContentMessage="Content is being loaded..."
+              onError={(err) => {
+                setError(err.message);
+                setLoadingState('error');
+              }}
+            />
           </div>
         </article>
 

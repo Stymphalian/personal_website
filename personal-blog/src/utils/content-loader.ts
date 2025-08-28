@@ -19,6 +19,8 @@ import type {
 import { REQUIRED_BLOG_POST_FIELDS, REQUIRED_PROJECT_FIELDS } from '../types/content';
 import { getContentStats, parseMarkdown, validateMarkdownContent } from './markdown';
 
+
+
 // Default options for content loading
 const DEFAULT_OPTIONS: Required<ContentLoaderOptions> = {
   cacheEnabled: true,
@@ -30,18 +32,18 @@ const DEFAULT_OPTIONS: Required<ContentLoaderOptions> = {
 // Content cache for performance optimization
 let contentCache: ContentCache = {};
 
-// Frontmatter parsing utilities
+// Frontmatter parsing utilities - dead simple approach
 const parseFrontmatter = (content: string): { frontmatter: string; markdown: string } => {
-  const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
-  const match = content.match(frontmatterRegex);
+  // Split by --- and take the middle part as frontmatter
+  const parts = content.split('---');
   
-  if (!match) {
+  if (parts.length < 3) {
     throw new Error('Invalid frontmatter format: missing --- delimiters');
   }
   
   return {
-    frontmatter: match[1],
-    markdown: match[2]
+    frontmatter: parts[1].trim(),
+    markdown: parts.slice(2).join('---').trim()
   };
 };
 
@@ -219,6 +221,7 @@ export const loadBlogPostContent = async (
     }
     
     const content = await response.text();
+  
     const { frontmatter: yamlFrontmatter, markdown } = parseFrontmatter(content);
     const frontmatterData = parseYamlFrontmatter(yamlFrontmatter);
     

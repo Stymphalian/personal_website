@@ -1,10 +1,12 @@
 ---
 id: 'task-management-app'
+slug: 'task-management-app'
 title: 'Task Management Application'
 description: 'A collaborative task management application with real-time updates, team collaboration features, and intuitive project organization. Includes drag-and-drop functionality, progress tracking, and comprehensive reporting tools.'
 shortDescription: 'Collaborative task management app'
 image: '/placeholder-project-3.jpg'
 techStack: ['React', 'Node.js', 'Socket.io', 'PostgreSQL', 'Redis']
+tags: ['things']
 featured: true
 date: '2023-10-15'
 liveDemo: 'https://taskmanager-demo.com'

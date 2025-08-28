@@ -1,10 +1,12 @@
 ---
 id: 'ecommerce-platform'
+slug: 'ecommerce-platform'
 title: 'E-Commerce Platform'
 description: 'A full-stack e-commerce solution with user authentication, product management, shopping cart functionality, and secure payment processing. Built with modern web technologies and following best practices for scalability and security.'
 shortDescription: 'Full-stack e-commerce solution'
 image: '/placeholder-project-2.jpg'
 techStack: ['Node.js', 'Express', 'MongoDB', 'React', 'Stripe API']
+tags: ['things']
 featured: true
 date: '2023-12-01'
 liveDemo: 'https://ecommerce-demo.com'

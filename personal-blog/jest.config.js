@@ -7,6 +7,9 @@ export default {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/src/__mocks__/fileMock.js',
     '^/(.*)$': '<rootDir>/public/$1',
+    '^react-markdown$': '<rootDir>/src/__mocks__/react-markdown.js',
+    '^rehype-highlight$': '<rootDir>/src/__mocks__/rehype-highlight.js',
+    '^remark-gfm$': '<rootDir>/src/__mocks__/remark-gfm.js',
   },
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.{ts,tsx}',

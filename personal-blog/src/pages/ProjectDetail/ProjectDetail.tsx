@@ -1,17 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumb';
 import { Layout } from '../../components/Layout';
+import MarkdownRenderer from '../../components/MarkdownRenderer/MarkdownRenderer';
 import MediaGallery from '../../components/MediaGallery/MediaGallery';
-import { getProjectById } from '../../data/projects';
+import { getProjectById, loadProjectContent } from '../../data/projects';
+import type { ContentLoadingState, ProjectContent } from '../../types/content';
 
 const ProjectDetail: React.FC = () => {
     const { projectId } = useParams<{ projectId: string }>();
     const navigate = useNavigate();
 
+    const [content, setContent] = useState<ProjectContent | null>(null);
+    const [loadingState, setLoadingState] = useState<ContentLoadingState>('loading');
+    const [error, setError] = useState<string | null>(null);
+
     // Scroll to top when component mounts or projectId changes
     useEffect(() => {
         window.scrollTo(0, 0);
+    }, [projectId]);
+
+    // Load project content when projectId changes
+    useEffect(() => {
+        const loadContent = async () => {
+            if (!projectId) {
+                setLoadingState('error');
+                setError('No project ID provided');
+                return;
+            }
+
+            try {
+                setLoadingState('loading');
+                const projectContent = await loadProjectContent(projectId);
+
+                if (projectContent) {
+                    setContent(projectContent);
+                    setLoadingState('loaded');
+                } else {
+                    setLoadingState('error');
+                    setError('Content not found');
+                }
+            } catch (err) {
+                setLoadingState('error');
+                setError(err instanceof Error ? err.message : 'Failed to load content');
+            }
+        };
+
+        loadContent();
     }, [projectId]);
 
     const project = projectId ? getProjectById(projectId) : undefined;
@@ -119,17 +154,23 @@ const ProjectDetail: React.FC = () => {
                     <MediaGallery images={project.images} videos={project.videos} />
 
                     {/* Project Content */}
-                    {/* TODO: Replace with dynamic content loading in Task 5.0 */}
-                    {/* {project.content && (
-                        <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mt-6 sm:mt-8">
-                            <div
-                                className="markdown-content"
-                                dangerouslySetInnerHTML={{
-                                    __html: project.content.replace(/\n/g, '<br />')
-                                }}
-                            />
-                        </div>
-                    )} */}
+                    <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mt-6 sm:mt-8">
+                        <MarkdownRenderer
+                            content={content?.content || ''}
+                            loadingState={loadingState}
+                            loadingStateData={{ error }}
+                            className="prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900"
+                            options={{
+                                highlightCode: true,
+                                breaks: true
+                            }}
+                            emptyContentMessage="Project content is being loaded..."
+                            onError={(err) => {
+                                setError(err.message);
+                                setLoadingState('error');
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         </Layout>

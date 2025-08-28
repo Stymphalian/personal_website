@@ -1,10 +1,12 @@
 ---
 id: 'personal-blog-portfolio'
+slug: 'personal-blog-portfolio'
 title: 'Personal Blog & Portfolio'
 description: 'A modern, responsive personal blog and portfolio website built with React, TypeScript, and Tailwind CSS. Features include a dynamic project showcase, blog section with markdown support, and responsive design optimized for all devices.'
 shortDescription: 'Modern personal blog and portfolio website'
 image: '/headshot.jpg'
 techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Jest']
+tags: ['things']
 featured: true
 date: '2024-01-15'
 liveDemo: 'https://yourdomain.com'

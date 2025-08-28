@@ -55,7 +55,7 @@ export const blogPosts: BlogPost[] = [
 // Content loading functions that integrate with existing data layer
 export const loadBlogPostContent = async (slug: string): Promise<BlogPostContent | null> => {
   try {
-    const content = await loadContent(`blog-posts/${slug}.md`, 'blog-post');
+    const content = await loadContent(`/content/blog-posts/${slug}.md`, 'blog-post');
     return content as BlogPostContent;
   } catch (error) {
     console.error(`Failed to load blog post content for slug: ${slug}`, error);
@@ -71,7 +71,7 @@ export const loadBlogPostContentById = async (id: string): Promise<BlogPostConte
 
 export const preloadBlogPostContent = async (slug: string): Promise<void> => {
   try {
-    await loadContent(`blog-posts/${slug}.md`, 'blog-post', { cacheEnabled: true });
+    await loadContent(`/content/blog-posts/${slug}.md`, 'blog-post', { cacheEnabled: true });
   } catch (error) {
     console.warn(`Failed to preload blog post content for slug: ${slug}`, error);
   }
