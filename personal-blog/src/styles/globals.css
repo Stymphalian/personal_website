@@ -157,4 +157,29 @@
   .border-vs-dark {
     @apply border-vs-editor-border;
   }
+
+  /* Mermaid diagram styles */
+  .mermaid-container {
+    @apply my-6 p-4 bg-vs-editor-surface rounded-lg border border-vs-editor-border;
+  }
+
+  .mermaid-container svg {
+    @apply max-w-full h-auto;
+  }
+
+  .mermaid-error {
+    @apply my-6;
+  }
+
+  .mermaid-error details {
+    @apply mt-2;
+  }
+
+  .mermaid-error summary {
+    @apply cursor-pointer text-sm;
+  }
+
+  .mermaid-error pre {
+    @apply mt-2 text-xs bg-red-50 p-2 rounded overflow-x-auto;
+  }
 }

@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import remarkGfm from 'remark-gfm';
 import type { ContentLoadingState } from '../../types/content';
+import MermaidDiagram from '../MermaidDiagram';
 
 export interface MarkdownRendererProps {
     content: string;
@@ -109,14 +110,26 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                                 {children}
                             </p>
                         ),
-                        code: ({ className, children, ...props }) => (
-                            <code
-                                className={className}
-                                {...props}
-                            >
-                                {children}
-                            </code>
-                        ),
+                        code: ({ className, children, ...props }) => {
+                            // Check if this is a Mermaid code block
+                            if (className && className.includes('language-mermaid')) {
+                                return (
+                                    <MermaidDiagram
+                                        chart={String(children)}
+                                        className="my-6"
+                                    />
+                                );
+                            }
+
+                            return (
+                                <code
+                                    className={className}
+                                    {...props}
+                                >
+                                    {children}
+                                </code>
+                            );
+                        },
                         pre: ({ children, ...props }) => (
                             <pre className="bg-vs-editor-bg p-4 rounded-lg overflow-x-auto mb-4 border border-vs-editor-border" {...props}>
                                 {children}

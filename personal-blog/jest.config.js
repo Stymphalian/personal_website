@@ -10,6 +10,7 @@ export default {
     '^react-markdown$': '<rootDir>/src/__mocks__/react-markdown.js',
     '^rehype-highlight$': '<rootDir>/src/__mocks__/rehype-highlight.js',
     '^remark-gfm$': '<rootDir>/src/__mocks__/remark-gfm.js',
+    '^mermaid$': '<rootDir>/src/__mocks__/mermaid.js',
   },
   testMatch: [
     '<rootDir>/src/**/__tests__/**/*.{ts,tsx}',
