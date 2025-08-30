@@ -21,41 +21,34 @@ export interface Project extends ProjectFrontmatter {
 
 export const projects: Project[] = [
   {
-    id: 'personal-blog-portfolio',
-    title: 'Personal Blog & Portfolio',
-    slug: 'personal-blog-portfolio',
-    description:
-      'A modern, responsive personal blog and portfolio website built with React, TypeScript, and Tailwind CSS. Features include a dynamic project showcase, blog section with markdown support, and responsive design optimized for all devices.',
-    shortDescription: 'Modern personal blog and portfolio website',
-    image: '/headshot.jpg',
-    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Jest'],
+    id: 'ak-chibi-bot',
+    slug: 'ak-chibi-bot',
+    title: 'Arknights Chibi Twitch Bot',
+    description: 'A twitch bot and browser source overlay to show Arknight chibis walking on your stream. Viewers can issue !chibi chat commands to choose their own operator, change skins and play different animations.',
+    shortDescription: 'Twitch Bot and Browser Overlay for Arknights Chibis',
+    image: '/images/ak-chibi-bot/banner.png',
+    techStack: ['React', 'Spine', 'Twitch API', 'Golang'],
+    tags: ['React', 'Spine', 'Twitch API', 'Golang'],
     featured: true,
-    date: '2024-01-15',
-    liveDemo: 'https://yourdomain.com',
-    githubRepo: 'https://github.com/yourusername/personal-blog',
-    tags: ['React', 'TypeScript', 'Portfolio', 'Blog', 'Web Development'],
+    date: '2024-06-10',
+    liveDemo: 'https://akchibibot.stymphalian.top',
+    githubRepo: 'https://github.com/stymphalian/ak_chibi_bot',
     images: [
       {
         type: 'image',
-        src: '/headshot.jpg',
-        alt: 'Homepage screenshot',
-        caption: 'Responsive homepage with bio and project showcase'
-      },
-      {
-        type: 'image',
-        src: '/placeholder-project-2.jpg',
-        alt: 'Projects page',
-        caption: 'Grid layout of featured projects'
+        src: '/images/ak-chibi-bot/banner.png',
+        alt: 'Arknights Chibi Bot',
+        caption: 'Arknights Chibi Twith Bot and Overlay'
       }
     ],
     videos: [
-      {
-        type: 'video',
-        src: 'https://www.youtube.com/embed/demo-video-id',
-        alt: 'Project walkthrough',
-        caption: 'Video demonstration of key features',
-        thumbnail: '/placeholder-project-3.jpg'
-      }
+      // {
+      //   type: 'video',
+      //   src: 'https://www.youtube.com/embed/demo-video-id',
+      //   alt: 'Project walkthrough',
+      //   caption: 'Video demonstration of key features',
+      //   thumbnail: '/placeholder-project-3.jpg'
+      // }
     ]
   },
   {
