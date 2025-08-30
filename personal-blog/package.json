@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite --mode development",
     "dev:prod": "vite --mode production",
-    "build": "tsc -b tsconfig.build.json && vite build --mode production",
-    "build:dev": "tsc -b tsconfig.dev.json && vite build --mode development",
-    "build:analyze": "tsc -b && vite build --mode production --analyze",
+    "build": "tsc && vite build --mode production",
+    "build:dev": "tsc && vite build --mode development",
+    "build:analyze": "tsc && vite build --mode production --analyze",
     "preview": "vite preview --mode production",
     "preview:dev": "vite preview --mode development",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",

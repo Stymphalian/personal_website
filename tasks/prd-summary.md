@@ -25,7 +25,7 @@ A modern, responsive personal blog and portfolio website built with React, TypeS
 - **VSCode-Inspired Theme**: Dark color scheme with crystal blue accents
 - **SEO Optimization**: Meta tags, Open Graph, and structured data
 - **Performance Optimized**: Code splitting, lazy loading, and asset optimization
-- **Docker Deployment**: Containerized for production hosting
+- **Modern Build System**: Vite-based build system with TypeScript compilation
 
 ## Relevant Files
 
@@ -66,11 +66,9 @@ A modern, responsive personal blog and portfolio website built with React, TypeS
 - `personal-blog/jest.config.js` - Jest testing framework configuration
 
 ### Deployment and Infrastructure
-- `personal-blog/Dockerfile` - Multi-stage Docker build for production deployment
-- `personal-blog/docker-compose.yml` - Docker Compose configuration for local development
-- `personal-blog/nginx.conf` - Nginx server configuration for production
-- `personal-blog/env.development` - Development environment variables
-- `personal-blog/env.production` - Production environment variables
+- `personal-blog/vite.config.ts` - Vite build configuration with content copying plugin
+- `personal-blog/tsconfig.json` - TypeScript configuration for the project
+- `personal-blog/package.json` - Project dependencies and build scripts
 
 ## Technologies
 
@@ -105,8 +103,8 @@ A modern, responsive personal blog and portfolio website built with React, TypeS
 - **React ESLint Plugin** - React-specific linting rules
 
 ### Deployment
-- **Docker** - Containerization for consistent deployment
-- **Nginx** - Production web server with optimized configuration
+- **Vite** - Fast build tool and development server
+- **TypeScript** - Type-safe JavaScript development
 - **Node.js 20+** - Runtime environment for build and development
 
 ## Common Commands
@@ -129,10 +127,10 @@ A modern, responsive personal blog and portfolio website built with React, TypeS
 - `npm run format` - Format code with Prettier
 - `npm run type-check` - TypeScript type checking
 
-### Docker Operations
-- `docker-compose up` - Start development environment
-- `docker build -t personal-blog .` - Build production Docker image
-- `docker run -p 80:80 personal-blog` - Run production container
+### Build Operations
+- `npm run build` - Build production bundle
+- `npm run build:dev` - Build development bundle
+- `npm run preview` - Preview production build locally
 
 ## Project Structure
 
@@ -162,7 +160,7 @@ personal-blog/
 5. **Mobile-First Responsiveness**: Tailwind CSS utilities for consistent cross-device experience
 6. **Type Safety**: Comprehensive TypeScript interfaces for content management and components
 7. **Testing Coverage**: Jest and Testing Library for comprehensive component and utility testing
-8. **Docker Deployment**: Multi-stage builds for optimized production images
+8. **Modern Build System**: Vite-based builds with TypeScript compilation and optimization
 
 ## Development Workflow
 
@@ -170,6 +168,6 @@ personal-blog/
 2. **Component Development**: Create React components with TypeScript interfaces and Tailwind styling
 3. **Testing**: Write unit tests for components and utilities using Jest and Testing Library
 4. **Build and Preview**: Use Vite for fast development builds and production optimization
-5. **Deployment**: Build Docker image and deploy to production environment
+5. **Deployment**: Build optimized bundle and deploy to production environment
 
 This project serves as a professional portfolio and technical blog, demonstrating modern web development practices while maintaining excellent performance and user experience.

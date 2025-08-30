@@ -196,7 +196,7 @@ Comments: {
 
 ## Deployment
 
-- Docker containerization
+- Modern build system with Vite
 - Kubernetes orchestration
 - CI/CD pipeline
 - Environment management

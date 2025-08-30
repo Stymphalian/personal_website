@@ -50,7 +50,7 @@ docker-compose exec dev sh -c "cd personal-blog && npm install package-name"
 docker-compose run --rm shell
 
 # Or use the shell service
-docker-compose --profile shell up shell
+docker-compose --profile shell up -d shell
 ```
 
 ### Stop Services

@@ -81,7 +81,7 @@ src/
 ## Deployment
 
 The project is configured for easy deployment with:
-- Docker containerization
+- Modern build system with Vite
 - Nginx configuration
 - Environment variable management
 - Build optimization

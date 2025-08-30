@@ -145,7 +145,7 @@ Orders: {
 
 ## Deployment
 
-- Docker containerization
+- Modern build system with Vite
 - CI/CD pipeline
 - Environment configuration
 - Monitoring and logging
