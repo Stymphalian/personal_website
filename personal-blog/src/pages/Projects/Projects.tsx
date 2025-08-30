@@ -13,8 +13,8 @@ const Projects: React.FC = () => {
         <div className='text-center mb-8 sm:mb-12'>
           <h1 className='heading-1 mb-4 sm:mb-6 text-2xl sm:text-3xl lg:text-4xl'>My Projects</h1>
           <p className='body-text max-w-3xl mx-auto text-sm sm:text-base leading-relaxed px-2'>
-            Here are some of the projects I've worked on. Each represents a unique challenge
-            and learning experience in software development.
+            A collection of random projects that I've worked on. I'm usually trying to learn something new
+            when I build something so the technologies and scope is a mix of what I want to learn.
           </p>
         </div>
 

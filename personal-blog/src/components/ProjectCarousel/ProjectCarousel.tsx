@@ -73,11 +73,16 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
     >
       {/* Main Project Display */}
       <div className="relative bg-vs-editor-surface rounded-xl overflow-hidden shadow-lg border border-vs-editor-border">
+        {/* Project Info Above Image */}
+        <div className="px-6 py-4 bg-vs-editor-surface border-b border-vs-editor-border">
+          <h2 className="text-2xl md:text-3xl font-bold text-vs-editor-text mb-2">
+            {currentProject.title}
+          </h2>
+          <p className="text-lg text-vs-editor-text2 px-4 py-2 bg-vs-editor-surface2/80 backdrop-blur-sm rounded-lg border border-vs-editor-border">{currentProject.shortDescription}</p>
+        </div>
+
         {/* Project Image */}
         <div className="relative h-64 md:h-80 bg-gradient-to-br from-vs-editor-surface to-vs-editor-surface2">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-6xl text-vs-editor-text2">🖼️</div>
-          </div>
           {currentProject.image && (
             <img
               src={currentProject.image}
@@ -91,7 +96,6 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
 
           {/* Project Info Overlay */}
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-            <p className="text-lg text-vs-editor-text2 mb-4">{currentProject.shortDescription}</p>
 
             {/* Tech Stack */}
             <div className="flex flex-wrap gap-2 mb-4">
