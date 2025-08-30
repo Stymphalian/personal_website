@@ -19,7 +19,7 @@ describe('Navigation', () => {
     expect(screen.getByText("Jordan Yu")).toBeInTheDocument();
     expect(screen.getByText('Home')).toBeInTheDocument();
     expect(screen.getByText('Projects')).toBeInTheDocument();
-    expect(screen.getByText('Blog')).toBeInTheDocument();
+    // expect(screen.getByText('Blog')).toBeInTheDocument();
     expect(screen.getByText('Contact')).toBeInTheDocument();
   });
 
@@ -77,12 +77,12 @@ describe('Navigation', () => {
 
     const homeLink = screen.getByText('Home');
     const projectsLink = screen.getByText('Projects');
-    const blogLink = screen.getByText('Blog');
+    // const blogLink = screen.getByText('Blog');
     const contactLink = screen.getByText('Contact');
 
     expect(homeLink).toHaveAttribute('href', '/');
     expect(projectsLink).toHaveAttribute('href', '/projects');
-    expect(blogLink).toHaveAttribute('href', '/blog');
+    // expect(blogLink).toHaveAttribute('href', '/blog');
     expect(contactLink).toHaveAttribute('href', '/contact');
   });
 

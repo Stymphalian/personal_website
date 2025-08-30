@@ -81,12 +81,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 month: 'long'
               })}
             </span>
-            <button
-              onClick={handleViewDetails}
-              className='px-3 sm:px-4 py-2 bg-crystal-blue-600 text-white rounded-lg hover:bg-crystal-blue-700 transition-colors duration-200 text-xs sm:text-sm font-medium w-full sm:w-auto'
-            >
-              View Details
-            </button>
+            {project.showDetails && (
+              <button
+                onClick={handleViewDetails}
+                className='px-3 sm:px-4 py-2 bg-crystal-blue-600 text-white rounded-lg hover:bg-crystal-blue-700 transition-colors duration-200 text-xs sm:text-sm font-medium w-full sm:w-auto'
+              >
+                View Details
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -13,6 +13,7 @@ interface Project {
   githubRepo?: string;
   featured: boolean;
   date: string;
+  showDetails?: boolean;
 }
 
 interface ProjectCarouselProps {
@@ -106,14 +107,16 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({
 
             {/* Action Buttons - Restructured to prevent overlap */}
             <div className="flex flex-wrap gap-3">
-              {/* View Details Button - Always visible */}
-              <button
-                onClick={handleViewDetails}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors duration-200"
-              >
-                <Eye className="w-4 h-4" />
-                View Details
-              </button>
+              {/* View Details Button - Only visible if showDetails is true */}
+              {currentProject.showDetails && (
+                <button
+                  onClick={handleViewDetails}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors duration-200"
+                >
+                  <Eye className="w-4 h-4" />
+                  View Details
+                </button>
+              )}
 
               {/* Live Demo Button - Only if available */}
               {currentProject.liveDemo && (

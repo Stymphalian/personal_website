@@ -11,92 +11,101 @@ featured: true
 date: '2024-06-10'
 liveDemo: 'https://akchibibot.stymphalian.top'
 githubRepo: 'https://github.com/stymphalian/ak_chibi_bot'
+showDetails: true
 ---
 
-# E-Commerce Platform
+# Arknights Chibi Twitch Bot
 
-A comprehensive e-commerce solution built with modern web technologies.
+A Twitch bot and browser source overlay that displays Arknights chibi characters walking on your stream. Viewers can interact with the bot using chat commands to choose operators, change skins, and play different animations.
 
 ## Features
 
-- User authentication and authorization
-- Product catalog with search and filtering
-- Shopping cart and checkout process
-- Secure payment processing with Stripe
-- Admin dashboard for product management
-- Responsive design for all devices
+- **Twitch Bot Integration**: Responds to chat commands in real-time
+- **Browser Source Overlay**: Seamlessly integrates with OBS/Streamlabs
+- **Interactive Commands**: Viewers can control chibi characters via chat
+- **Multiple Operators**: Support for various Arknights characters
+- **Skin System**: Different character skins and outfits
+- **Animation Control**: Various walking and idle animations
 
 ## Tech Stack
 
-- **Backend**: Node.js, Express, MongoDB
-- **Frontend**: React, Redux, Material-UI
-- **Payment**: Stripe API integration
-- **Authentication**: JWT tokens
-- **Database**: MongoDB with Mongoose ODM
-
-## Architecture
-
-The platform follows a microservices architecture pattern with:
-- RESTful API design
-- JWT-based authentication
-- Secure payment processing
-- Scalable database design
-- Comprehensive error handling
+- **Frontend**: React with Spine animation framework
+- **Backend**: Golang for the Twitch bot
+- **Animation**: Spine 2D for smooth character animations
+- **Integration**: Twitch API for chat and stream integration
+- **Overlay**: Browser source compatible with major streaming software
 
 ## Core Functionality
 
-### User Management
-- User registration and login
-- Profile management
-- Address book
-- Order history
-- Wishlist functionality
+### Twitch Bot Commands
+- `!chibi <operator>` - Summon a specific operator
+- `!skin <skin_name>` - Change character skin
+- `!dance` - Trigger dance animation
+- `!walk` - Start walking animation
+- `!stop` - Stop current animation
 
-### Product Management
-- Product catalog with categories
-- Advanced search and filtering
-- Product reviews and ratings
-- Inventory management
-- Product variants (size, color, etc.)
+### Browser Source Features
+- Real-time character rendering
+- Smooth animation transitions
+- Responsive design for different stream layouts
+- Customizable positioning and scaling
+- Performance optimized for streaming
 
-### Shopping Experience
-- Shopping cart persistence
-- Guest checkout option
-- Multiple payment methods
-- Order tracking
-- Email notifications
+### Character Management
+- Operator selection system
+- Skin and outfit variations
+- Animation state management
+- Position tracking and boundaries
+- Collision detection
 
-### Admin Features
-- Product CRUD operations
-- Order management
-- User management
-- Analytics dashboard
-- Inventory tracking
+## Architecture
 
-## Database Schema
+The system consists of two main components:
+- **Golang Bot**: Handles Twitch chat integration and command processing
+- **React Overlay**: Renders characters and animations in the browser
 
-```
-Users: {
-  _id: ObjectId,
-  email: String,
-  password: String (hashed),
-  profile: {
-    firstName: String,
-    lastName: String,
-    phone: String
-  },
-  addresses: [Address],
-  orders: [OrderId],
-  createdAt: Date
-}
+### Bot Architecture
+- WebSocket connection to Twitch chat
+- Command parsing and validation
+- State management for active characters
+- Event broadcasting to overlay
 
-Products: {
-  _id: ObjectId,
-  name: String,
-  description: String,
-  price: Number,
-  category: String,
-  images: [String],
+### Overlay Architecture
+- Spine animation rendering
+- Real-time state updates
+- Performance optimization
+- Browser source compatibility
+
+## Integration
+
+### Twitch Setup
+- Bot account configuration
+- Channel permissions
+- Command moderation
+- Rate limiting
+
+### Streaming Software
+- OBS Studio integration
+- Streamlabs compatibility
+- Browser source configuration
+- Performance settings
+
+## Development Process
+
+This project demonstrates:
+- Real-time application development
+- Twitch API integration
+- Animation system implementation
+- Cross-platform compatibility
+- Performance optimization for streaming
+
+## Future Enhancements
+
+- Additional operator characters
+- More animation variations
+- Sound effects integration
+- Viewer interaction history
+- Custom command creation
   variants: [Variant],
   inventory: Number,
   rating: Number,

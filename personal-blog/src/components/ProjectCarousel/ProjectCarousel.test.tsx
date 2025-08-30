@@ -14,7 +14,8 @@ const mockProjects = [
     liveDemo: 'https://demo.com',
     githubRepo: 'https://github.com/project1',
     featured: true,
-    date: '2024-01-01'
+    date: '2024-01-01',
+    showDetails: true
   },
   {
     id: 'project-2',
@@ -24,7 +25,8 @@ const mockProjects = [
     image: '/project-2.jpg',
     techStack: ['Vue.js', 'Express', 'Socket.io'],
     featured: true,
-    date: '2024-02-01'
+    date: '2024-02-01',
+    showDetails: false
   },
   {
     id: 'project-3',
@@ -35,7 +37,8 @@ const mockProjects = [
     techStack: ['React', 'Chart.js', 'OpenWeather API'],
     liveDemo: 'https://weather.demo.com',
     featured: true,
-    date: '2024-03-01'
+    date: '2024-03-01',
+    showDetails: true
   }
 ];
 
@@ -73,11 +76,18 @@ describe('ProjectCarousel', () => {
     expect(screen.getByText('A weather dashboard with interactive charts and location-based data')).toBeInTheDocument();
   });
 
-  it('shows View Details button for all projects', () => {
+  it('shows View Details button only for projects with showDetails: true', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
 
-    const viewDetailsButton = screen.getByText('View Details');
-    expect(viewDetailsButton).toBeInTheDocument();
+    // First project has showDetails: true, so button should be visible
+    expect(screen.getByText('View Details')).toBeInTheDocument();
+
+    // Navigate to second project (showDetails: false)
+    const dotButtons = screen.getAllByLabelText(/Go to project/);
+    fireEvent.click(dotButtons[1]);
+
+    // Button should not be visible for second project
+    expect(screen.queryByText('View Details')).not.toBeInTheDocument();
   });
 
   it('shows live demo button when available', () => {

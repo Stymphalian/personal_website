@@ -339,7 +339,8 @@ describe('Content Types', () => {
       expect(REQUIRED_PROJECT_FIELDS).toContain('shortDescription');
       expect(REQUIRED_PROJECT_FIELDS).toContain('image');
       expect(REQUIRED_PROJECT_FIELDS).toContain('techStack');
-      expect(REQUIRED_PROJECT_FIELDS).toHaveLength(10);
+      expect(REQUIRED_PROJECT_FIELDS).toContain('showDetails');
+      expect(REQUIRED_PROJECT_FIELDS).toHaveLength(11);
     });
   });
 

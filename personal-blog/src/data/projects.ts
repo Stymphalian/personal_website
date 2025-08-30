@@ -33,6 +33,7 @@ export const projects: Project[] = [
     date: '2024-06-10',
     liveDemo: 'https://akchibibot.stymphalian.top',
     githubRepo: 'https://github.com/stymphalian/ak_chibi_bot',
+    showDetails: true,
     images: [
       {
         type: 'image',
@@ -65,6 +66,7 @@ export const projects: Project[] = [
     liveDemo: 'https://ecommerce-demo.com',
     githubRepo: 'https://github.com/yourusername/ecommerce-platform',
     tags: ['E-commerce', 'Full-stack', 'Node.js', 'React', 'MongoDB'],
+    showDetails: false,
     images: [
       {
         type: 'image',
@@ -103,6 +105,7 @@ export const projects: Project[] = [
     liveDemo: 'https://taskmanager-demo.com',
     githubRepo: 'https://github.com/yourusername/task-management-app',
     tags: ['Task Management', 'Collaboration', 'Real-time', 'React', 'Node.js'],
+    showDetails: true,
     images: [
       {
         type: 'image',

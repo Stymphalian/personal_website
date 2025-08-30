@@ -11,6 +11,7 @@ featured: true
 date: '2023-12-01'
 liveDemo: 'https://ecommerce-demo.com'
 githubRepo: 'https://github.com/yourusername/ecommerce-platform'
+showDetails: false
 ---
 
 # E-Commerce Platform

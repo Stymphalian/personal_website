@@ -142,6 +142,7 @@ image: /test-image.jpg
 techStack: [React, TypeScript, Node.js]
 liveDemo: https://demo.com
 githubRepo: https://github.com/test/project
+showDetails: true
 ---
 
 # Test Project
@@ -226,6 +227,7 @@ description: Test project description
 shortDescription: Test project
 image: /test.jpg
 techStack: [React, TypeScript]
+showDetails: false
 ---
 
 # Test Project

@@ -25,6 +25,7 @@ export interface ProjectFrontmatter extends BaseContent {
   techStack: string[];
   liveDemo?: string;
   githubRepo?: string;
+  showDetails?: boolean; // Controls whether View Details button is shown
 }
 
 export interface BlogPostContent {
@@ -104,7 +105,7 @@ export const REQUIRED_BLOG_POST_FIELDS: (keyof BlogPostFrontmatter)[] = [
 ];
 
 export const REQUIRED_PROJECT_FIELDS: (keyof ProjectFrontmatter)[] = [
-  'id', 'title', 'slug', 'date', 'featured', 'tags', 'description', 'shortDescription', 'image', 'techStack'
+  'id', 'title', 'slug', 'date', 'featured', 'tags', 'description', 'shortDescription', 'image', 'techStack', 'showDetails'
 ];
 
 // Content loading states

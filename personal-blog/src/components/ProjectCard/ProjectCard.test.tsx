@@ -16,7 +16,8 @@ const mockProject: Project = {
   date: '2024-01-15',
   liveDemo: 'https://example.com',
   githubRepo: 'https://github.com/example/test',
-  tags: ['React', 'TypeScript', 'Web Development']
+  tags: ['React', 'TypeScript', 'Web Development'],
+  showDetails: true
 };
 
 describe('ProjectCard', () => {
@@ -63,6 +64,17 @@ describe('ProjectCard', () => {
     fireEvent.click(viewDetailsButton);
 
     expect(mockOnViewDetails).toHaveBeenCalledWith('test-project-1');
+  });
+
+  it('shows View Details button when showDetails is true', () => {
+    render(<ProjectCard project={mockProject} />);
+    expect(screen.getByText('View Details')).toBeInTheDocument();
+  });
+
+  it('hides View Details button when showDetails is false', () => {
+    const projectWithoutDetails = { ...mockProject, showDetails: false };
+    render(<ProjectCard project={projectWithoutDetails} />);
+    expect(screen.queryByText('View Details')).not.toBeInTheDocument();
   });
 
   it('does not call onViewDetails when callback is not provided', () => {

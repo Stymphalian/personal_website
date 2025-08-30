@@ -3,7 +3,7 @@ import React, { type ReactNode } from 'react';
 interface LayoutProps {
   children: ReactNode;
   className?: string;
-  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | 'full';
+  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '6xl' | '7xl' | 'full';
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   showPageTitle?: boolean;
   pageTitle?: string;

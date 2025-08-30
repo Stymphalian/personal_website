@@ -11,6 +11,7 @@ featured: true
 date: '2024-01-15'
 liveDemo: 'https://yourdomain.com'
 githubRepo: 'https://github.com/yourusername/personal-blog'
+showDetails: false
 ---
 
 # Personal Blog & Portfolio

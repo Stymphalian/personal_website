@@ -11,6 +11,7 @@ featured: true
 date: '2023-10-15'
 liveDemo: 'https://taskmanager-demo.com'
 githubRepo: 'https://github.com/yourusername/task-management-app'
+showDetails: false
 ---
 
 # Task Management Application
