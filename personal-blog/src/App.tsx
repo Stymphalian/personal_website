@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
 import Navigation from './components/Navigation/Navigation';
-import { Blog, BlogPostDetail, Contact, ErrorPage, Home, Projects } from './pages';
+import { Contact, ErrorPage, Home, Projects } from './pages';
 import ProjectDetail from './pages/ProjectDetail/ProjectDetail';
 
 // ScrollToTop component to handle scroll behavior on route changes
@@ -47,8 +47,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:projectId" element={<ProjectDetail />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPostDetail />} />
+          {/* <Route path="/blog" element={<Blog />} /> */}
+          {/* <Route path="/blog/:slug" element={<BlogPostDetail />} /> */}
           <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<ErrorPage errorType="not-found" />} />
         </Routes>

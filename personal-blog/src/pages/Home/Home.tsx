@@ -18,11 +18,11 @@ const Home: React.FC = () => {
 
   return (
     <Layout
-      showPageTitle
+      showPageTitle={false}
       pageTitle="Welcome to My Portfolio"
-      pageDescription="Full-stack developer passionate about creating innovative web solutions"
-      maxWidth="4xl"
-      padding="lg"
+      pageDescription="Senior Software Developer with 8+ years of backend experience"
+      maxWidth="7xl"
+      padding="md"
     >
       <div className={`space-y-8 md:space-y-12 lg:space-y-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
@@ -43,17 +43,19 @@ const Home: React.FC = () => {
           <div className="flex-1 text-center lg:text-left order-1 lg:order-2">
             <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-vs-editor-text mb-3 md:mb-4 leading-tight transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>
-              Hi, I'm <span className="text-crystal-blue-400 animate-pulse">Your Name</span>
+              Hi, I'm <span className="text-crystal-blue-400 animate-pulse">Jordan Yu</span>
             </h1>
             <h2 className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-vs-editor-text2 mb-3 md:mb-4 transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>
-              Full-Stack Developer & Software Engineer
+              Senior Software Developer
             </h2>
             <p className={`text-base sm:text-lg md:text-xl text-vs-editor-text2 max-w-3xl mx-auto lg:mx-0 leading-relaxed mb-4 md:mb-6 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>
-              I specialize in building modern web applications using React, Node.js, and cloud technologies.
-              With a passion for clean code, exceptional user experience, and scalable architecture,
-              I transform ideas into robust digital solutions that make a difference.
+              This my own little spot on the internet where I can share some of my projects
+              and write about interesting things I have worked on. I'm software engineer by trade,
+              but in my heart I'm a gamer, nerd and I love learning about new things
+              and technology. Some of my interests are graphics, competitive programming,
+              and running. Thanks for dropping by!
             </p>
             <div className={`flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start transition-all duration-700 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>
@@ -86,10 +88,10 @@ const Home: React.FC = () => {
           <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-vs-editor-text mb-4 md:mb-6 text-center">Technical Expertise</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {[
-              { icon: '🎨', title: 'Frontend', color: 'blue', skills: ['React & TypeScript', 'Tailwind CSS', 'Next.js & Vite', 'Responsive Design'] },
-              { icon: '⚙️', title: 'Backend', color: 'green', skills: ['Node.js & Express', 'Python & Django', 'RESTful APIs', 'GraphQL'] },
-              { icon: '🗄️', title: 'Database', color: 'purple', skills: ['PostgreSQL', 'MongoDB', 'Redis', 'Data Modeling'] },
-              { icon: '🚀', title: 'DevOps', color: 'orange', skills: ['Docker & Kubernetes', 'AWS & Cloud', 'CI/CD Pipelines', 'Monitoring'] }
+              { icon: '⚙️', title: 'Backend', color: 'green', skills: ['Java & Go', 'Python & PHP', 'REST/RPC APIs', 'Microservices'] },
+              { icon: '☁️', title: 'Infrastructure', color: 'blue', skills: ['AWS & GCP', 'Kubernetes', 'Docker', 'Borg/Spanner'] },
+              { icon: '🗄️', title: 'Databases', color: 'purple', skills: ['SQL & NoSQL', 'Bigtable', 'Spanner', 'Data Modeling'] },
+              { icon: '🔧', title: 'Tools & DevOps', color: 'orange', skills: ['Git & Bazel', 'CI/CD', 'Monitoring', 'Testing'] }
             ].map((skill, index) => (
               <div
                 key={skill.title}
@@ -124,8 +126,7 @@ const Home: React.FC = () => {
           }`}>
           <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-vs-editor-text mb-4 md:mb-6 text-center">Featured Projects</h3>
           <p className="text-sm md:text-base lg:text-lg text-vs-editor-text2 mb-6 md:mb-8 text-center max-w-3xl mx-auto">
-            Here are some of my recent projects that showcase different aspects of modern web development.
-            Each project demonstrates my skills in frontend, backend, and full-stack development.
+            Here are some of my recent personal projects that demonstrate some of my skills and programming interests.
           </p>
           <div className="transition-all duration-700 delay-1100">
             <ProjectCarousel projects={featuredProjects} />
@@ -147,8 +148,9 @@ const Home: React.FC = () => {
             <h3 className="text-lg md:text-xl font-bold text-vs-editor-text mb-3 md:mb-4 group-hover:text-crystal-blue-400 transition-colors duration-300">Professional Experience</h3>
             <div className="space-y-3 md:space-y-4">
               {[
-                { title: 'Senior Developer', company: 'Tech Company', period: '2022-Present', description: 'Leading development teams and architecting scalable solutions' },
-                { title: 'Full-Stack Developer', company: 'Startup', period: '2020-2022', description: 'Built and deployed multiple web applications from concept to production' }
+                { title: 'Senior Backend Software Engineer', company: 'Course Hero', period: '2021-2023', description: 'Payments Infrastructure - Migrated legacy platform to Recurly affecting 2M+ users, automated 500K+ transaction processing' },
+                { title: 'Senior Software Engineer', company: 'Google', period: '2018-2020', description: 'Dialogflow/Google Assistant - Developed NLP backend services, Java APIs processing 1M+ model edits daily, GCP to Borg migration' },
+                { title: 'Software Engineer', company: 'Google', period: '2015-2018', description: 'Tools & Infrastructure - Built testing infrastructure for Ads spam filtering, maintained 10+ services, mentored 3 interns' }
               ].map((exp, index) => (
                 <div
                   key={exp.title}
@@ -164,11 +166,11 @@ const Home: React.FC = () => {
           </div>
 
           <div className="bg-gradient-to-br from-vs-editor-surface to-vs-editor-surface2 rounded-xl p-4 md:p-6 shadow-sm hover:shadow-lg transition-all duration-500 transform hover:-translate-y-1 group">
-            <h3 className="text-lg md:text-xl font-bold text-vs-editor-text mb-3 md:mb-4 group-hover:text-green-400 transition-colors duration-300">Education & Certifications</h3>
+            <h3 className="text-lg md:text-xl font-bold text-vs-editor-text mb-3 md:mb-4 group-hover:text-green-400 transition-colors duration-300">Education & Background</h3>
             <div className="space-y-3 md:space-y-4">
               {[
-                { title: 'Computer Science Degree', institution: 'University', period: '2016-2020', description: 'Focused on software engineering and web technologies' },
-                { title: 'AWS Certified Developer', institution: 'Amazon Web Services', period: '2023', description: 'Professional cloud development and deployment' }
+                { title: 'Bachelor of Software Engineering', institution: 'University of Victoria', period: '2011-2015', description: 'Computer Networks, Architecture, Databases, Algorithms, Software Development Methods' },
+                { title: 'Technical Skills', institution: 'Professional Experience', period: '8+ years', description: 'Languages: Python, Go, Java, PHP, C/C++, JavaScript. Infrastructure: AWS, GCP, Kubernetes, Docker' }
               ].map((edu, index) => (
                 <div
                   key={edu.title}

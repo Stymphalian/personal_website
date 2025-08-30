@@ -26,6 +26,8 @@ const Layout: React.FC<LayoutProps> = ({
     xl: 'max-w-xl',
     '2xl': 'max-w-2xl',
     '4xl': 'max-w-4xl',
+    '6xl': 'max-w-6xl',
+    '7xl': 'max-w-7xl',
     full: 'max-w-full'
   };
 
@@ -68,7 +70,7 @@ const Layout: React.FC<LayoutProps> = ({
       </main>
 
       {/* Page Footer Section */}
-              <footer className="bg-vs-editor-surface border-t border-vs-editor-border mt-16">
+      <footer className="bg-vs-editor-surface border-t border-vs-editor-border mt-16">
         <div className={`mx-auto ${maxWidthClasses[maxWidth]} ${paddingClasses[padding]}`}>
           <div className="text-center py-8">
             <p className="text-vs-editor-text2 text-sm">
