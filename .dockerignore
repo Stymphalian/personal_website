@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+
+# Node modules (will be installed in container)
+personal-blog/node_modules
+personal-blog/dist
+personal-blog/.vite
+
+# Build artifacts
+personal-blog/build
+personal-blog/coverage
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+
+# IDE files
+.vscode
+.cursor
+.idea
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker files
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Documentation
+README.md
+*.md
+tasks/
+summary.md
