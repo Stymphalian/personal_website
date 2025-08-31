@@ -1,22 +1,5 @@
----
-id: 'ak-chibi-bot'
-slug: 'ak-chibi-bot'
-title: 'Arknights Chibi Twitch Bot'
-description: 'A twitch bot and browser source overlay to show Arknights chibis walking on your stream. Viewers can issue !chibi chat commands to choose their own operator, change skins and play different animations.'
-shortDescription: 'Twitch Bot and Browser Overlay for Arknights Chibis'
-image: '/images/ak-chibi-bot/banner.png'
-techStack: ['React', 'Spine', 'Twitch API', 'Golang']
-tags: ['React', 'Spine', 'Twitch API', 'Golang']
-featured: true
-date: '2025-08-30'
-liveDemo: 'https://akchibibot.stymphalian.top'
-githubRepo: 'https://github.com/stymphalian/ak_chibi_bot'
-showDetails: true
----
-
 # Arknights Chibi Twitch Bot
 A Twitch bot and browser source overlay that displays Arknights chibi characters walking on your stream. Viewers can interact with the bot using chat commands to choose operators, change skins, and play different animations.
-
 
 ## Background
 I've been playing (addicted) to a mobile game called Arknights for a couple of years now (since 2023).
@@ -429,8 +412,8 @@ to pay for any other storage/services.
 
 
 ## System Diagram
-
-```mermaid
+![systemDiagram](/images/ak-chibi-bot/system_diagram.png)
+```text
 graph TB
     %% External Systems
     Twitch[Twitch Chat/API]

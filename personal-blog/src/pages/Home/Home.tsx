@@ -52,7 +52,7 @@ const Home: React.FC = () => {
             <p className={`text-base sm:text-lg md:text-xl text-vs-editor-text2 max-w-3xl mx-auto lg:mx-0 leading-relaxed mb-4 md:mb-6 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}>
               This my own little spot on the internet where I can share some of my projects
-              and write about interesting things I have worked on. I'm software engineer by trade,
+              and write about interesting things I have worked on. I'm a software engineer by trade,
               but in my heart I'm a gamer, nerd and I love learning about new things
               and technology. Some of my interests are graphics, competitive programming,
               and running. Thanks for dropping by!

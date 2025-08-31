@@ -34,45 +34,51 @@ let contentCache: ContentCache = {};
 
 // Frontmatter parsing utilities - dead simple approach with graceful fallbacks
 const parseFrontmatter = (content: string): { frontmatter: string; markdown: string } => {
-  // Split by --- and take the middle part as frontmatter
-  const parts = content.split('---');
-  
-  if (parts.length < 3) {
-    // Try to recover from malformed frontmatter
-    if (parts.length === 1) {
-      // No frontmatter at all, treat entire content as markdown
-      console.warn('No frontmatter found, treating entire content as markdown');
-      return {
-        frontmatter: '',
-        markdown: content.trim()
-      };
-    } else if (parts.length === 2) {
-      // Only one delimiter, try to determine if it's opening or closing
-      if (content.startsWith('---')) {
-        // Starts with frontmatter but no closing delimiter
-        console.warn('Frontmatter missing closing delimiter, treating as markdown');
+  if (content.startsWith('---')) {
+    const parts = content.split('---');
+    if (parts.length < 3) {
+      // Try to recover from malformed frontmatter
+      if (parts.length === 1) {
+        // No frontmatter at all, treat entire content as markdown
+        console.warn('No frontmatter found, treating entire content as markdown');
         return {
           frontmatter: '',
           markdown: content.trim()
         };
-      } else {
-        // Ends with frontmatter but no opening delimiter
-        console.warn('Frontmatter missing opening delimiter, treating as markdown');
-        return {
-          frontmatter: '',
-          markdown: content.trim()
-        };
+      } else if (parts.length === 2) {
+        // Only one delimiter, try to determine if it's opening or closing
+        if (content.startsWith('---')) {
+          // Starts with frontmatter but no closing delimiter
+          console.warn('Frontmatter missing closing delimiter, treating as markdown');
+          return {
+            frontmatter: '',
+            markdown: content.trim()
+          };
+        } else {
+          // Ends with frontmatter but no opening delimiter
+          console.warn('Frontmatter missing opening delimiter, treating as markdown');
+          return {
+            frontmatter: '',
+            markdown: content.trim()
+          };
+        }
       }
+      
+      // If we can't recover, throw a more descriptive error
+      throw new Error(`Invalid frontmatter format: expected 3 parts separated by ---, got ${parts.length}`);
     }
-    
-    // If we can't recover, throw a more descriptive error
-    throw new Error(`Invalid frontmatter format: expected 3 parts separated by ---, got ${parts.length}`);
+
+    return {
+      frontmatter: parts[1].trim(),
+      markdown: parts.slice(2).join('---').trim()
+    };
   }
+
   
   return {
-    frontmatter: parts[1].trim(),
-    markdown: parts.slice(2).join('---').trim()
-  };
+    frontmatter: '',
+    markdown: content.trim()
+  }
 };
 
 const parseYamlFrontmatter = (yamlString: string): Record<string, any> => {
@@ -353,7 +359,7 @@ export const loadBlogPostContent = async (
     const { frontmatter: yamlFrontmatter, markdown } = parseFrontmatter(content);
     const frontmatterData = parseYamlFrontmatter(yamlFrontmatter);
     
-    if (opts.validateFrontmatter) {
+    if (Object.keys(frontmatterData).length > 0  && opts.validateFrontmatter) {
       const validation = validateBlogPostFrontmatter(frontmatterData);
       if (!validation.isValid) {
         const errorMsg = `Invalid frontmatter: ${validation.errors.join(', ')}`;
@@ -367,7 +373,7 @@ export const loadBlogPostContent = async (
     const blogPostContent: BlogPostContent = {
       frontmatter: frontmatterData as BlogPostFrontmatter,
       content: processedContent.content,
-      excerpt: frontmatterData.excerpt,
+      excerpt: Object.keys(frontmatterData).length > 0 ? frontmatterData.excerpt : "",
       wordCount: processedContent.wordCount,
       readTime: processedContent.readTime
     };
@@ -424,7 +430,7 @@ export const loadProjectContent = async (
     const { frontmatter: yamlFrontmatter, markdown } = parseFrontmatter(content);
     const frontmatterData = parseYamlFrontmatter(yamlFrontmatter);
     
-    if (opts.validateFrontmatter) {
+    if (Object.keys(frontmatterData).length > 0 && opts.validateFrontmatter) {
       const validation = validateProjectFrontmatter(frontmatterData);
       if (!validation.isValid) {
         const errorMsg = `Invalid frontmatter: ${validation.errors.join(', ')}`;
@@ -438,7 +444,7 @@ export const loadProjectContent = async (
     const projectContent: ProjectContent = {
       frontmatter: frontmatterData as ProjectFrontmatter,
       content: processedContent.content,
-      excerpt: frontmatterData.excerpt,
+      excerpt: Object.keys(frontmatterData).length > 0 ? frontmatterData.excerpt : "",
       wordCount: processedContent.wordCount,
       readTime: processedContent.readTime
     };
