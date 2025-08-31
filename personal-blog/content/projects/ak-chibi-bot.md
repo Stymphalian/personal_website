@@ -2,13 +2,13 @@
 id: 'ak-chibi-bot'
 slug: 'ak-chibi-bot'
 title: 'Arknights Chibi Twitch Bot'
-description: 'A twitch bot and browser source overlay to show Arknight chibis walking on your stream. Viewers can issue !chibi chat commands to choose their own operator, change skins and play different animations.'
+description: 'A twitch bot and browser source overlay to show Arknights chibis walking on your stream. Viewers can issue !chibi chat commands to choose their own operator, change skins and play different animations.'
 shortDescription: 'Twitch Bot and Browser Overlay for Arknights Chibis'
 image: '/images/ak-chibi-bot/banner.png'
 techStack: ['React', 'Spine', 'Twitch API', 'Golang']
 tags: ['React', 'Spine', 'Twitch API', 'Golang']
 featured: true
-date: '2024-06-10'
+date: '2025-08-30'
 liveDemo: 'https://akchibibot.stymphalian.top'
 githubRepo: 'https://github.com/stymphalian/ak_chibi_bot'
 showDetails: true
@@ -20,7 +20,7 @@ A Twitch bot and browser source overlay that displays Arknights chibi characters
 
 ## Background
 I've been playing (addicted) to a mobile game called Arknights for a couple of years now (since 2023).
-It's a mobile tower defense gacha game built by a chinese game company called Hypergryph.
+It's a mobile tower defense gacha game built by a Chinese game company called Hypergryph.
 Whilst I was unemployed I tried my hand at streaming on Twitch and this project evolved
 out of me wanting to add something unique to my streams. 
 
@@ -37,79 +37,492 @@ some interest in using it too so I made changes to allow anyone to easily paste
 a URL link in their OBS Browser Source and it would easily allow them to have 
 the overlay/twitch bot connection seamlessly.
 
-For details you can checkout the [website](https://akchibibot.stymphalian.top/) and the [github](https://github.com/stymphalian/ak_chibi_bot) repository.
+For details you can check out the [website](https://akchibibot.stymphalian.top/) and the [GitHub](https://github.com/stymphalian/ak_chibi_bot) repository.
 
-Here is an overview of the tech stack:
+Here is an overview of the tech stack
  - **Frontend**: React, [Spine](https://esotericsoftware.com/)
- - **Backend**: golang, postgres, Twitch API
+ - **Backend**: Golang, PostgreSQL, Twitch API
  - **Infrastructure**: Docker, Digital Ocean
 
+
  ## Overview
- There were multiple parts to this project.
-  1. Ripping the Assets from the Android APK.
-      1. The game is built in Unity and the characters are animated using a technology called [Spine](https://esotericsoftware.com/)
-      1. You need to extract out the `.atlas`, `.skel` and `.png` files for each character
-      1. there are a variety of programs on github which allow you to rip out these assets. I won't got into it here as it is actually fairly messy.
-  1. The architecture is not that straightforward.
-      The AK Chibi Bot system components
-      Component | Description
-      ----------| ------------
-      Spine Runtime | The Web/Typescript component which renders and plays the chibi spine animations in a browser window/OBS browser source.
-      Spine Bridge | A server-side component connects to the Spine Runtime via websockets in order to forward instructions on what chibis to display and what animations should be played.
-      Twitch Chat | Twitch IRC client which connects to the User's Twitch chat. This component parses the text `!chibi` commands and converts them into `Commands` to be processed by the `ChibiActor`.
-      Chibi Actor | The chibi component provides an abstraction for dealing with rendering Chibis. It provides methods for setting the current operator, choosing which animations are being played, etc. This component also holds the list of viewers/chatters and keeps the mapping/state between a viewer and their current chosen chibi. This component uses the spine-bridge to communicate to the User's browser (ie. Spine Runtime) for displaying the Chibi.
-      Rooms/Rooms Manager | A Room encapsulates a twitch chat, spine bridge/runtime and a chibi actor into a single object. Each time a Streamer creates a new Browser Source by hitting `HTTP GET /room` a new Room entry is added to the Rooms Manager. This abstraction keeps all the logic isolated between different streams/sessions.
-      Web App | A frontend web application avaialable at the top-level domain. It provides a front facing website for the Bot as well as provides a `/settings/` page for Streamers to customize the Bots settings (i.e min/max values for `!chibi` commands). We login via Twitch OAUTH in order to authorize changes to a channel's settings.
-      Database (postgres) | A database to hold persistent state for the the active rooms/chatters, as well as to store the twitch oauth tokens/session cookies. Mainly needed to allow for persistent user preferences saving, and to allow for seamless server restarts.
-      Bot Server | The HTTP [server](server/main.go) which glues everthhing together. It serves all the HTML/JS for the web_app/spine_runtime, as well as provides the HTTP endpoints for connecting to the Rooms (i.e `/room`) and the Spine Bridge websocket connections (`/ws`). It holds all the state within the Rooms Manager, and provides the connection to the DB.
+ My goal for this article is to describe the architecture of the project
+ and ramble a bit about each of the components and give some commentary on 
+ what I learned and how things work.
 
-  1. The spine technology has an engine specific runtime library which you use to process/animate the spine models. 
-      because we want to display in an OBS browser overlay we are using the webgl spine runtime.
-  1. The backend server has two main purposes. 
-      1. Firstly it is what serves the connection for the OBS Browser Source. This serves the Spine runtime to the OBS browser.
-          1. This spine runtime player is essentially a dumb client which acts as a display for characters. 
-          2. It holds a persistent websocket connection to the server to receive commands for displaying the sprites.
-      2. Secondly, the backend acts as a proxy for connecting to the User's twitch IRC channel/chat and to monitor for `!chibi` commands from viewers.
-          1. The backend is a stateful component which is the Master which holds the true state of which characters/animations are being played.
-          1. It sends this information via the websocket connections to the Spine runtime player in the User's OBS Browser and orders the Runtime to display whatever it wants.
-      1. All the spine assets are also served by the Backend
-  1. We have a single Postgres DB for this project. For such a simple project it seems a little over-kill but there were
-  two main things I need persistent state/storage for.
-      1. hot-reloading - Whenever I update the docker container with a new image the container is briefly down. This would 
-         kill any active OBS Browser connections and therefore a streamer's overlay would no longer work until they fully refreshed
-         the overlay. I found this unacceptable as it made it really hard for me to hot-update the image to fix issues
-         and to keep the User's experience un-marred. To fix this I added a exponential-backoff reconnection logic to the Spine Runtime 
-         Player client. This way the client will try to reconnect to the server if it drops only briefly. Usually reloading the containers
-         takes less than one minute so this offers a seamless experience for reloading the container and keeping the User overlay
-         functioning.
-      2. I wanted to provide a way for Streamers/Viewers to save their own customizations. 
-          1. For the Streamer there are some configurations for how to small/large and slow/fast the characters move on the screen. I wanted to provide
-        a way for Streamers to set these configurations and have them saved.
-          1. I wanted to provide a feature for Viewers to "save" their favorite characters. This way whenever they 
-        pop into a stream which uses the overlay it would always display their favorite character with their own customized
-        animations and skins. Otherwise eachtime they join it would just be a random character.
-  1. Infrastructure-wise we are deploying everything through Docker/containers. I setup a cheap ($5/mo) Digital Ocean instance
-     to run the docker containers and have an nginx proxy to route requests to the containers. I get HTTPS certificates
-     via [LetsEncrypt](https://letsencrypt.org/)
-      1. The docker image bundles ALL the spine asset data (png/atlas/skel). This bloats the image file alot but
-         it significantly speeds up file-serving from the go server. A better/more involved architecture would
-         be to have the nginx serve these static files, or to have them in some other bucket storage but one of
-         my main motivators was to reduce cost. I wanted to only run a single digital ocean instance and not have 
-         to pay for any other storage/servies.
-  1. The project's web-page at akchibibot.stymphalian.top is also served from the same Backend server and 
-     on the same digital ocean instance. In an ideal world this would be it's own separate Server on it's own
-     digital ocean instance. BUT again I'm saving on costs and complexity.
-      1. The web-page itself it quite barebones. It just has some instructions on how to setup OBS to use the twitch bot
-      as well as has a Docs page which lists all the commands and different configurations available.
-      1. I also have a hidden `admin` page which I use to help monitor active Users of the twitch bot. It has helped me many 
-      time triage/debug issues that happen for some Users.
+ This is the happy path User journey:  \
+    A user opens up OBS and types in the URL to the twitch bot in a Browser Source component.
+    It automatically connects to the AKChibiBot server and connects to their twitch chat.
+    The Browser Source is now connected and should start showing chibis on the screen.
+  
+The basic architecture therefore has a frontend web-based Client/Runtime which will display
+all the chibis in a Browser window. It connects to a backend server via WebSockets
+to receive commands on which chibis to display on screen. The backend server
+acts a gateway to accept incoming connections to the twitch bot, serve the chibi asset files,
+and acts as a proxy for twitch chat messages. The server will monitor the User's twitch chat 
+for `!chibi` commands and forward commands to update the Browser/Runtime with
+new characters and animations.
+
+List of Components
+Component | Description
+----------| ------------
+Spine Runtime | The Web/Typescript component which renders and plays the chibi spine animations in a browser window/OBS browser source.
+Spine Bridge | A server-side component connects to the Spine Runtime via WebSockets in order to forward instructions on what chibis to display and what animations should be played.
+Twitch Chat | Twitch IRC client which connects to the User's Twitch chat. This component parses the text `!chibi` commands and converts them into `Commands` to be processed by the `ChibiActor`.
+Chibi Actor | The chibi component provides an abstraction for dealing with rendering Chibis. It provides methods for setting the current operator, choosing which animations are being played, etc. This component also holds the list of viewers/chatters and keeps the mapping/state between a viewer and their current chosen chibi. This component uses the spine-bridge to communicate to the User's browser (ie. Spine Runtime) for displaying the Chibi.
+Rooms/Rooms Manager | A Room encapsulates a twitch chat, spine bridge/runtime and a chibi actor into a single object. Each time a Streamer creates a new Browser Source by hitting `HTTP GET /room` a new Room entry is added to the Rooms Manager. This abstraction keeps all the logic isolated between different streams/sessions.
+Web App | A frontend web application available at the top-level domain. It provides a front-facing website for the Bot as well as provides a `/settings/` page for Streamers to customize the Bot's settings (i.e. min/max values for `!chibi` commands). We login via Twitch OAuth in order to authorize changes to a channel's settings.
+Database (PostgreSQL) | A database to hold persistent state for the active rooms/chatters, as well as to store the Twitch OAuth tokens/session cookies. Mainly needed to allow for persistent user preferences saving, and to allow for seamless server restarts.
+Bot Server | The HTTP [server](server/main.go) which glues everything together. It serves all the HTML/JS for the web_app/spine_runtime, as well as provides the HTTP endpoints for connecting to the Rooms (i.e. `/room`) and the Spine Bridge WebSocket connections (`/ws`). It holds all the state within the Rooms Manager, and provides the connection to the DB.
+
+### Spine Assets
+
+For this project to even succeed I first needed the raw asset files for all the characters.
+To do this I decided to rip the assets directly from the Android APK. The game is built in 
+Unity and all the characters are animated using a technology called [Spine](https://esotericsoftware.com/).
+Each spine sprite is made up of 3 files:
+
+ - **.png** This is the spritesheet which contains the texture/art data of the character
+ - **.atlas** This is a file which contains the indexing information to determine the position of every part (i.e arm, head, leg) of the sprite.
+ - **.skel** This is a Spine's proprietary file format to record information about the positioning, animation data, etc. of the Sprite.
+ This is usually stored in a proprietary binary format, but they have a JSON equivalent as well.
+
+There are a variety of programs on GitHub which allow you to rip these assets. 
+I won't really go into too much detail here as it gets fairly convoluted and complicated quite quickly.
+I use a hodge-podge of different existing tools/scripts which I store in my own private repository
+but the main tools are listed here:
+
+- [Eltik/myrtle](https://github.com/Eltik/myrtle) - Branched from and extracted just the assets folder
+- [isHarryh/Ark-Unpacker](https://github.com/isHarryh/Ark-Unpacker) - The primary asset unpacker for Arknights resources
+- [isHarryh/Ark-FBS-Py](https://github.com/isHarryh/Ark-FBS-Py) - Tools for handling Arknights FlatBuffers encoded data
+- [ChaomengOrion/ArkAssetsTool](https://github.com/ChaomengOrion/ArkAssetsTool) - The foundation for the download script
+
+I don't think this ripping "allowed", but there are many fan-made websites which have ripped 
+these assets for use on their web-pages. If Hypergryph really cares and they send me a notice to stop
+I'd be happy to comply! This is mostly a passion project anyways.
+
+For some context the Arknights chibis are organized like this.
+
+  1. Arknights has two different modes in which a character/operator is displayed. The *base* and the *battle* map.
+  1. Every operator has 3 versions. One that is displayed in the *base*, and two which are used in *battle* (one front facing, one back facing)
+  1. Each version has their own set of Spine assets (i.e atlas/skel/png)
+  1. Additionally every operator usually has one or more **skin(s)**. A skin is a in-game purchasable item which gives the operator some new clothes
+  and animations.
+  1. For each skin we have the 3 versions (base, battle/front, battle/back)
+  1. Finally there are currently ~400 unique characters in Arknights and if we count Enemy sprites as well we have probably 1000+ different sprites. This adds up to several 1000's of unique spine models (atlas/skel/png)
+
+To keep things organized and easily searchable/indexable by the application 
+we store all the assets in the following directory structure.
+
+```
+assets/
+  characters/
+    char_002_amiya/default/base/Front/
+        char_002_amiya.animations.json
+        char_002_amiya.atlas
+        char_002_amiya.png
+        char_002_amiya.skel
+    char_002_amiya/epoque#4/battle/Front/...
+    char_002_amiya/winter#1/battle/Back/...
+    ...
+  enemies/
+    enemy_1000_gopro/default/battle/Front/
+    ...
+```
+
+Breaking down an example path:
+
+ - The `char_002_amiya` is a unique ID for the character.
+ - The `default` or `epoque#4` or `winter#1` is the name of a skin
+ - The `base,battle/front, battle/back` are the different versions for the skin
+ - Finally we have the 3 spine files themselves  `char_002_amiya.{atlas,png,skel}`
+
+#### Alpha Channels
+One interesting thing I learned while ripping these assets is 'Straight' and 'Pre-multiplied' alphas.
+The `alpha` channel for images allows for transparency when you overlap them on a scene.
+It is usually a number like `rgb` which tells us how transparent that particular pixel should
+be. When the runtime renders these pixels it does some `blending` logic between the
+the _source_ pixel and the _background/destination_ pixel to give us the illusion of transparency.
+
+The normal rendering logic is called "Straight" and looks like this.
+We directly use the src alpha and multiply it against the src color (rgb)
+before blending it with the dest/background color.
+```
+straightColor = (srcColor.rgb * srcColor.a) + (destColor.rgb * (1 - srcColor.a))
+```
+
+Someone came up with the idea of saving some computation time and "premultiplying"
+the `srcColor.rgb * srcColor.a` and directly saving that information in the 
+image texture `rgb` itself. We now have.
+```
+preMultColor = (srcColor.rgb) + (destColor.rgb * (1 - srcColor.a))
+```
+
+While I was trying to get the chibis displayed on screen I always noticed weird
+artifacts/black lines. This can happen if your rendering logic uses a blending
+function which doesn't match how the underlying image `RGB` values store 
+the alpha values. 
+
+Bad Image | Good Image
+----------|---------------
+![badImage](/images/ak-chibi-bot/alpha_bad.png) | ![goodImage](/images/ak-chibi-bot/alpha_good.png)
 
 
+The render by default always assumes we are rendering with `premultiplied-alpha` 
+images and it took me a very long time to figure out this issue. It is still a constant
+source of headaches for me to this day. This is because Hypergryph has made 
+modifications to their engine and their assets through the last couple years
+which periodically causes the sprites to get rendered incorrectly. Each time
+new characters are released I usually do a manual quality check to ensure 
+good looking renders.
+
+For more information on Straight/Pre-multiplied alphas you can read this [article](https://en.esotericsoftware.com/forum/d/3132-premultiplied-alpha-guide).
+
+
+### Frontend Client/Spine Runtime
+To make interacting with the twitch bot extremely easy the only thing a User
+needs to do is add a Browser Source in OBS and have the URL point to the `ak-chibi-bot`
+with a reference to their channel name. (i.e. `akchibibot.stymphalian.top/room?channelName=CHANNEL_NAME`).
+
+This means to render and animate the sprites we need an engine which runs in the browser. 
+The spine team provides these `Runtime` libraries. The `runtime` Player plays through
+the logic of animating the key-frames of the sprite and holds the rendering logic 
+to display to a screen. `Spine` provides runtimes for a variety of [engines](https://en.esotericsoftware.com/spine-runtimes) 
+but for our project specifically we want to display the Sprites in an OBS browser
+so we use a `Typescript/WebGL/Canvas` runtime environment.
+
+This frontend Runtime is intended to be a fairly dumb "display" client. It should
+receive commands/information from the backend server to determine which
+sprites should be displayed and which animations they should be playing.
+
+At the time of this writing Spine is at version `4+` and they maintain runtimes for versions `4.2+`.
+Hypergryph spine assets are still using older `3.8` versions so we need to use an
+older, not-so-well-maintained runtime libraries to render our sprites. 
+The `3.8` version of the WebGL/TypeScript [runtime](https://github.com/EsotericSoftware/spine-runtimes/tree/3.8/spine-ts)
+had quite a few bugs (such as with file loading, alpha rendering) and needed
+a few modifications to support my use-case.
+
+Some significant changes I made to the runtime/player was the support for: 
+  - Client-side Entity Behavior
+  - Websocket Connection
+  - Camera z-depth
+  - Sprite Bounding Boxes (offscreen rendering)
+  - Multi-sprite Rendering
+
+
+#### Client-side Actor Behavior 
+The happy-path case for the animated sprite was for it to slowly wander/walk back
+and forth along the bottom of the screen. The spine player by default only 
+plays the animations and doesn't do any movement. I needed to explicitly add create
+an Actor wrapper around the Spine/Skeleton object and implement the logic 
+for moving it around the screen and add calls to my own `UpdatePhysics()` code.
+This abstraction allowed me to overlay an `Action` system on the Actors. 
+
+```typescript
+export interface ActorAction {
+    SetAnimation(actor: Actor, animation: string, viewport: BoundingBox): void;
+    GetAnimations(): string[]
+    DrawDebug(actor: Actor, renderer: SceneRenderer, viewport: BoundingBox): void
+    UpdatePhysics(
+        actor: Actor,
+        deltaSecs: number,
+        viewport: BoundingBox,
+        player: SpinePlayer): void
+}
+```
+
+The `Action` is an abstracted behavioral system and allowed me to implement 
+behavior such as `walk`, `pace back forth`, `walk to`, and `follow`.
+This action system gave more control to the client on how to display the Sprites
+and moved the complexity from the backend (which is usually the stateful master)
+into the frontend client.
+
+
+#### Websocket Connection
+As was mentioned the frontend client should basically be a dumb display client. 
+Most of the logic and **state** for determining the Sprites current skin, animation, 
+action is determined by the backend server. To facilitate this communication
+we open up a simple 2-way WebSocket connection. This allows the backend to push 
+commands/update requests to the Client whenever it processes the `!chibi` commands 
+from the twitch chat. We don't really need the "client->server" side of the WebSocket
+connection but I do use it to send back some diagnostics details like `FPS` to 
+help me monitor the performance of the Runtime. This was especially important as 
+I made changes to the rendering logic of the engine and needed to track performance
+for lower-end machines(laptops, etc)
+
+#### Camera Z-Depth
+Spine sprites are 2D by definition so the runtimes provided by Esoteric team 
+rightfully use orthographic projection and do not store a Z-Depth in any of the
+vertex data of the models. In the actual Arknights game when you see the characters 
+walk around they show the behavior of walking into/out of the screen. I wanted
+to emulate this kind of behavior too. Changing the camera to perspective projection
+was not difficult, but the main trouble was adding the z-depth information down
+into the `WebGL` shaders. The normal Spine asset data (`.skel`) does not contain
+any z-depth information. Instead I separately keep track of the `z` position information
+on the Actor object and pass this down for each `Render` call. Instead of
+embedding this `z` value to each `Vertex` I pass it down to the `WebGL` shader 
+as a `uniform` variable and have the vertex Shader code itself output the corrected 3d `gl_Position`.
+
+
+#### Sprite Bounding Boxes (offscreen rendering)
+One major issue I was running into while rendering characters was that sometimes 
+they would appear to float off the ground a bit, or if they were following another
+character their "spacing/padding" would be grossly too far. This was happening 
+because of incorrect bounding boxes. Each Spine sprite has a bounding-box rectangle
+to determine the min/max extent of the space they use during their animations. 
+This bounding box is provided for free, frame-by-frame from the Spine skeleton
+data itself. Unfortunately for several characters/sprites these bounding boxes
+are extremely wrong which caused any logic relying on tight bounding-boxes to
+produce very incorrect behavior.
+
+Bad | Good
+---|---
+![badImage](/images/ak-chibi-bot/bounding_box_example_bad.png) | ![goodImage](/images/ak-chibi-bot/bounding_box_example_good.png)
+
+The fix for this issue is kind-of-crazy TBH.
+One rendering technique is to render something not to the active "display" but
+instead to an off-screen texture/buffer. This is very frequently used in double-buffer
+display systems but you can use it for all sorts of things. `OpenGL/WebGL` 
+makes this very easy by just allowing you to change which `framebuffer` is currently
+bound as the `active` buffer.
+To fix the issue we do the following: 
+  1. Each time we load in a new Sprite or change the animation.
+  2. First render the sprite to the offscreen framebuffer 
+  3. Read through every pixel in that buffer/texture to determine the min/max extents of the bounding box
+  4. Use that bounding box instead of the one provided by the skeleton data.
+
+This gives us a very accurate/pixel-perfect tight bounding box around the sprite. 
+This comes at the cost of double rendering each sprite each time we load a new asset,
+and also does not give us a tight frame-by-frame bounding box. The extra rendering
+time is negligible due to the infrequency of loading in new assets. We also 
+don't need frame-by-frame accurate bounding boxes either. Usually the general
+default bounding box is sufficient to make it look "nice-enough" for all the
+movement/animations I care for.
+
+
+#### Multi-Sprite Rendering
+By default the runtime player was designed to only render a single Spine model
+and to provide controls for changing the animations/skins via the browser UI. 
+For my use-case I needed to render multiple sprite entities on the same WebGL canvas
+and have programmatic controls for changing the Sprites animations and state. 
+This was as straightforward as keeping a list of all the Entities to be rendered
+and making multiple `drawSkeleton` calls with the same renderer.
+
+The downside of this is that we are dispatching many separate `draw` calls (one for each actor).
+As any graphics programmer will tell you lowering the number of GPU dispatch calls
+can significantly improve performance. The default Spine renderer already 
+did some batching of the Vertex information, but when processing across multiple
+sprites the `Texture` also changes so each time a new sprite needed to be rendered
+it would need to flush the buffer regardless if we still had room for more Vertex data.
+To relieve this issue I introduced texture arrays into the Fragment shader to
+allow up to `16` different texture to be stored at a time. This allowed us to 
+render up to 16 different actors before needing to do a single dispatch call. 
+I no longer have the performance metrics for these changes but it did improve 
+the times by a few milliseconds, but definitely not as much as I had hoped for. 
+
+```glsl
+uniform sampler2D u_textures[16];
+vec4 getTextureColor() {
+  int index = int(floor(v_texIndex + 0.2));
+  if (index < 8) {
+    if (index < 4) {
+      if (index < 2) {
+        return (index == 0) 
+          ? texture(u_textures[0], v_texCoords) 
+          : texture(u_textures[1], v_texCoords);
+      } else {
+        return (index == 2) 
+        ? texture(u_textures[2], v_texCoords) 
+        : texture(u_textures[3], v_texCoords);
+      }
+    } else {
+      ...
+    }
+  } else {
+    ...
+  }
+  
+  return vec4(1.0, 0.0, 0.0, 1.0); // Fallback for invalid indices
+}
+```
+
+The bulk of the time-spent and where I could get more performance gains is in the 
+spine skeleton processing itself. Each frame the sprite animation is updated
+and this creates an entire new array of vertex data which needs to be passed
+down to the GPU. The logic in the Spine runtime engine for doing this logic
+is not fast, and most definitely could be parallelized. The code is very tricky 
+though I couldn't make any headway into making the improvements, but it is on the table!
+
+
+### Backend Server
+The backend server is the component which connects the Twitch chat 
+commands to the Spine runtime client in the User's OBS browser. 
+It is the entry point for opening the spine runtime webpage, holding the persistent websocket connections,
+serves all the asset files, and is the master component which holds the state of all the Viewer's
+chosen characters, animations and actions!
+
+#### Rooms
+The general flow of a connection is this:
+1. User connects to the server via `/rooms?channelName=CHANNEL_NAME`
+2. The server creates an in-memory Room record for the connection.
+3. The room holds the persistent websocket connection to the connected Browser, 
+   and it also opens up a connection to the User's Twitch IRC Chat based 
+   on the passed in `CHANNEL_NAME`.
+
+A room is an in-memory record of a connection from a Browser and run's in its own go routine.
+A single room exists for each channel, but can hold multiple websocket connections (one for each connected browser).
+It also has a connection to the user's Twitch IRC Chat. The room is stateful
+and keeps a map of every active chatter in the room. Each chatter is assigned 
+a sprite and it holds the full state of the sprite (like skin, animation, action, etc)
+The room will also monitor every message in the User's chat and parse out any `!chibi` commands.
+These commands are pushed through the WebSocket connections to tell the Spine Runtime/Client
+how the Sprites should be displayed/which animations to play.
+
+### Database
+We have a single Postgres DB for this project. For such a simple project it seems a little over-kill but there were
+two main things I need persistent state/storage for.
+  1. **hot-reloading** - Whenever I update the docker container with a new image the container is briefly down. This would 
+    kill any active OBS Browser connections and therefore a streamer's overlay would no longer work until they fully refreshed
+    the overlay. I found this unacceptable as it made it really hard for me to hot-update the image to fix issues
+    and to keep the User's experience un-marred. To fix this I added a exponential-backoff reconnection logic to the Spine Runtime 
+    Player client. This way the client will try to reconnect to the server if it drops only briefly. Usually reloading the containers
+    takes less than one minute so this offers a seamless experience for reloading the container and keeping the User overlay
+    functioning.
+  2. **Customization** - I wanted to provide a way for Streamers/Viewers to save their own customizations. 
+    For the Streamer there are some configurations for settings how small/large and slow/fast the characters move on the screen. 
+    I wanted to provide a way for Streamers to set these configurations and have them saved.
+    I also wanted to provide a feature for Viewers to "save" their favorite characters. This way whenever they 
+    pop into a stream which uses the overlay it would always display their favorite character with their own customized
+    animations and skins. Otherwise eachtime they join it would just be a random character.
+
+### Assets
+All the asset files are served directly from the file-system using go's `http.FileServer`.
+We create an index of all the asset files which exist in a custom JSON format. 
+Ideally all the assets would be served via the DB or some bucket storage, but during
+development the asset structure and data was quite unstable and had lots of changes.
+Keeping them as separate files and with a separate index made iteration much faster.
+
+### Web Application
+The project's web-page found at `akchibibot.stymphalian.top` is also served from the same Backend server.
+The web-page itself is quite barebones. It just has some instructions on how to set up OBS to use the twitch bot
+as well as has a Docs page which lists all the commands and different configurations available.
+The one complicated part is that it allows for OAuth login via your twitch account. This provides
+the authorization for saving custom settings your own channel. This makes AJAX API calls
+to the backend to update the DB with the custom configuration settings.
+
+I also have a hidden `admin` page which I use to help monitor active Users of the twitch bot. 
+It is a simple table listing all the active rooms, lists all the active chatters
+in each room with some controls for kicking users and closing rooms.
+It has helped me many times for triaging/debugging issues that have happened for some streamers.
+
+
+### Infrastructure
+Infrastructure-wise we are deploying everything through Docker/containers. I setup a cheap ($5/mo) Digital Ocean instance
+to run the docker containers and have an nginx proxy to route requests to the containers. I get HTTPS certificates
+via [LetsEncrypt](https://letsencrypt.org/). 
+
+The docker image bundles ALL the spine asset data (png/atlas/skel). This bloats the image file a lot but
+it significantly speeds up file-serving from the go server. A better/more involved architecture would
+be to have the nginx serve these static files, or to have them in some other bucket storage but one of
+my main motivators was to reduce cost. I wanted to only run a single Digital Ocean instance and not have 
+to pay for any other storage/services.
+
+
+## System Diagram
 
 ```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+graph TB
+    %% External Systems
+    Twitch[Twitch Chat/API]
+    OBS[OBS Browser Source]
+    User[Streamer/User]
+    
+    %% Frontend Components
+    WebApp[Web Application<br/>akchibibot.stymphalian.top]
+    SpineRuntime[Spine Runtime<br/>Browser Client]
+    
+    %% Backend Components
+    BotServer[Bot Server<br/>HTTP Server]
+    RoomsManager[Rooms Manager]
+    Room[Room Instance]
+    ChibiActor[Chibi Actor]
+    SpineBridge[Spine Bridge]
+    TwitchChat[Twitch IRC Client]
+    
+    %% Infrastructure
+    DB[(PostgreSQL Database)]
+    Assets[Asset Files<br/>PNG/Atlas/Skel]
+    
+    %% Connections
+    User --> WebApp
+    User --> OBS
+    OBS --> SpineRuntime
+    
+    %% Web App connections
+    WebApp --> BotServer
+    WebApp --> Twitch
+    
+    
+    %% Room creation flow
+    BotServer --> RoomsManager
+    RoomsManager --> Room
+    
+    %% Room internal components
+    Room --> SpineBridge
+    Room --> ChibiActor
+    Room --> TwitchChat
+    
+    %% Spine Runtime connections
+    SpineRuntime <--> SpineBridge
+    SpineRuntime --> Assets
+    
+    %% Twitch connections
+    TwitchChat <--> Twitch
+    
+    %% Database connections
+    BotServer --> DB
+    ChibiActor --> DB
+    
+    %% Asset serving
+    BotServer --> Assets
+    
+    %% Styling
+    classDef external fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef frontend fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef backend fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef infrastructure fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef data fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    
+    class Twitch,OBS,User external
+    class WebApp,SpineRuntime frontend
+    class BotServer,RoomsManager,Room,ChibiActor,SpineBridge,TwitchChat backend
+    class DB,Assets data
+    
+    %% Containers
+    subgraph "External Systems"
+        Twitch
+        OBS
+        User
+    end
+    
+    subgraph "Frontend Layer"
+        WebApp
+        SpineRuntime
+    end
+    
+    subgraph "Backend Server"
+        BotServer
+        RoomsManager
+        subgraph "Room Instance"
+            Room
+            ChibiActor
+            SpineBridge
+            TwitchChat
+        end
+    end
+    
+    subgraph "Data Layer"
+        DB
+        Assets
+    end
 ```
