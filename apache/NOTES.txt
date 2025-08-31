@@ -1,0 +1,5 @@
+/etc/apache2/sites-available - create new your_domain.conf file
+Create /var/www/blog.jordanyu.com - contains the files you want to serve
+a2ensite blog.jordanyu.conf
+systemctl reload apache2
+certbot --apache -d blog.jordanyu.com
