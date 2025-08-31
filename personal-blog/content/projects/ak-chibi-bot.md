@@ -114,7 +114,7 @@ For some context the Arknights chibis are organized like this.
 To keep things organized and easily searchable/indexable by the application 
 we store all the assets in the following directory structure.
 
-```
+```text
 assets/
   characters/
     char_002_amiya/default/base/Front/
@@ -147,14 +147,14 @@ the _source_ pixel and the _background/destination_ pixel to give us the illusio
 The normal rendering logic is called "Straight" and looks like this.
 We directly use the src alpha and multiply it against the src color (rgb)
 before blending it with the dest/background color.
-```
+```typescript
 straightColor = (srcColor.rgb * srcColor.a) + (destColor.rgb * (1 - srcColor.a))
 ```
 
 Someone came up with the idea of saving some computation time and "premultiplying"
 the `srcColor.rgb * srcColor.a` and directly saving that information in the 
 image texture `rgb` itself. We now have.
-```
+```typescript
 preMultColor = (srcColor.rgb) + (destColor.rgb * (1 - srcColor.a))
 ```
 

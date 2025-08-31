@@ -105,6 +105,21 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                                 {children}
                             </h3>
                         ),
+                        h4: ({ children, ...props }) => (
+                            <h4 className="text-lg font-semibold mb-2" {...props}>
+                                {children}
+                            </h4>
+                        ),
+                        h5: ({ children, ...props }) => (
+                            <h5 className="text-base font-semibold mb-2" {...props}>
+                                {children}
+                            </h5>
+                        ),
+                        h6: ({ children, ...props }) => (
+                            <h6 className="text-sm font-semibold mb-2" {...props}>
+                                {children}
+                            </h6>
+                        ),
                         p: ({ children, ...props }) => (
                             <p className="mb-4 leading-relaxed" {...props}>
                                 {children}
@@ -121,6 +136,20 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
                                 );
                             }
 
+                            // Check if this is inline code (no className) vs code block (has className)
+                            if (!className) {
+                                // Inline code styling
+                                return (
+                                    <code
+                                        className="bg-vs-editor-surface text-vs-editor-text px-1.5 py-0.5 rounded text-sm font-mono border border-vs-editor-border"
+                                        {...props}
+                                    >
+                                        {children}
+                                    </code>
+                                );
+                            }
+
+                            // Code block styling (already handled by pre component)
                             return (
                                 <code
                                     className={className}
