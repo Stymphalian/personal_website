@@ -52,12 +52,35 @@ export const projects: Project[] = [
       // }
     ]
   },
+  {
+    id: 'graph-editor',
+    slug: 'graph_editor',
+    title: 'Graph Editor',
+    description: 'A web-based graph (node/edge) editor application designed to allow you to visually create and edit graphs. Features a text-panel for edge-list representation with bidirectional synchronization between text and visual editors. Built as an experiment with agentic coding using Cursor AI.',
+    shortDescription: 'Interactive web-based graph editor with visual and text editing modes',
+    image: '/images/graph_editor/banner.png',
+    techStack: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'D3.js', 'Jest'],
+    tags: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'D3.js', 'Jest'],
+    featured: true,
+    date: '2025-09-01',
+    githubRepo: 'https://github.com/Stymphalian/graph_editor',
+    showDetails: true,
+    images: [
+      {
+        type: 'image',
+        src: '/images/graph_editor/banner.png',
+        alt: 'Graph Editor Interface',
+        caption: 'Interactive graph editor with visual and text editing modes'
+      }
+    ],
+    videos: []
+  },
 ];
 
 // Content loading functions that integrate with existing data layer
 export const loadProjectContent = async (slug: string): Promise<ProjectContent | null> => {
   try {
-    const content = await loadContent(`/content/projects/${slug}.txt`, 'project');
+    const content = await loadContent(`/content/projects/${slug}.md`, 'project');
     return content as ProjectContent;
   } catch (error) {
     console.error(`Failed to load project content for slug: ${slug}`, error);
@@ -73,7 +96,7 @@ export const loadProjectContentById = async (id: string): Promise<ProjectContent
 
 export const preloadProjectContent = async (slug: string): Promise<void> => {
   try {
-    await loadContent(`/content/projects/${slug}.txt`, 'project', { cacheEnabled: true });
+    await loadContent(`/content/projects/${slug}.md`, 'project', { cacheEnabled: true });
   } catch (error) {
     console.warn(`Failed to preload project content for slug: ${slug}`, error);
   }

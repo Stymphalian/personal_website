@@ -1,19 +1,24 @@
-import { Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const location = useLocation();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const toolsDropdownRef = useRef<HTMLDivElement>(null);
 
   const navigationItems = [
     { path: '/', label: 'Home' },
     { path: '/projects', label: 'Projects' },
     // { path: '/blog', label: 'Blog' },
-    { path: '/contact', label: 'Contact' },
+  ];
+
+  const toolsItems = [
+    { path: 'https://blog.jordanyu.com/tools/graph_editor', label: 'Graph Editor', external: true },
   ];
 
   // Minimum swipe distance (in px)
@@ -32,6 +37,14 @@ const Navigation: React.FC = () => {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const toggleToolsDropdown = () => {
+    setIsToolsDropdownOpen(!isToolsDropdownOpen);
+  };
+
+  const closeToolsDropdown = () => {
+    setIsToolsDropdownOpen(false);
   };
 
   // Touch gesture handlers for mobile
@@ -64,23 +77,32 @@ const Navigation: React.FC = () => {
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
         closeMenu();
       }
+      if (toolsDropdownRef.current && !toolsDropdownRef.current.contains(event.target as Node)) {
+        closeToolsDropdown();
+      }
     };
 
-    if (isMenuOpen) {
+    if (isMenuOpen || isToolsDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    if (isMenuOpen) {
       // Prevent body scroll when menu is open
       document.body.style.overflow = 'hidden';
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
-      document.body.style.overflow = 'unset';
+      if (isMenuOpen) {
+        document.body.style.overflow = 'unset';
+      }
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, isToolsDropdownOpen]);
 
-  // Close menu on route change
+  // Close menu and dropdowns on route change
   useEffect(() => {
     closeMenu();
+    closeToolsDropdown();
   }, [location.pathname]);
 
   return (
@@ -107,9 +129,68 @@ const Navigation: React.FC = () => {
                     }`}
                 >
                   {item.label}
-
                 </Link>
               ))}
+              
+              {/* Tools Dropdown */}
+              <div className="relative" ref={toolsDropdownRef}>
+                <button
+                  onClick={toggleToolsDropdown}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center space-x-1 ${isActive('/tools') || isToolsDropdownOpen
+                    ? 'text-crystal-blue-400 bg-vs-editor-selection'
+                    : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover'
+                    }`}
+                >
+                  <span>Tools</span>
+                  <ChevronDown 
+                    className={`h-4 w-4 transition-transform duration-200 ${isToolsDropdownOpen ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                
+                {isToolsDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-vs-editor-surface border border-vs-editor-border rounded-md shadow-lg z-50">
+                    <div className="py-1">
+                      {toolsItems.map((tool) => (
+                        tool.external ? (
+                          <a
+                            key={tool.path}
+                            href={tool.path}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block px-4 py-2 text-sm transition-colors text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover"
+                            onClick={closeToolsDropdown}
+                          >
+                            {tool.label}
+                          </a>
+                        ) : (
+                          <Link
+                            key={tool.path}
+                            to={tool.path}
+                            className={`block px-4 py-2 text-sm transition-colors ${isActive(tool.path)
+                              ? 'text-crystal-blue-400 bg-vs-editor-selection'
+                              : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover'
+                              }`}
+                            onClick={closeToolsDropdown}
+                          >
+                            {tool.label}
+                          </Link>
+                        )
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Contact Link */}
+              <Link
+                to="/contact"
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive('/contact')
+                  ? 'text-crystal-blue-400 bg-vs-editor-selection'
+                  : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover'
+                  }`}
+              >
+                Contact
+              </Link>
             </div>
           </div>
 
@@ -166,6 +247,60 @@ const Navigation: React.FC = () => {
                   {item.label}
                 </Link>
               ))}
+              
+              {/* Tools Section */}
+              <div className="pt-4 mt-4 border-t border-vs-editor-border">
+                <div className="text-xs font-semibold text-vs-editor-text2 uppercase tracking-wider mb-4 px-3 transition-colors duration-300">
+                  Tools
+                </div>
+                {toolsItems.map((tool, index) => (
+                  tool.external ? (
+                    <a
+                      key={`mobile-${tool.path}`}
+                      href={tool.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:-translate-x-1 text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover hover:shadow-md active:bg-vs-editor-surface2 active:scale-95"
+                      onClick={closeMenu}
+                      style={{
+                        animationDelay: `${(navigationItems.length + index) * 100}ms`
+                      }}
+                    >
+                      {tool.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={`mobile-${tool.path}`}
+                      to={tool.path}
+                      className={`block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:-translate-x-1 ${isActive(tool.path)
+                        ? 'text-crystal-blue-400 bg-vs-editor-selection border-l-4 border-crystal-blue-400 shadow-md'
+                        : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover hover:shadow-md active:bg-vs-editor-surface2 active:scale-95'
+                        }`}
+                      onClick={closeMenu}
+                      style={{
+                        animationDelay: `${(navigationItems.length + index) * 100}ms`
+                      }}
+                    >
+                      {tool.label}
+                    </Link>
+                  )
+                ))}
+              </div>
+
+              {/* Contact Link */}
+              <Link
+                to="/contact"
+                className={`block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:-translate-x-1 ${isActive('/contact')
+                  ? 'text-crystal-blue-400 bg-vs-editor-selection border-l-4 border-crystal-blue-400 shadow-md'
+                  : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover hover:shadow-md active:bg-vs-editor-surface2 active:scale-95'
+                  }`}
+                onClick={closeMenu}
+                style={{
+                  animationDelay: `${(navigationItems.length + toolsItems.length) * 100}ms`
+                }}
+              >
+                Contact
+              </Link>
             </div>
 
             {/* Mobile menu footer with enhanced styling */}

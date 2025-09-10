@@ -80,7 +80,7 @@ but the main tools are listed here:
 - [isHarryh/Ark-FBS-Py](https://github.com/isHarryh/Ark-FBS-Py) - Tools for handling Arknights FlatBuffers encoded data
 - [ChaomengOrion/ArkAssetsTool](https://github.com/ChaomengOrion/ArkAssetsTool) - The foundation for the download script
 
-I don't think this ripping "allowed", but there are many fan-made websites which have ripped 
+I don't think this ripping is "allowed", but there are many fan-made websites which have ripped 
 these assets for use on their web-pages. If Hypergryph really cares and they send me a notice to stop
 I'd be happy to comply! This is mostly a passion project anyways.
 
@@ -196,7 +196,7 @@ Some significant changes I made to the runtime/player was the support for:
 #### Client-side Actor Behavior 
 The happy-path case for the animated sprite was for it to slowly wander/walk back
 and forth along the bottom of the screen. The spine player by default only 
-plays the animations and doesn't do any movement. I needed to explicitly add create
+plays the animations and doesn't do any movement. I needed to explicitly create
 an Actor wrapper around the Spine/Skeleton object and implement the logic 
 for moving it around the screen and add calls to my own `UpdatePhysics()` code.
 This abstraction allowed me to overlay an `Action` system on the Actors. 
@@ -401,12 +401,12 @@ It has helped me many times for triaging/debugging issues that have happened for
 
 ### Infrastructure
 Infrastructure-wise we are deploying everything through Docker/containers. I setup a cheap ($5/mo) Digital Ocean instance
-to run the docker containers and have an nginx proxy to route requests to the containers. I get HTTPS certificates
+to run the docker containers and have an apache proxy to route requests to the containers. I get HTTPS certificates
 via [LetsEncrypt](https://letsencrypt.org/). 
 
 The docker image bundles ALL the spine asset data (png/atlas/skel). This bloats the image file a lot but
 it significantly speeds up file-serving from the go server. A better/more involved architecture would
-be to have the nginx serve these static files, or to have them in some other bucket storage but one of
+be to have the apache serve these static files, or to have them in some other bucket storage but one of
 my main motivators was to reduce cost. I wanted to only run a single Digital Ocean instance and not have 
 to pay for any other storage/services.
 
