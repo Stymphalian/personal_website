@@ -8,7 +8,7 @@ so any edits made in either are bidirectionally communicated.
 The graph editor is based on this [tool](https://csacademy.com/app/graph_editor/)
 from CS Academy.
 
-Source Code: https://github.com/Stymphalan/graph_editor \
+Source Code: https://github.com/Stymphalian/graph_editor \
 Try it out: https://blog.jordanyu.com/tools/graph_editor
 
 
