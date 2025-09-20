@@ -75,6 +75,29 @@ export const projects: Project[] = [
     ],
     videos: []
   },
+  {
+    id: 'vscode-code-share-link',
+    slug: 'vscode-code-share-link',
+    title: 'VSCode Code Share Link',
+    description: 'A VS Code extension that allows you to quickly generate and share code links to specific lines of code in your repository. Perfect for code reviews, documentation, and collaboration with keyboard shortcuts and context menu integration.',
+    shortDescription: 'VS Code extension for generating shareable code links',
+    image: '/images/vscode-code-share-link/banner.png',
+    techStack: ['TypeScript', 'VS Code API', 'Git', 'Node.js'],
+    tags: ['TypeScript', 'VS Code Extension', 'Developer Tools', 'Git'],
+    featured: true,
+    date: '2025-09-20',
+    githubRepo: 'https://github.com/Stymphalian/vscode-code-share-link',
+    showDetails: true,
+    images: [
+      {
+        type: 'image',
+        src: '/images/vscode-code-share-link/banner.png',
+        alt: 'VSCode Code Share Link Extension',
+        caption: 'VS Code extension for generating shareable code links'
+      }
+    ],
+    videos: []
+  },
 ];
 
 // Content loading functions that integrate with existing data layer
