@@ -158,7 +158,8 @@ export const generateFallbackProject = (options: FallbackContentOptions): Projec
       date: new Date().toISOString().split('T')[0],
       tags: ['error', 'fallback'],
       liveDemo: undefined,
-      githubRepo: undefined
+      githubRepo: undefined,
+      showDetails: false
     },
     content: `
 # ${fallback.title}

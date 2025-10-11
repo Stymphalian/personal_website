@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import type { ProjectMedia } from '../../data/projects';
+import type { ProjectMedia } from '../../data/interfaces';
 import MediaGallery from './MediaGallery';
 
 // Mock data for testing

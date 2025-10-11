@@ -98,7 +98,7 @@ describe('ProjectCard', () => {
   it('renders tech stack tags correctly', () => {
     render(<ProjectCard project={mockProject} />);
 
-    mockProject.techStack.forEach(tech => {
+    mockProject.techStack.forEach((tech: string) => {
       const techTag = screen.getByText(tech);
       expect(techTag).toBeInTheDocument();
       expect(techTag).toHaveClass('px-2', 'sm:px-3', 'py-1', 'bg-crystal-blue-500/20', 'text-crystal-blue-400');

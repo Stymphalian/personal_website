@@ -6,3 +6,11 @@ use the tools. \
 Look at LLM.md for instructions on creating PRD markdown files that you can
 feed to your AI agent to make new features. \
 The actual data is written in the `content/projects` and `content/blogs` markdown files
+
+## Commands
+```
+cd personal-blog
+npm run dev
+npm run generate:projects
+npm run build
+```

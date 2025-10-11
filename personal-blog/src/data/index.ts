@@ -1,3 +1,5 @@
 // Data exports
-export * from './projects';
 export * from './blog-posts';
+export * from './interfaces';
+export * from './projects';
+

@@ -1,21 +1,23 @@
+import type {
+  BaseContent,
+  BlogPostContent,
+  BlogPostFrontmatter,
+  ContentCache,
+  ContentFile,
+  ContentLoaderOptions,
+  ContentLoadingState,
+  ContentLoadingStateData,
+  ContentMetadata,
+  ContentSearchResult,
+  ContentType,
+  ContentUnion,
+  ContentValidationResult,
+  ProjectContent,
+  ProjectFrontmatter,
+} from './content';
 import {
-    BaseContent,
-    BlogPostContent,
-    BlogPostFrontmatter,
-    ContentCache,
-    ContentFile,
-    ContentLoaderOptions,
-    ContentLoadingState,
-    ContentLoadingStateData,
-    ContentMetadata,
-    ContentSearchResult,
-    ContentType,
-    ContentUnion,
-    ContentValidationResult,
-    ProjectContent,
-    ProjectFrontmatter,
-    REQUIRED_BLOG_POST_FIELDS,
-    REQUIRED_PROJECT_FIELDS
+  REQUIRED_BLOG_POST_FIELDS,
+  REQUIRED_PROJECT_FIELDS
 } from './content';
 
 describe('Content Types', () => {
@@ -77,7 +79,8 @@ describe('Content Types', () => {
         image: '/project-image.jpg',
         techStack: ['React', 'TypeScript', 'Node.js'],
         liveDemo: 'https://demo.com',
-        githubRepo: 'https://github.com/example/project'
+        githubRepo: 'https://github.com/example/project',
+        showDetails: true
       };
 
       expect(project.description).toBe('This is a project description');
@@ -126,7 +129,8 @@ describe('Content Types', () => {
           description: 'Project description',
           shortDescription: 'Short description',
           image: '/image.jpg',
-          techStack: ['React', 'TypeScript']
+          techStack: ['React', 'TypeScript'],
+          showDetails: true
         },
         content: '# Project Content\n\nThis is the project markdown content.'
       };

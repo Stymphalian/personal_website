@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { ProjectMedia } from '../../data/projects';
+import type { ProjectMedia } from '../../data/interfaces';
 
 interface MediaGalleryProps {
     images?: ProjectMedia[];

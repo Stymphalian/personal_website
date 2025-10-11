@@ -1,3 +1,32 @@
+---
+id: ak-chibi-bot
+slug: ak-chibi-bot
+title: Arknights Chibi Twitch Bot
+description: A twitch bot and browser source overlay to show Arknight chibis walking on your stream. Viewers can issue !chibi chat commands to choose their own operator, change skins and play different animations.
+shortDescription: Twitch Bot and Browser Overlay for Arknights Chibis
+image: /content/projects/images/ak-chibi-bot/banner.png
+techStack:
+  - React
+  - Spine
+  - Twitch API
+  - Golang
+tags:
+  - React
+  - Spine
+  - Twitch API
+  - Golang
+featured: true
+date: 2024-06-10
+liveDemo: https://akchibibot.stymphalian.top
+githubRepo: https://github.com/stymphalian/ak_chibi_bot
+showDetails: true
+images:
+  - type: image
+    src: /content/projects/images/ak-chibi-bot/banner.png
+    alt: Arknights Chibi Bot
+    caption: Arknights Chibi Twitch Bot and Overlay
+videos: []
+---
 # Arknights Chibi Twitch Bot
 A Twitch bot and browser source overlay that displays Arknights chibi characters walking on your stream. Viewers can interact with the bot using chat commands to choose operators, change skins, and play different animations.
 

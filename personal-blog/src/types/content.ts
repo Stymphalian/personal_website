@@ -25,7 +25,7 @@ export interface ProjectFrontmatter extends BaseContent {
   techStack: string[];
   liveDemo?: string;
   githubRepo?: string;
-  showDetails?: boolean; // Controls whether View Details button is shown
+  showDetails: boolean; // Controls whether View Details button is shown
 }
 
 export interface BlogPostContent {

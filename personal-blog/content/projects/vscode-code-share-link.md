@@ -1,3 +1,32 @@
+---
+id: vscode-code-share-link
+slug: vscode-code-share-link
+title: VSCode Code Share Link
+description: A VS Code extension that allows you to quickly generate and share code links to specific lines of code in your repository. Perfect for code reviews, documentation, and collaboration with keyboard shortcuts and context menu integration.
+shortDescription: VS Code extension for generating shareable code links
+image: /content/projects/images/vscode-code-share-link/banner.png
+techStack:
+  - TypeScript
+  - VS Code API
+  - Git
+  - Node.js
+tags:
+  - TypeScript
+  - VS Code Extension
+  - Developer Tools
+  - Git
+featured: true
+date: 2025-09-20
+githubRepo: https://github.com/Stymphalian/vscode-code-share-link
+showDetails: true
+images:
+  - type: image
+    src: /content/projects/images/vscode-code-share-link/banner.png
+    alt: VSCode Code Share Link Extension
+    caption: VS Code extension for generating shareable code links
+videos: []
+---
+
 # Overview
 This VS Code extension gives you a context-menu and Ctrl+P command to generate
 a GitHub perma-link for specific lines in your code repository. This allows you to 

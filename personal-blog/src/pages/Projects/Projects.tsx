@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Layout } from '../../components/Layout';
 import { ProjectCard } from '../../components/ProjectCard';
-import { projects } from '../../data/projects';
+import { projects } from '../../data/projects_list';
 
 const Projects: React.FC = () => {
   const navigate = useNavigate();

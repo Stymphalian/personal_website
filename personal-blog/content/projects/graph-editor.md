@@ -1,3 +1,40 @@
+---
+id: graph-editor
+slug: graph_editor
+title: Graph Editor
+description: A web-based graph (node/edge) editor application designed to allow you to visually create and edit graphs. Features a text-panel for edge-list representation with bidirectional synchronization between text and visual editors. Built as an experiment with agentic coding using Cursor AI.
+shortDescription: Interactive web-based graph editor with visual and text editing modes
+image: /content/projects/images/graph-editor/banner.png
+techStack:
+  - React
+  - TypeScript
+  - Vite
+  - Tailwind CSS
+  - D3.js
+  - Jest
+tags:
+  - React
+  - TypeScript
+  - Vite
+  - Tailwind CSS
+  - D3.js
+  - Jest
+featured: true
+date: 2025-09-01
+githubRepo: https://github.com/Stymphalian/graph_editor
+showDetails: true
+images:
+  - type: image
+    src: /content/projects/images/graph-editor/banner.png
+    alt: Graph Editor Interface
+    caption: Interactive graph editor with visual and text editing modes
+  - type: image
+    src: /content/projects/images/graph-editor/preview.png
+    alt: Graph Editor Preview
+    caption: Example of a graph being edited
+videos: []
+---
+
 # Graph Editor
 
 This is a web-based graph (node/edge) editor application designed to allow
