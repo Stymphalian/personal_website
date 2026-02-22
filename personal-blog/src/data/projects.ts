@@ -22,35 +22,6 @@ export const loadProjectContent = async (
   }
 };
 
-export const loadProjectContentById = async (
-  id: string
-): Promise<ProjectContent | null> => {
-  const project = getProjectById(id);
-  if (!project) return null;
-  return loadProjectContent(project.slug);
-};
-
-export const preloadProjectContent = async (slug: string): Promise<void> => {
-  try {
-    await loadContent(`/content/projects/${slug}.md`, 'project', {
-      cacheEnabled: true,
-    });
-  } catch (error) {
-    console.warn(`Failed to preload project content for slug: ${slug}`, error);
-  }
-};
-
-export const preloadFeaturedProjectsContent = async (): Promise<void> => {
-  const featuredProjects = getFeaturedProjects();
-  await Promise.all(
-    featuredProjects.map(project => preloadProjectContent(project.slug))
-  );
-};
-
-export const getFeaturedProjects = (): Project[] => {
-  return projects.filter(project => project.featured);
-};
-
 export const getProjectById = (id: string): Project | undefined => {
   return projects.find(project => project.id === id);
 };

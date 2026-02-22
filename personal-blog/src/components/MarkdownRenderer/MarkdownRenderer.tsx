@@ -15,11 +15,8 @@ export interface MarkdownRendererProps {
     extractExcerpt?: boolean;
     maxExcerptLength?: number;
   };
-  onError?: (error: Error) => void;
   loadingState?: ContentLoadingState;
   loadingStateData?: any;
-  showRetryButton?: boolean;
-  retryLabel?: string;
   emptyContentMessage?: string;
 }
 

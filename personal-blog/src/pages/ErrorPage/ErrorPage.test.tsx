@@ -11,11 +11,6 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-// Mock Headshot component
-jest.mock('../../components/Headshot', () => ({
-  Headshot: () => <div data-testid='headshot'>Headshot</div>,
-}));
-
 const renderWithRouter = (component: React.ReactElement) => {
   return render(<BrowserRouter>{component}</BrowserRouter>);
 };

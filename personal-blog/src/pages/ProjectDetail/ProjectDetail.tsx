@@ -154,10 +154,8 @@ const ProjectDetail: React.FC = () => {
                     : 'Loading...'}{' '}
                   min read
                 </div>
-
               </div>
             </div>
-
           </div>
 
           {/* Project Content */}
@@ -172,10 +170,6 @@ const ProjectDetail: React.FC = () => {
                 breaks: true,
               }}
               emptyContentMessage='Project content is being loaded...'
-              onError={err => {
-                setError(err.message);
-                setLoadingState('error');
-              }}
             />
           </div>
         </div>
