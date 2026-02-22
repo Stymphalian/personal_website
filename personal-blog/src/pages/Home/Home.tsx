@@ -40,10 +40,12 @@ const Home: React.FC = () => {
             }`}
           >
             Hi, I'm{' '}
-            <span className='font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-crystal-blue-400'>Jordan Yu</span>{' '}
+            <span className='font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-crystal-blue-400'>
+              Jordan Yu
+            </span>{' '}
             — a software engineer by trade and gamer at heart, with a passion
-            for graphics, competitive programming, and picking up new things;
-            welcome to my corner of the internet.
+            for programming, and picking up new things; welcome to my corner of
+            the internet.
           </p>
         </div>
 
