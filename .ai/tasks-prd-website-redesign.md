@@ -85,14 +85,14 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
   - [x] 2.4 Update all imports of the removed functions across the codebase (e.g., `content-loader.ts` importing from `markdown.ts`).
   - [x] 2.5 Update `src/utils/content-loader.test.ts` to test the new `gray-matter`-based parsing.
   - [x] 2.6 Update or remove tests in `src/utils/markdown.ts` related tests if they exist, to reflect the `reading-time` integration and removal of `validateMarkdownContent`.
-- [ ] 3.0 Implement light/dark toggle
-  - [ ] 3.1 Define CSS variables for light and dark themes in `globals.css` (background, surface, border, text colors, etc.) under `:root` (light) and `.dark` (dark) selectors.
-  - [ ] 3.2 Update `tailwind.config.js` to reference the new CSS variables instead of hardcoded hex values for the `vs-editor` and `crystal-blue` color palettes.
-  - [ ] 3.3 Create a `ThemeToggle` component (`src/components/ThemeToggle/ThemeToggle.tsx`) with a sun/moon icon button that toggles a `dark` class on `<html>` and persists the preference to `localStorage`.
-  - [ ] 3.4 Create barrel export `src/components/ThemeToggle/index.ts`.
-  - [ ] 3.5 Add the `ThemeToggle` component export to `src/components/index.ts`.
-  - [ ] 3.6 Initialize the theme on app load (e.g., in `App.tsx` or `main.tsx`) by reading `localStorage` and applying the `dark` class to `<html>`, defaulting to dark if no preference is set.
-  - [ ] 3.7 Write unit tests for the `ThemeToggle` component (`ThemeToggle.test.tsx`) covering toggle behavior and localStorage persistence.
+- [x] 3.0 Implement light/dark toggle
+  - [x] 3.1 Define CSS variables for light and dark themes in `globals.css` (background, surface, border, text colors, etc.) under `:root` (light) and `.dark` (dark) selectors.
+  - [x] 3.2 Update `tailwind.config.js` to reference the new CSS variables instead of hardcoded hex values for the `vs-editor` and `crystal-blue` color palettes.
+  - [x] 3.3 Create a `ThemeToggle` component (`src/components/ThemeToggle/ThemeToggle.tsx`) with a sun/moon icon button that toggles a `dark` class on `<html>` and persists the preference to `localStorage`.
+  - [x] 3.4 Create barrel export `src/components/ThemeToggle/index.ts`.
+  - [x] 3.5 Add the `ThemeToggle` component export to `src/components/index.ts`.
+  - [x] 3.6 Initialize the theme on app load (e.g., in `App.tsx` or `main.tsx`) by reading `localStorage` and applying the `dark` class to `<html>`, defaulting to dark if no preference is set.
+  - [x] 3.7 Write unit tests for the `ThemeToggle` component (`ThemeToggle.test.tsx`) covering toggle behavior and localStorage persistence.
 - [ ] 4.0 Redesign Top-Bar Navigation
   - [ ] 4.1 Refactor `Navigation.tsx`: left side shows "Jordan Yu" as a `<Link>` to `/`; right side shows "Projects" (`/projects`), "About" (`/about`), "Resume" (external link to `/resume.pdf`), and the `ThemeToggle` component.
   - [ ] 4.2 Remove the existing "Tools" dropdown, "Home" nav item, and "Contact" nav item from the navigation.

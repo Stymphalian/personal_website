@@ -20,19 +20,20 @@ export default {
           800: '#212529',
           900: '#1a1d20',
         },
-        // VSCode editor colors
+        // VSCode editor colors — driven by CSS variables for light/dark theming
+        // CSS vars store RGB channels (e.g. "30 30 30") for Tailwind opacity modifier support
         'vs-editor': {
-          bg: '#1e1e1e',           // Main editor background
-          surface: '#252526',       // Surface elements
-          surface2: '#2d2d30',     // Secondary surface
-          border: '#3c3c3c',       // Borders
-          text: '#cccccc',         // Primary text
-          text2: '#9cdcfe',        // Secondary text (blue tint)
-          text3: '#ce9178',        // Tertiary text (orange tint)
-          accent: '#007acc',       // Blue accent (VSCode blue)
-          accent2: '#0e639c',      // Darker blue accent
-          selection: '#264f78',    // Selection background
-          hover: '#2a2d2e',        // Hover states
+          bg: 'rgb(var(--vs-editor-bg) / <alpha-value>)',
+          surface: 'rgb(var(--vs-editor-surface) / <alpha-value>)',
+          surface2: 'rgb(var(--vs-editor-surface2) / <alpha-value>)',
+          border: 'rgb(var(--vs-editor-border) / <alpha-value>)',
+          text: 'rgb(var(--vs-editor-text) / <alpha-value>)',
+          text2: 'rgb(var(--vs-editor-text2) / <alpha-value>)',
+          text3: 'rgb(var(--vs-editor-text3) / <alpha-value>)',
+          accent: 'rgb(var(--vs-editor-accent) / <alpha-value>)',
+          accent2: 'rgb(var(--vs-editor-accent2) / <alpha-value>)',
+          selection: 'rgb(var(--vs-editor-selection) / <alpha-value>)',
+          hover: 'rgb(var(--vs-editor-hover) / <alpha-value>)',
         },
         // Keep crystal blue for accents
         'crystal-blue': {

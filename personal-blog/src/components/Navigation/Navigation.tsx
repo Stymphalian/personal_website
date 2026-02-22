@@ -1,6 +1,7 @@
 import { ChevronDown, Menu, X } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
 const Navigation: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -190,11 +191,15 @@ const Navigation: React.FC = () => {
               >
                 Contact
               </Link>
+
+              {/* Theme Toggle */}
+              <ThemeToggle />
             </div>
           </div>
 
-          {/* Mobile menu button - Right side */}
-          <div className="md:hidden">
+          {/* Mobile: ThemeToggle + hamburger button */}
+          <div className="md:hidden flex items-center space-x-1">
+            <ThemeToggle />
             <button
               onClick={toggleMenu}
               className="inline-flex items-center justify-center p-2 rounded-md text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover focus:outline-none focus:ring-2 focus:ring-inset focus:ring-crystal-blue-500 transition-colors active:bg-vs-editor-surface2"

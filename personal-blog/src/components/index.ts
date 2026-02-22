@@ -7,4 +7,6 @@ export { default as ProjectCard } from './ProjectCard/ProjectCard';
 export { default as ProjectCarousel } from './ProjectCarousel/ProjectCarousel';
 export { default as Breadcrumb } from './Breadcrumb/Breadcrumb';
 export type { BreadcrumbItem } from './Breadcrumb/Breadcrumb';
+export { default as ThemeToggle } from './ThemeToggle/ThemeToggle';
+
 
