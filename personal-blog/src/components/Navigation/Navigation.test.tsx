@@ -3,7 +3,6 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import Navigation from './Navigation';
 
-// Wrapper component to provide router context for tests
 const renderWithRouter = (component: React.ReactElement) => {
   return render(
     <BrowserRouter>
@@ -13,24 +12,52 @@ const renderWithRouter = (component: React.ReactElement) => {
 };
 
 describe('Navigation', () => {
-  it('renders navigation component with all menu items', () => {
+  it('renders "Jordan Yu" brand link pointing to /', () => {
     renderWithRouter(<Navigation />);
 
-    expect(screen.getByText("Jordan Yu")).toBeInTheDocument();
-    expect(screen.getByText('Home')).toBeInTheDocument();
-    expect(screen.getByText('Projects')).toBeInTheDocument();
-    // expect(screen.getByText('Blog')).toBeInTheDocument();
-    expect(screen.getByText('Contact')).toBeInTheDocument();
+    const brand = screen.getByText('Jordan Yu');
+    expect(brand).toBeInTheDocument();
+    expect(brand).toHaveAttribute('href', '/');
   });
 
-  it('renders desktop navigation menu', () => {
+  it('renders Projects and About nav links', () => {
     renderWithRouter(<Navigation />);
 
-    const desktopNav = screen.getByRole('navigation');
-    expect(desktopNav).toBeInTheDocument();
+    expect(screen.getAllByText('Projects')[0]).toHaveAttribute('href', '/projects');
+    expect(screen.getAllByText('About')[0]).toHaveAttribute('href', '/about');
   });
 
-  it('shows mobile menu button on mobile view', () => {
+  it('renders Resume link that opens in a new tab', () => {
+    renderWithRouter(<Navigation />);
+
+    const resumeLinks = screen.getAllByText('Resume');
+    // Desktop resume link is the first occurrence
+    expect(resumeLinks[0]).toHaveAttribute('href', '/resume.pdf');
+    expect(resumeLinks[0]).toHaveAttribute('target', '_blank');
+  });
+
+  it('does not render Home, Contact, or Tools nav items', () => {
+    renderWithRouter(<Navigation />);
+
+    expect(screen.queryByText('Home')).not.toBeInTheDocument();
+    expect(screen.queryByText('Contact')).not.toBeInTheDocument();
+    expect(screen.queryByText('Tools')).not.toBeInTheDocument();
+  });
+
+  it('renders the ThemeToggle button', () => {
+    renderWithRouter(<Navigation />);
+
+    const toggleButtons = screen.getAllByRole('button', { name: /switch to (light|dark) mode/i });
+    expect(toggleButtons.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('renders navigation component', () => {
+    renderWithRouter(<Navigation />);
+
+    expect(screen.getByRole('navigation')).toBeInTheDocument();
+  });
+
+  it('shows mobile menu button', () => {
     renderWithRouter(<Navigation />);
 
     const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
@@ -42,82 +69,51 @@ describe('Navigation', () => {
 
     const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
 
-    // Initially menu should be closed
-    expect(screen.queryByText('Home')).toBeInTheDocument(); // Desktop version
-    expect(screen.queryByText('Projects')).toBeInTheDocument(); // Desktop version
-
-    // Click to open menu
+    // Open menu
     fireEvent.click(mobileMenuButton);
     expect(screen.getByRole('button', { name: /close main menu/i })).toBeInTheDocument();
 
-    // Click to close menu
+    // Close menu
     fireEvent.click(mobileMenuButton);
     expect(screen.getByRole('button', { name: /open main menu/i })).toBeInTheDocument();
   });
 
-  it('closes mobile menu when navigation link is clicked', () => {
+  it('closes mobile menu when a navigation link is clicked', () => {
     renderWithRouter(<Navigation />);
 
     const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
-
-    // Open menu
     fireEvent.click(mobileMenuButton);
 
-    // Click on a mobile navigation link (use getAllByText to get the mobile version)
-    const homeLinks = screen.getAllByText('Home');
-    const mobileHomeLink = homeLinks[1]; // Second Home link is mobile version
-    fireEvent.click(mobileHomeLink);
+    // Click the mobile Projects link (last occurrence is the mobile one)
+    const projectsLinks = screen.getAllByText('Projects');
+    fireEvent.click(projectsLinks[projectsLinks.length - 1]);
 
-    // Menu should be closed
     expect(screen.getByRole('button', { name: /open main menu/i })).toBeInTheDocument();
   });
 
-  it('has proper navigation links with correct hrefs', () => {
-    renderWithRouter(<Navigation />);
-
-    const homeLink = screen.getByText('Home');
-    const projectsLink = screen.getByText('Projects');
-    // const blogLink = screen.getByText('Blog');
-    const contactLink = screen.getByText('Contact');
-
-    expect(homeLink).toHaveAttribute('href', '/');
-    expect(projectsLink).toHaveAttribute('href', '/projects');
-    // expect(blogLink).toHaveAttribute('href', '/blog');
-    expect(contactLink).toHaveAttribute('href', '/contact');
-  });
-
-  it('applies active state styling to current page', () => {
-    renderWithRouter(<Navigation />);
-
-    // Since we're on the root path in tests, Home should be active
-    const homeLinks = screen.getAllByText('Home');
-    const desktopHomeLink = homeLinks[0];
-    expect(desktopHomeLink).toHaveClass('text-crystal-blue-400', 'bg-vs-editor-selection');
-  });
-
-  it('has proper accessibility attributes', () => {
+  it('has proper accessibility attributes on hamburger button', () => {
     renderWithRouter(<Navigation />);
 
     const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
     expect(mobileMenuButton).toHaveAttribute('aria-expanded', 'false');
 
-    // Open menu
     fireEvent.click(mobileMenuButton);
     expect(mobileMenuButton).toHaveAttribute('aria-expanded', 'true');
   });
 
-  it('has enhanced mobile menu styling', () => {
+  it('prevents body scroll when mobile menu is open', () => {
     renderWithRouter(<Navigation />);
 
     const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
-    fireEvent.click(mobileMenuButton);
 
-    // Check for enhanced mobile menu elements - look for the container with the specific classes
-    const mobileMenuContainer = screen.getByText('Navigation').parentElement?.parentElement;
-    expect(mobileMenuContainer).toHaveClass('w-64', 'h-full', 'bg-vs-editor-surface', 'shadow-2xl');
+    fireEvent.click(mobileMenuButton);
+    expect(document.body.style.overflow).toBe('hidden');
+
+    fireEvent.click(mobileMenuButton);
+    expect(document.body.style.overflow).toBe('unset');
   });
 
-  it('shows mobile menu header and footer', () => {
+  it('shows mobile menu header and footer text', () => {
     renderWithRouter(<Navigation />);
 
     const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
@@ -127,17 +123,14 @@ describe('Navigation', () => {
     expect(screen.getByText('Swipe left to close')).toBeInTheDocument();
   });
 
-  it('prevents body scroll when mobile menu is open', () => {
+  it('shows Projects, About, and Resume in the mobile menu', () => {
     renderWithRouter(<Navigation />);
 
     const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
-
-    // Open menu
     fireEvent.click(mobileMenuButton);
-    expect(document.body.style.overflow).toBe('hidden');
 
-    // Close menu
-    fireEvent.click(mobileMenuButton);
-    expect(document.body.style.overflow).toBe('unset');
+    expect(screen.getAllByText('Projects').length).toBeGreaterThan(1);
+    expect(screen.getAllByText('About').length).toBeGreaterThan(1);
+    expect(screen.getAllByText('Resume').length).toBeGreaterThan(1);
   });
 });

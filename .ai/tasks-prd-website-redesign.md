@@ -59,6 +59,7 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
 - **After each parent task**: Run `npx jest` (all tests must pass), then `npx tsc --noEmit` (no type errors), then commit.
 - **After any content/data change**: Run `node scripts/generate-projects.mjs` from `personal-blog/` and verify `src/data/projects_list.ts` is regenerated correctly.
 - **Before marking a parent task complete**: Open `localhost:3000` in MCP Playwright and visually verify the affected pages still render correctly.
+- **Before committing**: Mark all completed sub-tasks `[x]` and the parent task `[x]` in this file. Stage and commit the task file along with the code changes.
 - **Dev server**: Assume `localhost:3000` is always running. If it isn't, the user will start it.
 
 ## Tasks
@@ -93,12 +94,12 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
   - [x] 3.5 Add the `ThemeToggle` component export to `src/components/index.ts`.
   - [x] 3.6 Initialize the theme on app load (e.g., in `App.tsx` or `main.tsx`) by reading `localStorage` and applying the `dark` class to `<html>`, defaulting to dark if no preference is set.
   - [x] 3.7 Write unit tests for the `ThemeToggle` component (`ThemeToggle.test.tsx`) covering toggle behavior and localStorage persistence.
-- [ ] 4.0 Redesign Top-Bar Navigation
-  - [ ] 4.1 Refactor `Navigation.tsx`: left side shows "Jordan Yu" as a `<Link>` to `/`; right side shows "Projects" (`/projects`), "About" (`/about`), "Resume" (external link to `/resume.pdf`), and the `ThemeToggle` component.
-  - [ ] 4.2 Remove the existing "Tools" dropdown, "Home" nav item, and "Contact" nav item from the navigation.
-  - [ ] 4.3 Ensure the "Resume" link opens in a new tab or triggers a download (use `<a href="/resume.pdf" target="_blank">`).
-  - [ ] 4.4 Update the mobile hamburger menu to reflect the new navigation items (Projects, About, Resume, ThemeToggle).
-  - [ ] 4.5 Update `Navigation.test.tsx` to verify new nav structure: "Jordan Yu" link, Projects, About, Resume links, and ThemeToggle presence.
+- [x] 4.0 Redesign Top-Bar Navigation
+  - [x] 4.1 Refactor `Navigation.tsx`: left side shows "Jordan Yu" as a `<Link>` to `/`; right side shows "Projects" (`/projects`), "About" (`/about`), "Resume" (external link to `/resume.pdf`), and the `ThemeToggle` component.
+  - [x] 4.2 Remove the existing "Tools" dropdown, "Home" nav item, and "Contact" nav item from the navigation.
+  - [x] 4.3 Ensure the "Resume" link opens in a new tab or triggers a download (use `<a href="/resume.pdf" target="_blank">`).
+  - [x] 4.4 Update the mobile hamburger menu to reflect the new navigation items (Projects, About, Resume, ThemeToggle).
+  - [x] 4.5 Update `Navigation.test.tsx` to verify new nav structure: "Jordan Yu" link, Projects, About, Resume links, and ThemeToggle presence.
 - [ ] 5.0 Create Footer Component
   - [ ] 5.1 Create `src/components/Footer/Footer.tsx` with left side displaying "Vancouver, Canada" and right side displaying icon links for Email (`mailto:jordanyu1992@gmail.com`), LinkedIn (`https://www.linkedin.com/in/jordanu92/`), and GitHub (`https://github.com/stymphalian`).
   - [ ] 5.2 Use `lucide-react` icons (`Mail`, `Linkedin`, `Github`) for the social links.
