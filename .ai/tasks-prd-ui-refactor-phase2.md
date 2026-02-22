@@ -64,11 +64,11 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
   - [x] 5.3 Remove the `showDetails &&` conditional and the "View Details" `<button>` from the card footer
   - [x] 5.4 Remove the `onViewDetails` prop and `handleViewDetails` function from the component — the prop is now unused by all callers
   - [x] 5.5 Remove the `onViewDetails` usage from `src/pages/Home/Home.tsx` `<ProjectCard>` calls (if any remain after 3.0)
-- [ ] 6.0 Delete the ProjectCarousel component
-  - [ ] 6.1 Remove `ProjectCarousel` export from `src/components/index.ts` *(already done)*
-  - [ ] 6.2 Delete `src/components/ProjectCarousel/ProjectCarousel.tsx` from disk
-  - [ ] 6.3 Delete `src/components/ProjectCarousel/ProjectCarousel.test.tsx` from disk
-  - [ ] 6.4 Delete the `src/components/ProjectCarousel/` folder from disk
+- [x] 6.0 Delete the ProjectCarousel component
+  - [x] 6.1 Remove `ProjectCarousel` export from `src/components/index.ts` *(already done)*
+  - [x] 6.2 Delete `src/components/ProjectCarousel/ProjectCarousel.tsx` from disk
+  - [x] 6.3 Delete `src/components/ProjectCarousel/ProjectCarousel.test.tsx` from disk
+  - [x] 6.4 Delete the `src/components/ProjectCarousel/` folder from disk
 - [ ] 7.0 Simplify the ProjectDetail page
   - [ ] 7.1 Remove the `Breadcrumb` import and the `<Breadcrumb items={breadcrumbItems} />` element (and the `breadcrumbItems` array) from `src/pages/ProjectDetail/ProjectDetail.tsx`
   - [ ] 7.2 Remove the "Back to Projects" `<button>` and its wrapping container `<div>` from `src/pages/ProjectDetail/ProjectDetail.tsx`
