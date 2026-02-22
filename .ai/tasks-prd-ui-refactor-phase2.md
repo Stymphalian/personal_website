@@ -58,12 +58,12 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
   - [x] 4.1 Remove the `<h1>` element containing "Jordan Yu" from the hero section in `src/pages/Home/Home.tsx` (req 13)
   - [x] 4.2 Replace the `<p>` description with the exact confirmed copy: *"Hi, I'm Jordan Yu — a software engineer by trade and gamer at heart, with a passion for graphics, competitive programming, and picking up new things; welcome to my corner of the internet."* (req 12 & 15)
   - [x] 4.3 Verify the "View My Work" and "Download Resume" buttons are absent (already removed — confirm no orphan state)
-- [ ] 5.0 Update ProjectCard — make image a clickable link, remove "View Details" button
-  - [ ] 5.1 Add `import { Link } from 'react-router-dom'` to `src/components/ProjectCard/ProjectCard.tsx`
-  - [ ] 5.2 Wrap the image `<div>` in `<Link to={`/projects/${project.id}`} className='cursor-pointer block'>` so clicking the image navigates to the project detail page
-  - [ ] 5.3 Remove the `showDetails &&` conditional and the "View Details" `<button>` from the card footer
-  - [ ] 5.4 Remove the `onViewDetails` prop and `handleViewDetails` function from the component — the prop is now unused by all callers
-  - [ ] 5.5 Remove the `onViewDetails` usage from `src/pages/Home/Home.tsx` `<ProjectCard>` calls (if any remain after 3.0)
+- [x] 5.0 Update ProjectCard — make image a clickable link, remove "View Details" button
+  - [x] 5.1 Add `import { Link } from 'react-router-dom'` to `src/components/ProjectCard/ProjectCard.tsx`
+  - [x] 5.2 Wrap the image `<div>` in `<Link to={`/projects/${project.id}`} className='cursor-pointer block'>` so clicking the image navigates to the project detail page
+  - [x] 5.3 Remove the `showDetails &&` conditional and the "View Details" `<button>` from the card footer
+  - [x] 5.4 Remove the `onViewDetails` prop and `handleViewDetails` function from the component — the prop is now unused by all callers
+  - [x] 5.5 Remove the `onViewDetails` usage from `src/pages/Home/Home.tsx` `<ProjectCard>` calls (if any remain after 3.0)
 - [ ] 6.0 Delete the ProjectCarousel component
   - [ ] 6.1 Remove `ProjectCarousel` export from `src/components/index.ts` *(already done)*
   - [ ] 6.2 Delete `src/components/ProjectCarousel/ProjectCarousel.tsx` from disk

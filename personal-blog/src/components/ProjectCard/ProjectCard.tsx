@@ -1,23 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import type { Project } from '../../data';
 
 interface ProjectCardProps {
   project: Project;
-  onViewDetails?: (projectId: string) => void;
   className?: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
-  onViewDetails,
   className = '',
 }) => {
-  const handleViewDetails = () => {
-    if (onViewDetails) {
-      onViewDetails(project.id);
-    }
-  };
-
   return (
     <div
       data-testid='project-card'
@@ -25,7 +18,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     >
       <div className='flex flex-col lg:flex-row'>
         {/* Image Section */}
-        <div className='w-full lg:w-1/3 aspect-video lg:aspect-square bg-vs-editor-surface2 overflow-hidden'>
+        <Link
+          to={`/projects/${project.id}`}
+          className='cursor-pointer block w-full lg:w-1/3 aspect-video lg:aspect-square bg-vs-editor-surface2 overflow-hidden'
+        >
           <img
             src={project.image}
             alt={project.title}
@@ -39,7 +35,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <div className='hidden w-full h-full flex items-center justify-center text-2xl sm:text-4xl text-vs-editor-text2 bg-vs-editor-surface2'>
             🚀
           </div>
-        </div>
+        </Link>
 
         {/* Content Section */}
         <div className='p-4 sm:p-6 flex-1 flex flex-col justify-between'>
@@ -94,14 +90,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 month: 'long',
               })}
             </span>
-            {project.showDetails && (
-              <button
-                onClick={handleViewDetails}
-                className='px-3 sm:px-4 py-2 bg-crystal-blue-600 text-white rounded-lg hover:bg-crystal-blue-700 transition-colors duration-200 text-xs sm:text-sm font-medium w-full sm:w-auto'
-              >
-                View Details
-              </button>
-            )}
+
           </div>
         </div>
       </div>

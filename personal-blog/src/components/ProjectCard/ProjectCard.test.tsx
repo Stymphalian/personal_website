@@ -1,6 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import type { Project } from '../../data';
 import ProjectCard from './ProjectCard';
+
+const renderWithRouter = (ui: React.ReactElement) =>
+  render(<MemoryRouter>{ui}</MemoryRouter>);
 
 // Mock project data for testing
 const mockProject: Project = {
@@ -22,7 +27,7 @@ const mockProject: Project = {
 
 describe('ProjectCard', () => {
   it('renders project information correctly', () => {
-    render(<ProjectCard project={mockProject} />);
+    renderWithRouter(<ProjectCard project={mockProject} />);
 
     expect(screen.getByText('Test Project')).toBeInTheDocument();
     expect(
@@ -37,15 +42,24 @@ describe('ProjectCard', () => {
   });
 
   it('displays project image with correct alt text', () => {
-    render(<ProjectCard project={mockProject} />);
+    renderWithRouter(<ProjectCard project={mockProject} />);
 
     const image = screen.getByAltText('Test Project');
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', '/test-image.jpg');
   });
 
+  it('wraps image in a link to the project detail page', () => {
+    renderWithRouter(<ProjectCard project={mockProject} />);
+
+    const image = screen.getByAltText('Test Project');
+    const link = image.closest('a');
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute('href', '/projects/test-project-1');
+  });
+
   it('shows fallback emoji when image fails to load', () => {
-    render(<ProjectCard project={mockProject} />);
+    renderWithRouter(<ProjectCard project={mockProject} />);
 
     const image = screen.getByAltText('Test Project');
     const fallback = screen.getByText('🚀');
@@ -60,49 +74,21 @@ describe('ProjectCard', () => {
     expect(fallback).not.toHaveClass('hidden');
   });
 
-  it('calls onViewDetails when View Details button is clicked', () => {
-    const mockOnViewDetails = jest.fn();
-    render(
-      <ProjectCard project={mockProject} onViewDetails={mockOnViewDetails} />
-    );
-
-    const viewDetailsButton = screen.getByText('View Details');
-    fireEvent.click(viewDetailsButton);
-
-    expect(mockOnViewDetails).toHaveBeenCalledWith('test-project-1');
-  });
-
-  it('shows View Details button when showDetails is true', () => {
-    render(<ProjectCard project={mockProject} />);
-    expect(screen.getByText('View Details')).toBeInTheDocument();
-  });
-
-  it('hides View Details button when showDetails is false', () => {
-    const projectWithoutDetails = { ...mockProject, showDetails: false };
-    render(<ProjectCard project={projectWithoutDetails} />);
+  it('does not render a View Details button', () => {
+    renderWithRouter(<ProjectCard project={mockProject} />);
     expect(screen.queryByText('View Details')).not.toBeInTheDocument();
-  });
-
-  it('does not call onViewDetails when callback is not provided', () => {
-    const mockOnViewDetails = jest.fn();
-    render(<ProjectCard project={mockProject} />);
-
-    const viewDetailsButton = screen.getByText('View Details');
-    fireEvent.click(viewDetailsButton);
-
-    expect(mockOnViewDetails).not.toHaveBeenCalled();
   });
 
   it('applies custom className when provided', () => {
     const customClass = 'custom-class';
-    render(<ProjectCard project={mockProject} className={customClass} />);
+    renderWithRouter(<ProjectCard project={mockProject} className={customClass} />);
 
     const card = screen.getByTestId('project-card');
     expect(card).toHaveClass('custom-class');
   });
 
   it('renders tech stack tags correctly', () => {
-    render(<ProjectCard project={mockProject} />);
+    renderWithRouter(<ProjectCard project={mockProject} />);
 
     mockProject.techStack.forEach((tech: string) => {
       const techTag = screen.getByText(tech);
@@ -123,7 +109,7 @@ describe('ProjectCard', () => {
       date: '2024-12-25',
     };
 
-    render(<ProjectCard project={projectWithDifferentDate} />);
+    renderWithRouter(<ProjectCard project={projectWithDifferentDate} />);
 
     expect(screen.getByText('December 2024')).toBeInTheDocument();
   });
@@ -134,10 +120,9 @@ describe('ProjectCard', () => {
       techStack: [],
     };
 
-    render(<ProjectCard project={projectWithNoTech} />);
+    renderWithRouter(<ProjectCard project={projectWithNoTech} />);
 
     // Should not crash and should still show other project info
     expect(screen.getByText('Test Project')).toBeInTheDocument();
-    expect(screen.getByText('View Details')).toBeInTheDocument();
   });
 });
