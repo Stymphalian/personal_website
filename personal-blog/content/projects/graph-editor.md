@@ -49,7 +49,7 @@ Source Code: https://github.com/Stymphalian/graph_editor \
 Try it out: https://blog.jordanyu.com/tools/graph_editor
 
 
-![preview image](/images/graph_editor/preview.png)
+![preview image](/content/projects/images/graph-editor/preview.png)
 
 ## Features
 - **Interactive Graph Visualization**: View and manipulate graphs visually with a dynamic, responsive canvas.

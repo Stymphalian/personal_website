@@ -77,16 +77,16 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
   - [x] 7.5 Remove the word-count display (`📝 N words` block) from the tags/read-time row in `src/pages/ProjectDetail/ProjectDetail.tsx`
   - [x] 7.6 Verify the title, description, tags, read-time, "View on GitHub", and "View Live Demo" (conditional) elements are all still present and correctly positioned
   - [x] 7.7 Clean up any now-unused imports (e.g. `useNavigate`, `Breadcrumb`, `MediaGallery`) from the file
-- [ ] 8.0 Investigate and fix frontmatter rendering in project detail pages
-  - [ ] 8.1 Inspect `src/utils/content-loader.ts`: confirm that `parseFrontmatterWithGrayMatter()` is called and the returned `markdown` body (not `content`) is what gets stored in `projectContent.content`
-  - [ ] 8.2 Check whether the `loadContent` → `loadProjectContent` dispatch path actually strips frontmatter or returns raw text (trace the code path used by `ProjectDetail.tsx`)
-  - [ ] 8.3 If frontmatter is still leaking through, add a `stripFrontmatter` regex fallback in `src/utils/content-loader.ts` immediately after `parseFrontmatterWithGrayMatter()`:
+- [x] 8.0 Investigate and fix frontmatter rendering in project detail pages
+  - [x] 8.1 Inspect `src/utils/content-loader.ts`: confirm that `parseFrontmatterWithGrayMatter()` is called and the returned `markdown` body (not `content`) is what gets stored in `projectContent.content`
+  - [x] 8.2 Check whether the `loadContent` → `loadProjectContent` dispatch path actually strips frontmatter or returns raw text (trace the code path used by `ProjectDetail.tsx`)
+  - [x] 8.3 If frontmatter is still leaking through, add a `stripFrontmatter` regex fallback in `src/utils/content-loader.ts` immediately after `parseFrontmatterWithGrayMatter()`:
     ```ts
     function stripFrontmatter(markdown: string): string {
       return markdown.replace(/^---[\s\S]*?---\n?/, '');
     }
     ```
-  - [ ] 8.4 Verify in the browser that no raw YAML `---` block appears at the top of any project detail page after the fix
+  - [x] 8.4 Verify in the browser that no raw YAML `---` block appears at the top of any project detail page after the fix
 - [ ] 9.0 Update the About page
   - [ ] 9.1 Change the `Layout` call in `src/pages/About/About.tsx` to use `showPageTitle={false}` so the "About" heading is not rendered by the layout
   - [ ] 9.2 Remove any inline `<h1>` or heading element reading "About" from the page component body

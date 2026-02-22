@@ -177,7 +177,7 @@ the alpha values.
 
 Bad Image | Good Image
 ----------|---------------
-![badImage](/images/ak-chibi-bot/alpha_bad.png) | ![goodImage](/images/ak-chibi-bot/alpha_good.png)
+![badImage](/content/projects/images/ak-chibi-bot/alpha_bad.png) | ![goodImage](/content/projects/images/ak-chibi-bot/alpha_good.png)
 
 
 The render by default always assumes we are rendering with `premultiplied-alpha` 
@@ -289,7 +289,7 @@ produce very incorrect behavior.
 
 Bad | Good
 ---|---
-![badImage](/images/ak-chibi-bot/bounding_box_example_bad.png) | ![goodImage](/images/ak-chibi-bot/bounding_box_example_good.png)
+![badImage](/content/projects/images/ak-chibi-bot/bounding_box_example_bad.png) | ![goodImage](/content/projects/images/ak-chibi-bot/bounding_box_example_good.png)
 
 The fix for this issue is kind-of-crazy TBH.
 One rendering technique is to render something not to the active "display" but
@@ -441,7 +441,7 @@ to pay for any other storage/services.
 
 
 ## System Diagram
-![systemDiagram](/images/ak-chibi-bot/system_diagram.png)
+![systemDiagram](/content/projects/images/ak-chibi-bot/system_diagram.png)
 ```text
 graph TB
     %% External Systems

@@ -30,6 +30,10 @@ const DEFAULT_OPTIONS: Required<ContentLoaderOptions> = {
 let contentCache: ContentCache = {};
 
 // Parse frontmatter and markdown body using gray-matter
+const stripFrontmatter = (markdown: string): string => {
+  return markdown.replace(/^---[\s\S]*?---\n?/, '');
+};
+
 const parseFrontmatterWithGrayMatter = (
   content: string
 ): { frontmatterData: Record<string, any>; markdown: string } => {
@@ -41,7 +45,7 @@ const parseFrontmatterWithGrayMatter = (
       'Failed to parse frontmatter with gray-matter, treating entire content as markdown:',
       error
     );
-    return { frontmatterData: {}, markdown: content.trim() };
+    return { frontmatterData: {}, markdown: stripFrontmatter(content).trim() };
   }
 };
 
