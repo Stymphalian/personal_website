@@ -6,6 +6,7 @@ interface LayoutProps {
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl' | '6xl' | '7xl' | 'full';
   padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   showPageTitle?: boolean;
+  showPanel?: boolean;
   pageTitle?: string;
   pageDescription?: string;
 }
@@ -16,6 +17,7 @@ const Layout: React.FC<LayoutProps> = ({
   maxWidth = '2xl',
   padding = 'lg',
   showPageTitle = false,
+  showPanel = true,
   pageTitle = '',
   pageDescription = '',
 }) => {
@@ -65,24 +67,14 @@ const Layout: React.FC<LayoutProps> = ({
       <main
         className={`mx-auto ${maxWidthClasses[maxWidth]} ${paddingClasses[padding]}`}
       >
-        <div className='bg-vs-editor-surface rounded-lg shadow-sm border border-vs-editor-border overflow-hidden'>
-          {/* Content Container */}
-          <div className='p-6 md:p-8'>{children}</div>
-        </div>
-      </main>
-
-      {/* Page Footer Section */}
-      <footer className='bg-vs-editor-surface border-t border-vs-editor-border mt-16'>
-        <div
-          className={`mx-auto ${maxWidthClasses[maxWidth]} ${paddingClasses[padding]}`}
-        >
-          <div className='text-center py-8'>
-            <p className='text-vs-editor-text2 text-sm'>
-              2025. Built with React & Tailwind & Cursor
-            </p>
+        {showPanel ? (
+          <div className='bg-vs-editor-surface rounded-lg shadow-sm border border-vs-editor-border overflow-hidden'>
+            <div className='p-6 md:p-8'>{children}</div>
           </div>
-        </div>
-      </footer>
+        ) : (
+          children
+        )}
+      </main>
     </div>
   );
 };

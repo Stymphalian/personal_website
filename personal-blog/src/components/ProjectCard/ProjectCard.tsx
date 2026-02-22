@@ -16,11 +16,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       data-testid='project-card'
       className={`bg-vs-editor-surface rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-vs-editor-border ${className}`}
     >
-      <div className='flex flex-col lg:flex-row'>
-        {/* Image Section */}
+      <div className='flex flex-col'>
+        {/* Image Section — full-width on top */}
         <Link
           to={`/projects/${project.id}`}
-          className='cursor-pointer block w-full lg:w-1/3 aspect-video lg:aspect-square bg-vs-editor-surface2 overflow-hidden'
+          className='cursor-pointer block w-full aspect-video bg-vs-editor-surface2 overflow-hidden'
         >
           <img
             src={project.image}
@@ -32,7 +32,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               target.nextElementSibling?.classList.remove('hidden');
             }}
           />
-          <div className='hidden w-full h-full flex items-center justify-center text-2xl sm:text-4xl text-vs-editor-text2 bg-vs-editor-surface2'>
+          <div className='hidden w-full h-full flex items-center justify-center text-4xl text-vs-editor-text2 bg-vs-editor-surface2'>
             🚀
           </div>
         </Link>

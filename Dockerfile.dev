@@ -1,6 +1,11 @@
 # Development Dockerfile for React + TypeScript + Vite project
 FROM node:24-alpine
 
+# Build args — pass host user info so container files are owned by the host user
+ARG USERNAME=jordan
+ARG USER_UID=1000
+ARG USER_GID=1000
+
 # Set working directory
 WORKDIR /workspace
 
@@ -28,6 +33,14 @@ RUN npm ci
 
 # Return to workspace root
 WORKDIR /workspace
+
+# Create a group + user matching the host user's UID/GID so volume-mounted
+# files are owned by the right user on the host filesystem.
+RUN addgroup -g ${USER_GID} ${USERNAME} \
+    && adduser -D -u ${USER_UID} -G ${USERNAME} -s /bin/bash ${USERNAME} \
+    && chown -R ${USERNAME}:${USERNAME} /workspace
+
+USER ${USERNAME}
 
 # Expose development port
 EXPOSE 5173

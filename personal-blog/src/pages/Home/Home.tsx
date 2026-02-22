@@ -15,6 +15,7 @@ const Home: React.FC = () => {
   return (
     <Layout
       showPageTitle={false}
+      showPanel={false}
       pageTitle='Welcome to My Portfolio'
       pageDescription='Senior Software Developer with 8+ years of backend experience'
       maxWidth='7xl'
@@ -32,14 +33,14 @@ const Home: React.FC = () => {
           }`}
         >
           <p
-            className={`text-xl sm:text-2xl md:text-3xl text-vs-editor-text2 max-w-4xl leading-relaxed transition-all duration-700 delay-400 ${
+            className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-vs-editor-text2 max-w-5xl leading-relaxed transition-all duration-700 delay-400 ${
               isVisible
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 translate-y-8'
             }`}
           >
             Hi, I'm{' '}
-            <span className='font-bold text-crystal-blue-400'>Jordan Yu</span>{' '}
+            <span className='font-extrabold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-crystal-blue-400'>Jordan Yu</span>{' '}
             — a software engineer by trade and gamer at heart, with a passion
             for graphics, competitive programming, and picking up new things;
             welcome to my corner of the internet.
@@ -50,9 +51,6 @@ const Home: React.FC = () => {
         <div
           className={`transition-all duration-700 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
         >
-          <h3 className='text-xl md:text-2xl lg:text-3xl font-bold text-vs-editor-text mb-4 md:mb-6'>
-            Projects
-          </h3>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
             {projects.map(project => (
               <ProjectCard key={project.id} project={project} />

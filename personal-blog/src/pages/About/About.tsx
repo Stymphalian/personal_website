@@ -5,6 +5,7 @@ const About: React.FC = () => {
   return (
     <Layout
       showPageTitle={false}
+      showPanel={false}
       pageTitle='About'
       pageDescription='About Jordan Yu'
       maxWidth='4xl'

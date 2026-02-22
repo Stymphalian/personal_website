@@ -85,7 +85,7 @@ describe('Layout', () => {
     expect(layoutDiv).toHaveClass('custom-class');
   });
 
-  it('renders footer with correct text', () => {
+  it('does not render a footer section', () => {
     render(
       <Layout>
         <div>Content</div>
@@ -93,8 +93,8 @@ describe('Layout', () => {
     );
 
     expect(
-      screen.getByText('2025. Built with React & Tailwind & Cursor')
-    ).toBeInTheDocument();
+      screen.queryByText('2025. Built with React & Tailwind & Cursor')
+    ).not.toBeInTheDocument();
   });
 
   it('applies correct maxWidth classes for different sizes', () => {

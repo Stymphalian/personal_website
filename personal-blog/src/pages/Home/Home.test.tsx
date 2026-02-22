@@ -23,13 +23,13 @@ describe('Home', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('renders Projects section heading', () => {
+  it('does not render a Projects section heading', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     );
-    expect(screen.getByText('Projects')).toBeInTheDocument();
+    expect(screen.queryByText('Projects')).not.toBeInTheDocument();
   });
 
   it('does not render Featured Projects heading', () => {
