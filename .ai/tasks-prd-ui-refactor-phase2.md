@@ -47,17 +47,17 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
   - [x] 1.2 Remove the `Projects` import from `src/App.tsx` *(already done)*
   - [x] 1.3 Remove the `Projects` export from `src/pages/index.ts` *(already done)*
   - [x] 1.4 Delete `src/pages/Projects/Projects.tsx` and the entire `src/pages/Projects/` folder from disk
-- [ ] 2.0 Update Navigation bar "Projects" link to point to `/`
-  - [ ] 2.1 Change `navigationItems` entry from `{ path: '/projects', label: 'Projects' }` to `{ path: '/', label: 'Projects' }` in `src/components/Navigation/Navigation.tsx` *(already done)*
-  - [ ] 2.2 Update `isActive()` to use exact match (`===`) for the `/` path so it doesn't highlight on every route *(already done)*
-- [ ] 3.0 Merge all projects into the Home page grid and remove "View All Projects" button
-  - [ ] 3.1 Replace `getFeaturedProjects()` import with the full `projects` array from `src/data/projects_list.ts` in `src/pages/Home/Home.tsx` *(already done)*
-  - [ ] 3.2 Remove the `useNavigate` import and the "View All Projects" button from `src/pages/Home/Home.tsx` *(already done)*
-  - [ ] 3.3 Rename the section heading from "Featured Projects" to "Projects" in `src/pages/Home/Home.tsx` *(already done)*
-- [ ] 4.0 Simplify the hero banner to the confirmed single sentence, remove CTA buttons
-  - [ ] 4.1 Remove the `<h1>` element containing "Jordan Yu" from the hero section in `src/pages/Home/Home.tsx` (req 13)
-  - [ ] 4.2 Replace the `<p>` description with the exact confirmed copy: *"Hi, I'm Jordan Yu — a software engineer by trade and gamer at heart, with a passion for graphics, competitive programming, and picking up new things; welcome to my corner of the internet."* (req 12 & 15)
-  - [ ] 4.3 Verify the "View My Work" and "Download Resume" buttons are absent (already removed — confirm no orphan state)
+- [x] 2.0 Update Navigation bar "Projects" link to point to `/`
+  - [x] 2.1 Change `navigationItems` entry from `{ path: '/projects', label: 'Projects' }` to `{ path: '/', label: 'Projects' }` in `src/components/Navigation/Navigation.tsx` *(already done)*
+  - [x] 2.2 Update `isActive()` to use exact match (`===`) for the `/` path so it doesn't highlight on every route *(already done)*
+- [x] 3.0 Merge all projects into the Home page grid and remove "View All Projects" button
+  - [x] 3.1 Replace `getFeaturedProjects()` import with the full `projects` array from `src/data/projects_list.ts` in `src/pages/Home/Home.tsx` *(already done)*
+  - [x] 3.2 Remove the `useNavigate` import and the "View All Projects" button from `src/pages/Home/Home.tsx` *(already done)*
+  - [x] 3.3 Rename the section heading from "Featured Projects" to "Projects" in `src/pages/Home/Home.tsx` *(already done)*
+- [x] 4.0 Simplify the hero banner to the confirmed single sentence, remove CTA buttons
+  - [x] 4.1 Remove the `<h1>` element containing "Jordan Yu" from the hero section in `src/pages/Home/Home.tsx` (req 13)
+  - [x] 4.2 Replace the `<p>` description with the exact confirmed copy: *"Hi, I'm Jordan Yu — a software engineer by trade and gamer at heart, with a passion for graphics, competitive programming, and picking up new things; welcome to my corner of the internet."* (req 12 & 15)
+  - [x] 4.3 Verify the "View My Work" and "Download Resume" buttons are absent (already removed — confirm no orphan state)
 - [ ] 5.0 Update ProjectCard — make image a clickable link, remove "View Details" button
   - [ ] 5.1 Add `import { Link } from 'react-router-dom'` to `src/components/ProjectCard/ProjectCard.tsx`
   - [ ] 5.2 Wrap the image `<div>` in `<Link to={`/projects/${project.id}`} className='cursor-pointer block'>` so clicking the image navigates to the project detail page
