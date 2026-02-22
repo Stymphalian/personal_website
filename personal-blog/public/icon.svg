@@ -1,6 +1,16 @@
-  <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="50,5 90,27.5 90,72.5 50,95 10,72.5 10,27.5"
-             fill="none" stroke="currentColor" stroke-width="8" stroke-linejoin="round"/>
-    <path d="M60 25 V60 a15 15 0 1 1 -30 0" fill="none"
-        stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .stroke {
+      stroke: #0369a1; /* crystal-blue-700 — dark enough for light browser chrome */
+    }
+    @media (prefers-color-scheme: dark) {
+      .stroke {
+        stroke: #38bdf8; /* crystal-blue-400 — bright enough for dark browser chrome */
+      }
+    }
+  </style>
+  <polygon class="stroke" points="50,5 90,27.5 90,72.5 50,95 10,72.5 10,27.5"
+           fill="none" stroke-width="8" stroke-linejoin="round"/>
+  <path class="stroke" d="M60 25 V60 a15 15 0 1 1 -30 0" fill="none"
+      stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
