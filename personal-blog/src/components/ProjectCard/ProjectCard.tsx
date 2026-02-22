@@ -93,7 +93,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 });
               })()}
             </span>
-
           </div>
         </div>
       </div>

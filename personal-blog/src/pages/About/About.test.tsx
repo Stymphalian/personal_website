@@ -9,7 +9,9 @@ describe('About', () => {
         <About />
       </MemoryRouter>
     );
-    expect(screen.queryByRole('heading', { name: 'About' })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: 'About' })
+    ).not.toBeInTheDocument();
   });
 
   it('does not render coming soon text', () => {

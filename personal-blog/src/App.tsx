@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import {
-    Route,
-    BrowserRouter as Router,
-    Routes,
-    useLocation,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  useLocation,
 } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
 import Navigation from './components/Navigation/Navigation';

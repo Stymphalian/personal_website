@@ -19,10 +19,7 @@ describe('Navigation', () => {
   it('renders Projects and About nav links', () => {
     renderWithRouter(<Navigation />);
 
-    expect(screen.getAllByText('Projects')[0]).toHaveAttribute(
-      'href',
-      '/'
-    );
+    expect(screen.getAllByText('Projects')[0]).toHaveAttribute('href', '/');
     expect(screen.getAllByText('About')[0]).toHaveAttribute('href', '/about');
   });
 

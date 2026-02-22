@@ -81,7 +81,9 @@ describe('ProjectCard', () => {
 
   it('applies custom className when provided', () => {
     const customClass = 'custom-class';
-    renderWithRouter(<ProjectCard project={mockProject} className={customClass} />);
+    renderWithRouter(
+      <ProjectCard project={mockProject} className={customClass} />
+    );
 
     const card = screen.getByTestId('project-card');
     expect(card).toHaveClass('custom-class');

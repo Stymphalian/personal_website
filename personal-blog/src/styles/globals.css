@@ -218,31 +218,87 @@ html.dark {
    Prefixed with `html` to outrank Tailwind's build-time-hardcoded utility
    rules (which use a single class selector) in the cascade.
    ───────────────────────────────────────────────────────────────────────── */
-html .bg-vs-editor-bg    { background-color: rgb(var(--vs-editor-bg) / var(--tw-bg-opacity, 1)); }
-html .bg-vs-editor-surface  { background-color: rgb(var(--vs-editor-surface) / var(--tw-bg-opacity, 1)); }
-html .bg-vs-editor-surface\/95 { background-color: rgb(var(--vs-editor-surface) / 0.95); }
-html .bg-vs-editor-surface\/80 { background-color: rgb(var(--vs-editor-surface) / 0.80); }
-html .bg-vs-editor-surface2 { background-color: rgb(var(--vs-editor-surface2) / var(--tw-bg-opacity, 1)); }
-html .bg-vs-editor-surface2\/80 { background-color: rgb(var(--vs-editor-surface2) / 0.80); }
-html .bg-vs-editor-hover { background-color: rgb(var(--vs-editor-hover) / var(--tw-bg-opacity, 1)); }
-html .bg-vs-editor-selection { background-color: rgb(var(--vs-editor-selection) / var(--tw-bg-opacity, 1)); }
-html .bg-vs-editor-border { background-color: rgb(var(--vs-editor-border) / var(--tw-bg-opacity, 1)); }
-html .text-vs-editor-text  { color: rgb(var(--vs-editor-text) / var(--tw-text-opacity, 1)); }
-html .text-vs-editor-text2 { color: rgb(var(--vs-editor-text2) / var(--tw-text-opacity, 1)); }
-html .text-vs-editor-text3 { color: rgb(var(--vs-editor-text3) / var(--tw-text-opacity, 1)); }
-html .border-vs-editor-border { border-color: rgb(var(--vs-editor-border) / var(--tw-border-opacity, 1)); }
-html .ring-offset-vs-editor-bg { --tw-ring-offset-color: rgb(var(--vs-editor-bg)); }
-html .placeholder-vs-editor-text2::placeholder { color: rgb(var(--vs-editor-text2) / var(--tw-placeholder-opacity, 1)); }
-html .hover\:bg-vs-editor-hover:hover { background-color: rgb(var(--vs-editor-hover) / var(--tw-bg-opacity, 1)); }
-html .hover\:bg-vs-editor-surface:hover { background-color: rgb(var(--vs-editor-surface) / var(--tw-bg-opacity, 1)); }
-html .hover\:bg-vs-editor-text2:hover { background-color: rgb(var(--vs-editor-text2) / var(--tw-bg-opacity, 1)); }
-html .hover\:text-vs-editor-text:hover { color: rgb(var(--vs-editor-text) / var(--tw-text-opacity, 1)); }
-html .hover\:text-vs-editor-text2:hover { color: rgb(var(--vs-editor-text2) / var(--tw-text-opacity, 1)); }
-html .active\:bg-vs-editor-surface2:active { background-color: rgb(var(--vs-editor-surface2) / var(--tw-bg-opacity, 1)); }
-html .group:hover .group-hover\:text-vs-editor-text { color: rgb(var(--vs-editor-text) / var(--tw-text-opacity, 1)); }
-html .focus\:ring-vs-editor-border:focus { --tw-ring-color: rgb(var(--vs-editor-border)); }
-html .focus\:ring-offset-vs-editor-bg:focus { --tw-ring-offset-color: rgb(var(--vs-editor-bg)); }
-html .from-vs-editor-surface { --tw-gradient-from: rgb(var(--vs-editor-surface)); }
-html .from-vs-editor-bg     { --tw-gradient-from: rgb(var(--vs-editor-bg)); }
-html .to-vs-editor-surface  { --tw-gradient-to: rgb(var(--vs-editor-surface)); }
-html .to-vs-editor-surface2 { --tw-gradient-to: rgb(var(--vs-editor-surface2)); }
+html .bg-vs-editor-bg {
+  background-color: rgb(var(--vs-editor-bg) / var(--tw-bg-opacity, 1));
+}
+html .bg-vs-editor-surface {
+  background-color: rgb(var(--vs-editor-surface) / var(--tw-bg-opacity, 1));
+}
+html .bg-vs-editor-surface\/95 {
+  background-color: rgb(var(--vs-editor-surface) / 0.95);
+}
+html .bg-vs-editor-surface\/80 {
+  background-color: rgb(var(--vs-editor-surface) / 0.8);
+}
+html .bg-vs-editor-surface2 {
+  background-color: rgb(var(--vs-editor-surface2) / var(--tw-bg-opacity, 1));
+}
+html .bg-vs-editor-surface2\/80 {
+  background-color: rgb(var(--vs-editor-surface2) / 0.8);
+}
+html .bg-vs-editor-hover {
+  background-color: rgb(var(--vs-editor-hover) / var(--tw-bg-opacity, 1));
+}
+html .bg-vs-editor-selection {
+  background-color: rgb(var(--vs-editor-selection) / var(--tw-bg-opacity, 1));
+}
+html .bg-vs-editor-border {
+  background-color: rgb(var(--vs-editor-border) / var(--tw-bg-opacity, 1));
+}
+html .text-vs-editor-text {
+  color: rgb(var(--vs-editor-text) / var(--tw-text-opacity, 1));
+}
+html .text-vs-editor-text2 {
+  color: rgb(var(--vs-editor-text2) / var(--tw-text-opacity, 1));
+}
+html .text-vs-editor-text3 {
+  color: rgb(var(--vs-editor-text3) / var(--tw-text-opacity, 1));
+}
+html .border-vs-editor-border {
+  border-color: rgb(var(--vs-editor-border) / var(--tw-border-opacity, 1));
+}
+html .ring-offset-vs-editor-bg {
+  --tw-ring-offset-color: rgb(var(--vs-editor-bg));
+}
+html .placeholder-vs-editor-text2::placeholder {
+  color: rgb(var(--vs-editor-text2) / var(--tw-placeholder-opacity, 1));
+}
+html .hover\:bg-vs-editor-hover:hover {
+  background-color: rgb(var(--vs-editor-hover) / var(--tw-bg-opacity, 1));
+}
+html .hover\:bg-vs-editor-surface:hover {
+  background-color: rgb(var(--vs-editor-surface) / var(--tw-bg-opacity, 1));
+}
+html .hover\:bg-vs-editor-text2:hover {
+  background-color: rgb(var(--vs-editor-text2) / var(--tw-bg-opacity, 1));
+}
+html .hover\:text-vs-editor-text:hover {
+  color: rgb(var(--vs-editor-text) / var(--tw-text-opacity, 1));
+}
+html .hover\:text-vs-editor-text2:hover {
+  color: rgb(var(--vs-editor-text2) / var(--tw-text-opacity, 1));
+}
+html .active\:bg-vs-editor-surface2:active {
+  background-color: rgb(var(--vs-editor-surface2) / var(--tw-bg-opacity, 1));
+}
+html .group:hover .group-hover\:text-vs-editor-text {
+  color: rgb(var(--vs-editor-text) / var(--tw-text-opacity, 1));
+}
+html .focus\:ring-vs-editor-border:focus {
+  --tw-ring-color: rgb(var(--vs-editor-border));
+}
+html .focus\:ring-offset-vs-editor-bg:focus {
+  --tw-ring-offset-color: rgb(var(--vs-editor-bg));
+}
+html .from-vs-editor-surface {
+  --tw-gradient-from: rgb(var(--vs-editor-surface));
+}
+html .from-vs-editor-bg {
+  --tw-gradient-from: rgb(var(--vs-editor-bg));
+}
+html .to-vs-editor-surface {
+  --tw-gradient-to: rgb(var(--vs-editor-surface));
+}
+html .to-vs-editor-surface2 {
+  --tw-gradient-to: rgb(var(--vs-editor-surface2));
+}
