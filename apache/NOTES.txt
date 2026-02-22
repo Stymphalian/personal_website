@@ -3,3 +3,4 @@ Create /var/www/blog.jordanyu.com - contains the files you want to serve
 a2ensite blog.jordanyu.conf
 systemctl reload apache2
 certbot --apache -d blog.jordanyu.com
+certbot --apache -d jordanyu.com
