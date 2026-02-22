@@ -1,7 +1,7 @@
 // Fallback content utility for graceful degradation when content loading fails
 // Provides default content and suggestions for various error scenarios
 
-import type { BlogPostContent, ContentType, ProjectContent } from '../types/content';
+import type { ContentType, ProjectContent } from '../types/content';
 
 export interface FallbackContent {
   title: string;
@@ -23,20 +23,20 @@ export interface FallbackContentOptions {
 
 // Default fallback content for different scenarios
 const getDefaultFallbackContent = (options: FallbackContentOptions): FallbackContent => {
-  const { contentType, errorType, customMessage } = options;
+  const { errorType, customMessage } = options;
 
   switch (errorType) {
     case 'not-found':
       return {
-        title: `${contentType === 'blog-post' ? 'Blog Post' : 'Project'} Not Found`,
-        message: customMessage || `The ${contentType === 'blog-post' ? 'blog post' : 'project'} you're looking for doesn't exist.`,
+        title: 'Project Not Found',
+        message: customMessage || `The project you're looking for doesn't exist.`,
         suggestions: [
           'Check the URL for typos',
           'Use the navigation menu to browse available content',
           'Try searching for similar content'
         ],
         actions: [
-          { label: 'Browse All Content', action: 'navigate', target: contentType === 'blog-post' ? '/blog' : '/projects' },
+          { label: 'Browse Projects', action: 'navigate', target: '/projects' },
           { label: 'Go Home', action: 'navigate', target: '/' },
           { label: 'Contact Support', action: 'contact' }
         ]
@@ -69,7 +69,7 @@ const getDefaultFallbackContent = (options: FallbackContentOptions): FallbackCon
         ],
         actions: [
           { label: 'Retry', action: 'retry' },
-          { label: 'Browse Other Content', action: 'navigate', target: contentType === 'blog-post' ? '/blog' : '/projects' },
+          { label: 'Browse Other Content', action: 'navigate', target: '/projects' },
           { label: 'Report Issue', action: 'contact' }
         ]
       };
@@ -90,55 +90,6 @@ const getDefaultFallbackContent = (options: FallbackContentOptions): FallbackCon
         ]
       };
   }
-};
-
-// Generate fallback blog post content
-export const generateFallbackBlogPost = (options: FallbackContentOptions): BlogPostContent => {
-  const fallback = getDefaultFallbackContent(options);
-  
-  return {
-    frontmatter: {
-      id: `fallback-${options.originalSlug || 'unknown'}`,
-      title: fallback.title,
-      slug: options.originalSlug || 'fallback',
-      excerpt: fallback.message,
-      author: 'System',
-      date: new Date().toISOString().split('T')[0],
-      tags: ['error', 'fallback'],
-      featured: false,
-      readTime: 1,
-      category: 'tutorial',
-      difficulty: 'beginner'
-    },
-    content: `
-# ${fallback.title}
-
-${fallback.message}
-
-## What happened?
-
-The content you requested could not be loaded. This could be due to:
-
-- A temporary network issue
-- Content that has been moved or removed
-- A technical problem on our end
-
-## What you can do:
-
-${fallback.suggestions.map(suggestion => `- ${suggestion}`).join('\n')}
-
-## Need help?
-
-If you continue to experience issues, please contact our support team. We'll be happy to help you find the content you're looking for.
-
----
-
-*This is a fallback page generated automatically when the original content could not be loaded.*
-    `,
-    excerpt: fallback.message,
-    wordCount: 50,
-    readTime: 1
-  };
 };
 
 // Generate fallback project content
@@ -193,10 +144,8 @@ If you need assistance or want to report this issue, please contact our support 
 };
 
 // Main function to generate fallback content
-export const generateFallbackContent = (options: FallbackContentOptions): BlogPostContent | ProjectContent => {
+export const generateFallbackContent = (options: FallbackContentOptions): ProjectContent => {
   switch (options.contentType) {
-    case 'blog-post':
-      return generateFallbackBlogPost(options);
     case 'project':
       return generateFallbackProject(options);
     default:
@@ -206,7 +155,7 @@ export const generateFallbackContent = (options: FallbackContentOptions): BlogPo
 
 // Utility to determine if content should use fallback
 export const shouldUseFallback = (
-  content: BlogPostContent | ProjectContent | null,
+  content: ProjectContent | null,
   error: Error | null,
   loadingState: string
 ): boolean => {

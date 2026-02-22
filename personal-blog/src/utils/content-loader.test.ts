@@ -6,7 +6,6 @@ import {
   getCacheStats,
   getContentMetadata,
   handleContentError,
-  loadBlogPostContent,
   loadContent,
   loadProjectContent,
   removeFromCache,
@@ -20,111 +19,6 @@ describe('Content Loader', () => {
   beforeEach(() => {
     clearCache();
     jest.clearAllMocks();
-  });
-
-  describe('loadBlogPostContent', () => {
-    it('should load and parse blog post content correctly', async () => {
-      const mockMarkdown = `---
-id: test-blog
-title: Test Blog Post
-slug: test-blog-post
-date: 2024-01-01
-featured: true
-tags: [React, TypeScript]
-excerpt: This is a test blog post
-author: Test Author
-readTime: 10
-category: tutorial
-difficulty: intermediate
----
-
-# Test Blog Post
-
-This is the content of the test blog post.`;
-
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        text: () => Promise.resolve(mockMarkdown)
-      });
-
-      const result = await loadBlogPostContent('/test.md');
-
-      expect(result.frontmatter.id).toBe('test-blog');
-      expect(result.frontmatter.title).toBe('Test Blog Post');
-      expect(result.frontmatter.slug).toBe('test-blog-post');
-      expect(result.frontmatter.date).toBe('2024-01-01');
-      expect(result.frontmatter.featured).toBe(true);
-      expect(result.frontmatter.tags).toEqual(['React', 'TypeScript']);
-      expect(result.frontmatter.excerpt).toBe('This is a test blog post');
-      expect(result.frontmatter.author).toBe('Test Author');
-      expect(result.frontmatter.readTime).toBe(10);
-      expect(result.frontmatter.category).toBe('tutorial');
-      expect(result.frontmatter.difficulty).toBe('intermediate');
-      expect(result.content).toContain('# Test Blog Post');
-    });
-
-    it('should validate required fields and throw error for missing fields', async () => {
-      const invalidMarkdown = `---
-id: test-blog
-title: Test Blog Post
----
-
-# Test Blog Post
-
-Missing required fields.`;
-
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        text: () => Promise.resolve(invalidMarkdown)
-      });
-
-      await expect(loadBlogPostContent('/test.md')).rejects.toThrow('Invalid frontmatter: Missing required field: slug');
-    });
-
-    it('should use cached content when available', async () => {
-      const mockMarkdown = `---
-id: cached-blog
-title: Cached Blog Post
-slug: cached-blog-post
-date: 2024-01-01
-featured: false
-tags: [React]
-excerpt: This is a cached blog post
-author: Test Author
-readTime: 5
-category: tutorial
-difficulty: beginner
----
-
-# Cached Blog Post
-
-This content should be cached.`;
-
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        text: () => Promise.resolve(mockMarkdown)
-      });
-
-      // First load
-      const firstResult = await loadBlogPostContent('/cached.md');
-      expect(firstResult.frontmatter.title).toBe('Cached Blog Post');
-
-      // Second load should use cache
-      const secondResult = await loadBlogPostContent('/cached.md');
-      expect(secondResult.frontmatter.title).toBe('Cached Blog Post');
-
-      // Fetch should only be called once
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-    });
-
-    it('should handle fetch errors gracefully', async () => {
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: false,
-        statusText: 'Not Found'
-      });
-
-      await expect(loadBlogPostContent('/nonexistent.md')).rejects.toThrow('Failed to load content from /nonexistent.md: Not Found');
-    });
   });
 
   describe('loadProjectContent', () => {
@@ -187,34 +81,6 @@ Missing required fields.`;
   });
 
   describe('loadContent', () => {
-    it('should load blog post content when type is blog-post', async () => {
-      const mockMarkdown = `---
-id: test-blog
-title: Test Blog Post
-slug: test-blog-post
-date: 2024-01-01
-featured: false
-tags: [React]
-excerpt: This is a test blog post
-author: Test Author
-readTime: 5
-category: tutorial
-difficulty: beginner
----
-
-# Test Blog Post
-
-Content here.`;
-
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        text: () => Promise.resolve(mockMarkdown)
-      });
-
-      const result = await loadContent('/test.md', 'blog-post');
-      expect(result.frontmatter.title).toBe('Test Blog Post');
-    });
-
     it('should load project content when type is project', async () => {
       const mockMarkdown = `---
 id: test-project
@@ -249,15 +115,6 @@ Content here.`;
   });
 
   describe('discoverContentFiles', () => {
-    it('should return blog post files when type is blog-post', async () => {
-      const files = await discoverContentFiles('blog-post');
-      
-      expect(files).toHaveLength(3);
-      expect(files[0].filename).toBe('react-performance-optimization.md');
-      expect(files[1].filename).toBe('typescript-advanced-patterns.md');
-      expect(files[2].filename).toBe('docker-production-optimization.md');
-    });
-
     it('should return project files when type is project', async () => {
       const files = await discoverContentFiles('project');
       
@@ -277,31 +134,17 @@ Content here.`;
     it('should return correct content metadata', async () => {
       const metadata = await getContentMetadata();
       
-      expect(metadata.totalBlogPosts).toBe(3);
       expect(metadata.totalProjects).toBe(3);
       expect(metadata.totalTags).toBe(15);
-      expect(metadata.categories.tutorial).toBe(2);
-      expect(metadata.categories['project-showcase']).toBe(1);
-      expect(metadata.difficulties.intermediate).toBe(2);
-      expect(metadata.difficulties.advanced).toBe(1);
     });
   });
 
   describe('searchContent', () => {
-    it('should return search results for blog posts when no type specified', async () => {
+    it('should return search results when no type specified', async () => {
       const results = await searchContent('React');
       
-      expect(results).toHaveLength(2);
-      expect(results[0].type).toBe('blog-post');
-      expect(results[1].type).toBe('project');
-    });
-
-    it('should return only blog post results when type is blog-post', async () => {
-      const results = await searchContent('React', 'blog-post');
-      
       expect(results).toHaveLength(1);
-      expect(results[0].type).toBe('blog-post');
-      expect(results[0].title).toContain('React Performance Optimization');
+      expect(results[0].type).toBe('project');
     });
 
     it('should return only project results when type is project', async () => {
@@ -311,32 +154,26 @@ Content here.`;
       expect(results[0].type).toBe('project');
       expect(results[0].title).toContain('Personal Blog & Portfolio');
     });
-
-    it('should sort results by relevance', async () => {
-      const results = await searchContent('React');
-      
-      expect(results[0].relevance).toBeGreaterThan(results[1].relevance);
-    });
   });
 
   describe('Cache Management', () => {
     it('should clear cache correctly', async () => {
       // Load some content to populate cache
       const mockMarkdown = `---
-id: test-blog
-title: Test Blog Post
-slug: test-blog-post
+id: test-project
+title: Test Project
+slug: test-project
 date: 2024-01-01
 featured: false
 tags: [React]
-excerpt: This is a test blog post
-author: Test Author
-readTime: 5
-category: tutorial
-difficulty: beginner
+description: Test project description
+shortDescription: Test project
+image: /test.jpg
+techStack: [React, TypeScript]
+showDetails: false
 ---
 
-# Test Blog Post
+# Test Project
 
 Content here.`;
 
@@ -345,8 +182,8 @@ Content here.`;
         text: () => Promise.resolve(mockMarkdown)
       });
 
-      await loadBlogPostContent('/test1.md');
-      await loadBlogPostContent('/test2.md');
+      await loadProjectContent('/test1.md');
+      await loadProjectContent('/test2.md');
 
       expect(getCacheStats().size).toBe(2);
 
@@ -356,20 +193,20 @@ Content here.`;
 
     it('should return correct cache statistics', async () => {
       const mockMarkdown = `---
-id: test-blog
-title: Test Blog Post
-slug: test-blog-post
+id: test-project
+title: Test Project
+slug: test-project
 date: 2024-01-01
 featured: false
 tags: [React]
-excerpt: This is a test blog post
-author: Test Author
-readTime: 5
-category: tutorial
-difficulty: beginner
+description: Test project description
+shortDescription: Test project
+image: /test.jpg
+techStack: [React, TypeScript]
+showDetails: false
 ---
 
-# Test Blog Post
+# Test Project
 
 Content here.`;
 
@@ -378,8 +215,8 @@ Content here.`;
         text: () => Promise.resolve(mockMarkdown)
       });
 
-      await loadBlogPostContent('/test1.md');
-      await loadBlogPostContent('/test2.md');
+      await loadProjectContent('/test1.md');
+      await loadProjectContent('/test2.md');
 
       const stats = getCacheStats();
       expect(stats.size).toBe(2);
@@ -389,20 +226,20 @@ Content here.`;
 
     it('should remove specific items from cache', async () => {
       const mockMarkdown = `---
-id: test-blog
-title: Test Blog Post
-slug: test-blog-post
+id: test-project
+title: Test Project
+slug: test-project
 date: 2024-01-01
 featured: false
 tags: [React]
-excerpt: This is a test blog post
-author: Test Author
-readTime: 5
-category: tutorial
-difficulty: beginner
+description: Test project description
+shortDescription: Test project
+image: /test.jpg
+techStack: [React, TypeScript]
+showDetails: false
 ---
 
-# Test Blog Post
+# Test Project
 
 Content here.`;
 
@@ -411,8 +248,8 @@ Content here.`;
         text: () => Promise.resolve(mockMarkdown)
       });
 
-      await loadBlogPostContent('/test1.md');
-      await loadBlogPostContent('/test2.md');
+      await loadProjectContent('/test1.md');
+      await loadProjectContent('/test2.md');
 
       expect(getCacheStats().size).toBe(2);
 
@@ -458,9 +295,9 @@ Content here.`;
   describe('Frontmatter Parsing Edge Cases', () => {
     it('should handle quoted strings in frontmatter', async () => {
       const mockMarkdown = `---
-id: "test-blog"
-title: 'Test Blog Post'
-excerpt: "This is a 'quoted' excerpt"
+id: "test-project"
+title: 'Test Project'
+description: "This is a 'quoted' description"
 ---
 
 # Content`;
@@ -473,7 +310,7 @@ excerpt: "This is a 'quoted' excerpt"
       // This should not throw an error about missing required fields
       // since we're just testing the parsing, not validation
       try {
-        await loadBlogPostContent('/test.md');
+        await loadProjectContent('/test.md');
       } catch (error) {
         // Expected to fail validation, but parsing should work
         expect(error).toBeInstanceOf(Error);
@@ -482,10 +319,10 @@ excerpt: "This is a 'quoted' excerpt"
 
     it('should handle arrays in frontmatter', async () => {
       const mockMarkdown = `---
-id: test-blog
-title: Test Blog Post
-excerpt: Test excerpt
+id: test-project
+title: Test Project
 tags: [React, TypeScript, "Node.js"]
+techStack: [React, TypeScript]
 ---
 
 # Content`;
@@ -496,7 +333,7 @@ tags: [React, TypeScript, "Node.js"]
       });
 
       try {
-        await loadBlogPostContent('/test.md');
+        await loadProjectContent('/test.md');
       } catch (error) {
         // Expected to fail validation, but parsing should work
         expect(error).toBeInstanceOf(Error);
@@ -505,11 +342,10 @@ tags: [React, TypeScript, "Node.js"]
 
     it('should handle boolean values in frontmatter', async () => {
       const mockMarkdown = `---
-id: test-blog
-title: Test Blog Post
-excerpt: Test excerpt
+id: test-project
+title: Test Project
 featured: true
-published: false
+showDetails: false
 ---
 
 # Content`;
@@ -520,7 +356,7 @@ published: false
       });
 
       try {
-        await loadBlogPostContent('/test.md');
+        await loadProjectContent('/test.md');
       } catch (error) {
         // Expected to fail validation, but parsing should work
         expect(error).toBeInstanceOf(Error);

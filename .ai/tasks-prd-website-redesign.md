@@ -60,21 +60,21 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
 
 ## Tasks
 
-- [ ] 1.0 Remove Blog Functionality
-  - [ ] 1.1 Delete blog page files: `src/pages/Blog/Blog.tsx` and the `Blog/` directory.
-  - [ ] 1.2 Delete blog post detail files: `src/pages/BlogPostDetail/BlogPostDetail.tsx`, `src/pages/BlogPostDetail/index.ts`, and the `BlogPostDetail/` directory.
-  - [ ] 1.3 Delete blog data files: `src/data/blog-posts.ts` and `src/data/blog-posts.test.ts`.
-  - [ ] 1.4 Delete blog content markdown files: `content/blog-posts/react-performance-optimization.md`, `content/blog-posts/typescript-advanced-patterns.md`, and the `content/blog-posts/` directory.
-  - [ ] 1.5 Remove blog-related exports from `src/pages/index.ts` (`Blog`, `BlogPostDetail`).
-  - [ ] 1.6 Remove the `blog-posts` re-export from `src/data/index.ts`.
-  - [ ] 1.7 Remove blog-related types from `src/types/content.ts`: `BlogPostFrontmatter`, `BlogPostContent`, `REQUIRED_BLOG_POST_FIELDS`, and any blog-specific fields in `ContentMetadata`, `ContentSearchResult`, `ContentType`.
-  - [ ] 1.8 Update `src/types/content.test.ts` to remove blog-related test cases.
-  - [ ] 1.9 Remove commented-out blog routes from `App.tsx` and the `Blog`/`BlogPostDetail` imports.
-  - [ ] 1.10 Remove the commented-out blog nav item from `Navigation.tsx` if still present.
-  - [ ] 1.11 Remove blog-related fallback content from `src/utils/fallback-content.ts` and update its tests.
-  - [ ] 1.12 Remove blog-related references from `src/utils/content-loader.ts` (blog-post content type handling, blog-post validation, blog-post specific frontmatter parsing).
-  - [ ] 1.13 Update `src/utils/content-loader.test.ts` to remove blog-related test cases.
-  - [ ] 1.14 Remove the `Contact` page and its route from `App.tsx` if it is no longer in the navigation (the footer now handles contact info). Remove from `src/pages/index.ts` as well.
+- [x] 1.0 Remove Blog Functionality
+  - [x] 1.1 Delete blog page files: `src/pages/Blog/Blog.tsx` and the `Blog/` directory.
+  - [x] 1.2 Delete blog post detail files: `src/pages/BlogPostDetail/BlogPostDetail.tsx`, `src/pages/BlogPostDetail/index.ts`, and the `BlogPostDetail/` directory.
+  - [x] 1.3 Delete blog data files: `src/data/blog-posts.ts` and `src/data/blog-posts.test.ts`.
+  - [x] 1.4 Delete blog content markdown files: `content/blog-posts/react-performance-optimization.md`, `content/blog-posts/typescript-advanced-patterns.md`, and the `content/blog-posts/` directory.
+  - [x] 1.5 Remove blog-related exports from `src/pages/index.ts` (`Blog`, `BlogPostDetail`).
+  - [x] 1.6 Remove the `blog-posts` re-export from `src/data/index.ts`.
+  - [x] 1.7 Remove blog-related types from `src/types/content.ts`: `BlogPostFrontmatter`, `BlogPostContent`, `REQUIRED_BLOG_POST_FIELDS`, and any blog-specific fields in `ContentMetadata`, `ContentSearchResult`, `ContentType`.
+  - [x] 1.8 Update `src/types/content.test.ts` to remove blog-related test cases.
+  - [x] 1.9 Remove commented-out blog routes from `App.tsx` and the `Blog`/`BlogPostDetail` imports.
+  - [x] 1.10 Remove the commented-out blog nav item from `Navigation.tsx` if still present.
+  - [x] 1.11 Remove blog-related fallback content from `src/utils/fallback-content.ts` and update its tests.
+  - [x] 1.12 Remove blog-related references from `src/utils/content-loader.ts` (blog-post content type handling, blog-post validation, blog-post specific frontmatter parsing).
+  - [x] 1.13 Update `src/utils/content-loader.test.ts` to remove blog-related test cases.
+  - [x] 1.14 Remove the `Contact` page and its route from `App.tsx` if it is no longer in the navigation (the footer now handles contact info). Remove from `src/pages/index.ts` as well.
 - [ ] 2.0 Replace Custom Markdown Parsing with Standard Libraries
   - [ ] 2.1 Move `gray-matter` from `devDependencies` to `dependencies` in `package.json` and install `reading-time` as a dependency. Run `npm install`.
   - [ ] 2.2 In `src/utils/content-loader.ts`, replace the custom `parseFrontmatter` and `parseYamlFrontmatter` functions with `gray-matter` for frontmatter extraction.

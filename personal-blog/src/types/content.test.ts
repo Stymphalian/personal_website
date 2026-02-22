@@ -1,7 +1,5 @@
 import type {
   BaseContent,
-  BlogPostContent,
-  BlogPostFrontmatter,
   ContentCache,
   ContentFile,
   ContentLoaderOptions,
@@ -16,7 +14,6 @@ import type {
   ProjectFrontmatter,
 } from './content';
 import {
-  REQUIRED_BLOG_POST_FIELDS,
   REQUIRED_PROJECT_FIELDS
 } from './content';
 
@@ -38,30 +35,6 @@ describe('Content Types', () => {
       expect(baseContent.date).toBe('2024-01-01');
       expect(baseContent.featured).toBe(false);
       expect(baseContent.tags).toEqual(['test', 'example']);
-    });
-  });
-
-  describe('BlogPostFrontmatter interface', () => {
-    it('should extend BaseContent and have blog-specific fields', () => {
-      const blogPost: BlogPostFrontmatter = {
-        id: 'blog-post-1',
-        title: 'Blog Post Title',
-        slug: 'blog-post-slug',
-        date: '2024-01-01',
-        featured: true,
-        tags: ['React', 'TypeScript'],
-        excerpt: 'This is a blog post excerpt',
-        author: 'Jordan Yu',
-        readTime: 10,
-        category: 'tutorial',
-        difficulty: 'intermediate'
-      };
-
-      expect(blogPost.excerpt).toBe('This is a blog post excerpt');
-      expect(blogPost.author).toBe('Jordan Yu');
-      expect(blogPost.readTime).toBe(10);
-      expect(blogPost.category).toBe('tutorial');
-      expect(blogPost.difficulty).toBe('intermediate');
     });
   });
 
@@ -92,30 +65,6 @@ describe('Content Types', () => {
     });
   });
 
-  describe('BlogPostContent interface', () => {
-    it('should contain frontmatter and content', () => {
-      const blogPostContent: BlogPostContent = {
-        frontmatter: {
-          id: 'blog-1',
-          title: 'Blog Title',
-          slug: 'blog-slug',
-          date: '2024-01-01',
-          featured: false,
-          tags: ['test'],
-          excerpt: 'Excerpt',
-          author: 'Author',
-          readTime: 5,
-          category: 'tutorial',
-          difficulty: 'beginner'
-        },
-        content: '# Blog Post Content\n\nThis is the markdown content.'
-      };
-
-      expect(blogPostContent.frontmatter.title).toBe('Blog Title');
-      expect(blogPostContent.content).toContain('# Blog Post Content');
-    });
-  });
-
   describe('ProjectContent interface', () => {
     it('should contain frontmatter and content', () => {
       const projectContent: ProjectContent = {
@@ -143,13 +92,13 @@ describe('Content Types', () => {
   describe('ContentFile interface', () => {
     it('should have file metadata properties', () => {
       const contentFile: ContentFile = {
-        path: '/content/blog-posts/test.md',
+        path: '/content/projects/test.md',
         filename: 'test.md',
         lastModified: new Date('2024-01-01'),
         size: 1024
       };
 
-      expect(contentFile.path).toBe('/content/blog-posts/test.md');
+      expect(contentFile.path).toBe('/content/projects/test.md');
       expect(contentFile.filename).toBe('test.md');
       expect(contentFile.lastModified).toEqual(new Date('2024-01-01'));
       expect(contentFile.size).toBe(1024);
@@ -159,20 +108,20 @@ describe('Content Types', () => {
   describe('ContentCache interface', () => {
     it('should support caching content with timestamps', () => {
       const cache: ContentCache = {
-        'blog-1': {
+        'project-1': {
           content: {
             frontmatter: {
-              id: 'blog-1',
-              title: 'Blog Title',
-              slug: 'blog-slug',
+              id: 'project-1',
+              title: 'Project Title',
+              slug: 'project-slug',
               date: '2024-01-01',
-              featured: false,
-              tags: ['test'],
-              excerpt: 'Excerpt',
-              author: 'Author',
-              readTime: 5,
-              category: 'tutorial',
-              difficulty: 'beginner'
+              featured: true,
+              tags: ['React'],
+              description: 'Project description',
+              shortDescription: 'Short description',
+              image: '/image.jpg',
+              techStack: ['React', 'TypeScript'],
+              showDetails: true
             },
             content: 'Content'
           },
@@ -181,9 +130,9 @@ describe('Content Types', () => {
         }
       };
 
-      expect(cache['blog-1'].content.frontmatter.id).toBe('blog-1');
-      expect(cache['blog-1'].timestamp).toBeLessThanOrEqual(Date.now());
-      expect(cache['blog-1'].expiresAt).toBeGreaterThan(Date.now());
+      expect(cache['project-1'].content.frontmatter.id).toBe('project-1');
+      expect(cache['project-1'].timestamp).toBeLessThanOrEqual(Date.now());
+      expect(cache['project-1'].expiresAt).toBeGreaterThan(Date.now());
     });
   });
 
@@ -222,7 +171,7 @@ describe('Content Types', () => {
 
       const invalidResult: ContentValidationResult = {
         isValid: false,
-        errors: ['Missing required field: excerpt'],
+        errors: ['Missing required field: description'],
         warnings: []
       };
 
@@ -239,18 +188,17 @@ describe('Content Types', () => {
   describe('ContentSearchResult interface', () => {
     it('should contain search result data with relevance scoring', () => {
       const searchResult: ContentSearchResult = {
-        type: 'blog-post',
-        id: 'blog-1',
-        title: 'Blog Title',
-        excerpt: 'Blog excerpt',
+        type: 'project',
+        id: 'project-1',
+        title: 'Project Title',
+        description: 'Project description',
         tags: ['React', 'TypeScript'],
         relevance: 0.85
       };
 
-      expect(searchResult.type).toBe('blog-post');
-      expect(searchResult.id).toBe('blog-1');
-      expect(searchResult.title).toBe('Blog Title');
-      expect(searchResult.excerpt).toBe('Blog excerpt');
+      expect(searchResult.type).toBe('project');
+      expect(searchResult.id).toBe('project-1');
+      expect(searchResult.title).toBe('Project Title');
       expect(searchResult.tags).toEqual(['React', 'TypeScript']);
       expect(searchResult.relevance).toBe(0.85);
     });
@@ -259,79 +207,47 @@ describe('Content Types', () => {
   describe('ContentMetadata interface', () => {
     it('should contain content statistics and metadata', () => {
       const metadata: ContentMetadata = {
-        totalBlogPosts: 10,
         totalProjects: 5,
         totalTags: 25,
         lastUpdated: new Date('2024-01-01'),
-        categories: {
-          tutorial: 5,
-          'project-showcase': 3,
-          'tech-review': 2
-        },
-        difficulties: {
-          beginner: 3,
-          intermediate: 5,
-          advanced: 2
-        }
       };
 
-      expect(metadata.totalBlogPosts).toBe(10);
       expect(metadata.totalProjects).toBe(5);
       expect(metadata.totalTags).toBe(25);
       expect(metadata.lastUpdated).toEqual(new Date('2024-01-01'));
-      expect(metadata.categories.tutorial).toBe(5);
-      expect(metadata.difficulties.intermediate).toBe(5);
     });
   });
 
   describe('Utility types', () => {
-    it('should support ContentType union', () => {
-      const blogType: ContentType = 'blog-post';
+    it('should support ContentType as project', () => {
       const projectType: ContentType = 'project';
-
-      expect(blogType).toBe('blog-post');
       expect(projectType).toBe('project');
     });
 
     it('should support ContentUnion type', () => {
       const content: ContentUnion = {
         frontmatter: {
-          id: 'blog-1',
-          title: 'Blog Title',
-          slug: 'blog-slug',
+          id: 'project-1',
+          title: 'Project Title',
+          slug: 'project-slug',
           date: '2024-01-01',
           featured: false,
           tags: ['test'],
-          excerpt: 'Excerpt',
-          author: 'Author',
-          readTime: 5,
-          category: 'tutorial',
-          difficulty: 'beginner'
+          description: 'Description',
+          shortDescription: 'Short',
+          image: '/image.jpg',
+          techStack: ['React'],
+          showDetails: true
         },
         content: 'Content'
       };
 
-      expect(content.frontmatter.id).toBe('blog-1');
+      expect(content.frontmatter.id).toBe('project-1');
       expect(content.content).toBe('Content');
     });
   });
 
   describe('Required fields constants', () => {
-    it('should define required blog post fields', () => {
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('id');
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('title');
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('slug');
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('date');
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('featured');
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('tags');
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('excerpt');
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('author');
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('readTime');
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('category');
-      expect(REQUIRED_BLOG_POST_FIELDS).toContain('difficulty');
-      expect(REQUIRED_BLOG_POST_FIELDS).toHaveLength(11);
-    });
-
     it('should define required project fields', () => {
       expect(REQUIRED_PROJECT_FIELDS).toContain('id');
       expect(REQUIRED_PROJECT_FIELDS).toContain('title');

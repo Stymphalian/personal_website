@@ -1,5 +1,5 @@
 // Content management types for markdown-based content system
-// Supports both blog posts and projects with standardized frontmatter
+// Supports projects with standardized frontmatter
 
 export interface BaseContent {
   id: string;
@@ -10,14 +10,6 @@ export interface BaseContent {
   tags: string[];
 }
 
-export interface BlogPostFrontmatter extends BaseContent {
-  excerpt: string;
-  author: string;
-  readTime: number; // in minutes
-  category: 'tutorial' | 'project-showcase' | 'tech-review' | 'career-advice';
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
-}
-
 export interface ProjectFrontmatter extends BaseContent {
   description: string;
   shortDescription: string;
@@ -26,14 +18,6 @@ export interface ProjectFrontmatter extends BaseContent {
   liveDemo?: string;
   githubRepo?: string;
   showDetails: boolean; // Controls whether View Details button is shown
-}
-
-export interface BlogPostContent {
-  frontmatter: BlogPostFrontmatter;
-  content: string; // Raw markdown content
-  excerpt?: string; // From frontmatter
-  wordCount?: number; // Word count for content
-  readTime?: number; // Estimated reading time in minutes
 }
 
 export interface ProjectContent {
@@ -53,7 +37,7 @@ export interface ContentFile {
 
 export interface ContentCache {
   [key: string]: {
-    content: BlogPostContent | ProjectContent;
+    content: ProjectContent;
     timestamp: number;
     expiresAt: number;
   };
@@ -73,7 +57,7 @@ export interface ContentValidationResult {
 }
 
 export interface ContentSearchResult {
-  type: 'blog-post' | 'project';
+  type: 'project';
   id: string;
   title: string;
   excerpt?: string;
@@ -83,27 +67,16 @@ export interface ContentSearchResult {
 }
 
 export interface ContentMetadata {
-  totalBlogPosts: number;
   totalProjects: number;
   totalTags: number;
   lastUpdated: Date;
-  categories: {
-    [key: string]: number;
-  };
-  difficulties: {
-    [key: string]: number;
-  };
 }
 
 // Utility types for content processing
-export type ContentType = 'blog-post' | 'project';
-export type ContentUnion = BlogPostContent | ProjectContent;
+export type ContentType = 'project';
+export type ContentUnion = ProjectContent;
 
 // Frontmatter validation schemas
-export const REQUIRED_BLOG_POST_FIELDS: (keyof BlogPostFrontmatter)[] = [
-  'id', 'title', 'slug', 'date', 'featured', 'tags', 'excerpt', 'author', 'readTime', 'category', 'difficulty'
-];
-
 export const REQUIRED_PROJECT_FIELDS: (keyof ProjectFrontmatter)[] = [
   'id', 'title', 'slug', 'date', 'featured', 'tags', 'description', 'shortDescription', 'image', 'techStack', 'showDetails'
 ];

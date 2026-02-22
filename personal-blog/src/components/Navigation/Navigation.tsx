@@ -14,7 +14,6 @@ const Navigation: React.FC = () => {
   const navigationItems = [
     { path: '/', label: 'Home' },
     { path: '/projects', label: 'Projects' },
-    // { path: '/blog', label: 'Blog' },
   ];
 
   const toolsItems = [

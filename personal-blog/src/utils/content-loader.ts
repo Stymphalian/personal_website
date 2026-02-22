@@ -2,8 +2,6 @@
 // Handles dynamic file loading, frontmatter parsing, and content caching
 
 import type {
-  BlogPostContent,
-  BlogPostFrontmatter,
   ContentCache,
   ContentFile,
   ContentLoaderOptions,
@@ -16,7 +14,7 @@ import type {
   ProjectContent,
   ProjectFrontmatter
 } from '../types/content';
-import { REQUIRED_BLOG_POST_FIELDS, REQUIRED_PROJECT_FIELDS } from '../types/content';
+import { REQUIRED_PROJECT_FIELDS } from '../types/content';
 import { getContentStats, parseMarkdown, validateMarkdownContent } from './markdown';
 
 
@@ -185,86 +183,7 @@ const processContent = (
   }
 };
 
-// Validation utilities with graceful fallbacks
-const validateBlogPostFrontmatter = (frontmatter: any): ContentValidationResult => {
-  const errors: string[] = [];
-  const warnings: string[] = [];
-  
-  // Check for missing required fields
-  for (const field of REQUIRED_BLOG_POST_FIELDS) {
-    if (frontmatter[field] === undefined || frontmatter[field] === null) {
-      errors.push(`Missing required field: ${field}`);
-    }
-  }
-  
-  // Validate specific field types with fallbacks
-  if (frontmatter.readTime !== undefined && frontmatter.readTime !== null) {
-    if (typeof frontmatter.readTime !== 'number') {
-      warnings.push('readTime should be a number, attempting to convert');
-      const converted = Number(frontmatter.readTime);
-      if (!isNaN(converted)) {
-        frontmatter.readTime = converted;
-      } else {
-        errors.push('readTime must be a valid number');
-      }
-    }
-  }
-  
-  if (frontmatter.category !== undefined && frontmatter.category !== null) {
-    if (!['tutorial', 'project-showcase', 'tech-review', 'career-advice'].includes(frontmatter.category)) {
-      warnings.push(`Invalid category value: ${frontmatter.category}, defaulting to tutorial`);
-      frontmatter.category = 'tutorial';
-    }
-  }
-  
-  if (frontmatter.difficulty !== undefined && frontmatter.difficulty !== null) {
-    if (!['beginner', 'intermediate', 'advanced'].includes(frontmatter.difficulty)) {
-      warnings.push(`Invalid difficulty value: ${frontmatter.difficulty}, defaulting to intermediate`);
-      frontmatter.difficulty = 'intermediate';
-    }
-  }
-  
-  if (frontmatter.tags !== undefined && frontmatter.tags !== null) {
-    if (!Array.isArray(frontmatter.tags)) {
-      warnings.push('tags should be an array, attempting to convert');
-      if (typeof frontmatter.tags === 'string') {
-        frontmatter.tags = [frontmatter.tags];
-      } else {
-        errors.push('tags must be an array or string');
-      }
-    }
-  }
-  
-  if (frontmatter.featured !== undefined && frontmatter.featured !== null) {
-    if (typeof frontmatter.featured !== 'boolean') {
-      warnings.push(`featured should be a boolean, converting "${frontmatter.featured}" to false`);
-      frontmatter.featured = false;
-    }
-  }
-  
-  // Provide default values for critical fields if missing
-  if (!frontmatter.id && frontmatter.slug) {
-    frontmatter.id = frontmatter.slug;
-    warnings.push('Using slug as id since id is missing');
-  }
-  
-  if (!frontmatter.date) {
-    frontmatter.date = new Date().toISOString().split('T')[0];
-    warnings.push('Using current date as default since date is missing');
-  }
-  
-  if (!frontmatter.author) {
-    frontmatter.author = 'Unknown Author';
-    warnings.push('Using default author since author is missing');
-  }
-  
-  return {
-    isValid: errors.length === 0,
-    errors,
-    warnings
-  };
-};
-
+// Content loading functions
 const validateProjectFrontmatter = (frontmatter: any): ContentValidationResult => {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -324,78 +243,6 @@ const validateProjectFrontmatter = (frontmatter: any): ContentValidationResult =
 };
 
 // Content loading functions
-export const loadBlogPostContent = async (
-  filePath: string,
-  options: ContentLoaderOptions = {}
-): Promise<BlogPostContent> => {
-  const opts = { ...DEFAULT_OPTIONS, ...options };
-  
-  try {
-    console.log(`Loading blog post content from: "${filePath}"`);
-    
-    // Check cache first
-    if (opts.cacheEnabled && contentCache[filePath]) {
-      const cached = contentCache[filePath];
-      if (Date.now() < cached.expiresAt) {
-        console.log(`Cache hit for blog post: "${filePath}"`);
-        return cached.content as BlogPostContent;
-      } else {
-        delete contentCache[filePath];
-      }
-    }
-    
-    // In a real implementation, this would fetch the file content
-    // For now, we'll simulate loading content from the markdown files
-    const response = await fetch(filePath);
-    if (!response.ok) {
-      const errorMsg = `Failed to load content from ${filePath}: ${response.statusText}`;
-      console.error(errorMsg);
-      throw new Error(errorMsg);
-    }
-    
-    const content = await response.text();
-    console.log(`Successfully loaded content from: "${filePath}"`);
-  
-    const { frontmatter: yamlFrontmatter, markdown } = parseFrontmatter(content);
-    const frontmatterData = parseYamlFrontmatter(yamlFrontmatter);
-    
-    if (Object.keys(frontmatterData).length > 0  && opts.validateFrontmatter) {
-      const validation = validateBlogPostFrontmatter(frontmatterData);
-      if (!validation.isValid) {
-        const errorMsg = `Invalid frontmatter: ${validation.errors.join(', ')}`;
-        console.error(`Validation failed for "${filePath}":`, errorMsg);
-        throw new Error(errorMsg);
-      }
-    }
-    
-    const processedContent = processContent(markdown, opts);
-    
-    const blogPostContent: BlogPostContent = {
-      frontmatter: frontmatterData as BlogPostFrontmatter,
-      content: processedContent.content,
-      excerpt: Object.keys(frontmatterData).length > 0 ? frontmatterData.excerpt : "",
-      wordCount: processedContent.wordCount,
-      readTime: processedContent.readTime
-    };
-    
-    // Cache the result
-    if (opts.cacheEnabled) {
-      contentCache[filePath] = {
-        content: blogPostContent,
-        timestamp: Date.now(),
-        expiresAt: Date.now() + opts.cacheExpiry
-      };
-      console.log(`Cached blog post content for: "${filePath}"`);
-    }
-    
-    console.log(`Successfully processed blog post content from: "${filePath}"`);
-    return blogPostContent;
-  } catch (error) {
-    console.error(`Error loading blog post content from "${filePath}":`, error);
-    throw new Error(`Failed to load blog post content: ${error instanceof Error ? error.message : String(error)}`);
-  }
-};
-
 export const loadProjectContent = async (
   filePath: string,
   options: ContentLoaderOptions = {}
@@ -474,8 +321,6 @@ export const loadContent = async (
   options: ContentLoaderOptions = {}
 ): Promise<ContentUnion> => {
   switch (contentType) {
-    case 'blog-post':
-      return await loadBlogPostContent(filePath, options);
     case 'project':
       return await loadProjectContent(filePath, options);
     default:
@@ -488,26 +333,6 @@ export const discoverContentFiles = async (contentType: ContentType): Promise<Co
   // In a real implementation, this would scan the content directory
   // For now, we'll return a mock list based on the content we know exists
   const mockFiles: Record<ContentType, ContentFile[]> = {
-    'blog-post': [
-      {
-        path: '/content/blog-posts/react-performance-optimization.md',
-        filename: 'react-performance-optimization.md',
-        lastModified: new Date('2024-01-15'),
-        size: 8192
-      },
-      {
-        path: '/content/blog-posts/typescript-advanced-patterns.md',
-        filename: 'typescript-advanced-patterns.md',
-        lastModified: new Date('2024-01-20'),
-        size: 10240
-      },
-      {
-        path: '/content/blog-posts/docker-production-optimization.md',
-        filename: 'docker-production-optimization.md',
-        lastModified: new Date('2024-01-25'),
-        size: 12288
-      }
-    ],
     'project': [
       {
         path: '/content/projects/personal-blog-portfolio.md',
@@ -535,27 +360,14 @@ export const discoverContentFiles = async (contentType: ContentType): Promise<Co
 
 // Content metadata functions
 export const getContentMetadata = async (): Promise<ContentMetadata> => {
-  const blogFiles = await discoverContentFiles('blog-post');
   const projectFiles = await discoverContentFiles('project');
   
   // In a real implementation, this would analyze the actual content
   // For now, we'll return mock metadata
   return {
-    totalBlogPosts: blogFiles.length,
     totalProjects: projectFiles.length,
     totalTags: 15, // Mock value
-    lastUpdated: new Date(Math.max(...blogFiles.map(f => f.lastModified.getTime()), ...projectFiles.map(f => f.lastModified.getTime()))),
-    categories: {
-      tutorial: 2,
-      'project-showcase': 1,
-      'tech-review': 0,
-      'career-advice': 0
-    },
-    difficulties: {
-      beginner: 0,
-      intermediate: 2,
-      advanced: 1
-    }
+    lastUpdated: new Date(Math.max(...projectFiles.map(f => f.lastModified.getTime())))
   };
 };
 
@@ -568,17 +380,6 @@ export const searchContent = async (
   
   // In a real implementation, this would search through actual content
   // For now, we'll return mock search results
-  if (!contentType || contentType === 'blog-post') {
-    results.push({
-      type: 'blog-post',
-      id: 'react-performance-optimization',
-      title: 'React Performance Optimization: A Deep Dive into useMemo and useCallback',
-      excerpt: 'Learn how to optimize React applications using useMemo and useCallback hooks...',
-      tags: ['React', 'Performance', 'JavaScript', 'Hooks', 'Optimization'],
-      relevance: 0.9
-    });
-  }
-  
   if (!contentType || contentType === 'project') {
     results.push({
       type: 'project',
