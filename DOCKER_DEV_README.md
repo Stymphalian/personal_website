@@ -1,111 +1,142 @@
 # Docker Development Environment
 
-This setup allows you to develop inside a Docker container without installing dependencies on your host machine.
+All development happens inside a Docker container.
+The container image is defined in `Dockerfile.dev` and orchestrated by 
+`docker-compose.yaml`. VS Code connects to the container via the Dev Containers
+extension using `.devcontainer/devcontainer.json`.
+
+## How it fits together
+
+```
+Dockerfile.dev              ← defines the image (node:24-alpine + git + global tools)
+docker-compose.yaml         ← defines the `shell` service (workspace mount, env vars)
+.devcontainer/
+  devcontainer.json         ← points VS Code at the `shell` service; adds extensions,
+                               settings, .gitconfig mount, port forwarding
+```
+
+`devcontainer.json` does **not** define its own image or volumes — it delegates to `docker-compose.yaml` so there is a single source of truth for the container configuration.
 
 ## Prerequisites
 
-- Docker Desktop installed and running
-- Git (for version control)
+- [Docker](https://docs.docker.com/get-docker/) installed and running
+- [VS Code](https://code.visualstudio.com/) with the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension (`ms-vscode-remote.remote-containers`)
 
-## Quick Start
+## Quick Start (VS Code Dev Container)
 
-1. **Build and start the development container:**
+This is the primary development workflow.
+
+1. Open the repo in VS Code
+2. When prompted **"Reopen in Container"**, click it — or open the Command Palette and run **Dev Containers: Reopen in Container**
+3. VS Code builds the image (first time only), starts the `shell` service, and reconnects the editor inside the container
+4. Once inside, open a terminal and start the dev server:
    ```bash
-   docker-compose up --build
+   cd personal-blog && npm run dev
    ```
+5. VS Code automatically forwards port **5173** — open http://localhost:5173 in your browser
 
-2. **Access your application:**
-   - Open http://localhost:5173 in your browser
-   - The Vite dev server will be running with hot reload
+On first open, `postCreateCommand` runs automatically:
+- Marks `/workspace` as a git safe directory
+- Runs `npm install` inside `personal-blog/`
 
-## Development Workflow
+## Common Commands (run inside the container terminal)
 
-### Start Development Server
 ```bash
-# Start the main development service
-docker-compose up dev
+# Start dev server with hot reload
+cd personal-blog && npm run dev
 
-# Or start in background
-docker-compose up -d dev
-```
-
-### Run Commands in Container
-```bash
 # Run tests
-docker-compose exec dev sh -c "cd personal-blog && npm test"
+cd personal-blog && npm test
 
-# Run linting
-docker-compose exec dev sh -c "cd personal-blog && npm run lint"
+# Run tests in watch mode
+cd personal-blog && npm run test:watch
 
-# Run build
-docker-compose exec dev sh -c "cd personal-blog && npm run build"
+# Type check
+cd personal-blog && npm run type-check
 
-# Install new dependencies
-docker-compose exec dev sh -c "cd personal-blog && npm install package-name"
+# Lint
+cd personal-blog && npm run lint
+
+# Fix lint issues
+cd personal-blog && npm run lint:fix
+
+# Production build
+cd personal-blog && npm run build
+
+# Preview production build
+cd personal-blog && npm run preview
+
+# Install a new dependency
+cd personal-blog && npm install <package-name>
 ```
 
-### Interactive Shell
+## Git Inside the Container
+
+Git works exactly as it does on the host:
+
+- The entire repo (including `.git/`) is bind-mounted at `/workspace`, so all history, branches, and staged changes are live
+- `~/.gitconfig` from the host is mounted read-only into the container, so your name, email, and aliases are available
+- VS Code Dev Containers automatically forwards your host **SSH agent**, so `git push` / `git pull` over SSH works without any extra setup
+- HTTPS credential helpers are also forwarded by VS Code automatically
+
 ```bash
-# Get an interactive shell in the container
-docker-compose run --rm shell
-
-# Or use the shell service
-docker-compose --profile shell up -d shell
+git status
+git add .
+git commit -m "message"
+git push
 ```
 
-### Stop Services
+## Headless / CLI Usage (without VS Code)
+
+If you need a shell in the container without VS Code:
+
 ```bash
-# Stop all services
-docker-compose down
+# Start the shell service interactively
+docker compose run --rm shell
 
-# Stop and remove volumes
-docker-compose down -v
+# Or start it in the background and exec in
+docker compose up -d shell
+docker compose exec shell bash
+
+# Stop when done
+docker compose down
 ```
-
-## File Structure in Container
-
-- Your entire workspace is mounted at `/workspace`
-- The React app is at `/workspace/personal-blog`
-- Dependencies are installed in the container (not on host)
-- Changes to files are immediately reflected due to volume mounting
 
 ## Ports
 
-- **5173**: Vite development server (main)
-- **3000**: Alternative port (if needed)
+| Port | Service |
+|------|---------|
+| 5173 | Vite dev server |
+| 3000 | Alternative / preview |
 
-## Environment Variables
+## Rebuilding the Image
 
-- `NODE_ENV=development`
-- `CHOKIDAR_USEPOLLING=true` - Better file watching on Windows
-- `WATCHPACK_POLLING=true` - Better file watching on Windows
+If you change `Dockerfile.dev` or update dependencies in the image:
+
+```bash
+# From VS Code: Dev Containers: Rebuild Container
+
+# Or from the host CLI:
+docker compose build shell
+```
 
 ## Troubleshooting
 
-### Port Already in Use
-If port 5173 is already in use, modify the port mapping in `docker-compose.yaml`:
+### Port already in use
+Edit the `ports` mapping in `docker-compose.yaml`:
 ```yaml
 ports:
-  - "5174:5173"  # Use port 5174 on host
+  - "5174:5173"  # use 5174 on the host instead
 ```
 
-### File Watching Issues
-The container is configured with polling-based file watching for better Windows compatibility. If you experience issues:
-
-1. Ensure Docker Desktop has access to your workspace directory
-2. Check that the volume mounts are working correctly
-3. Restart the container: `docker-compose restart dev`
-
-### Dependencies Issues
-If you need to reinstall dependencies:
+### `node_modules` conflicts
+The `node_modules` directory is excluded from the workspace bind-mount via an anonymous volume, so host and container dependencies stay isolated. If you see stale dependency issues, reinstall inside the container:
 ```bash
-docker-compose exec dev sh -c "cd personal-blog && rm -rf node_modules package-lock.json && npm install"
+cd personal-blog && rm -rf node_modules && npm install
 ```
 
-## Benefits
-
-- **No host dependencies**: Everything runs in the container
-- **Consistent environment**: Same setup across different machines
-- **Isolation**: Development environment doesn't affect your system
-- **Easy cleanup**: Remove container to clean up completely
-- **Team consistency**: Everyone uses the same development environment
+### Git "dubious ownership" error
+This is fixed automatically by `postCreateCommand`. If it reappears after a manual `docker compose run`, run:
+```bash
+git config --global --add safe.directory /workspace
+```

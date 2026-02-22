@@ -1,0 +1,67 @@
+{
+  "name": "Personal Website Dev",
+  // Reuse the existing docker-compose shell service as the dev container.
+  // Compose owns the build, workspace mount, and environment; devcontainer.json
+  // just layers VS Code on top.
+  "dockerComposeFile": "../docker-compose.yaml",
+  "service": "shell",
+  "workspaceFolder": "/workspace",
+
+  "mounts": [
+    // Mount host ~/.gitconfig so git knows your name/email/aliases inside the container.
+    // VS Code Dev Containers also handles SSH agent forwarding automatically,
+    // so push/pull over SSH works without any extra steps.
+    "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached,readonly"
+  ],
+
+  "remoteEnv": {
+    "NODE_ENV": "development",
+    // File-watching polling — keeps hot reload reliable inside Docker
+    "CHOKIDAR_USEPOLLING": "true",
+    "WATCHPACK_POLLING": "true"
+  },
+
+  // After the container starts:
+  //   1. Mark /workspace as a safe.directory so git doesn't refuse to run
+  //      (container may run as a different UID than the host file owner)
+  //   2. Install npm dependencies
+  "postCreateCommand": "git config --global --add safe.directory /workspace && cd /workspace/personal-blog && npm install",
+
+  "forwardPorts": [5173, 3000],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite Dev Server",
+      "onAutoForward": "notify"
+    },
+    "3000": {
+      "label": "Alt Dev Port",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // TypeScript / React
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        // Git
+        "eamodio.gitlens",
+        "GitHub.vscode-pull-request-github",
+        // General DX
+        "EditorConfig.EditorConfig",
+        "usernamehw.errorlens"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
+    }
+  },
+
+  // Run as root inside the container (simplest default; node:alpine's node user
+  // is uid 1000 — change remoteUser to "node" if you prefer non-root)
+  "remoteUser": "root"
+}
