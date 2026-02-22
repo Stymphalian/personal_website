@@ -11,7 +11,7 @@ const Navigation: React.FC = () => {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const navigationItems = [
-    { path: '/projects', label: 'Projects' },
+    { path: '/', label: 'Projects' },
     { path: '/about', label: 'About' },
   ];
 
@@ -19,6 +19,7 @@ const Navigation: React.FC = () => {
   const minSwipeDistance = 50;
 
   const isActive = (path: string) => {
+    if (path === '/') return location.pathname === '/';
     return location.pathname.startsWith(path);
   };
 

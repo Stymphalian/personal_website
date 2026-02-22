@@ -42,11 +42,11 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
 
 ## Tasks
 
-- [ ] 1.0 Remove `/projects` standalone route and delete the Projects page
-  - [ ] 1.1 Remove `<Route path='/projects' element={<Projects />} />` from `src/App.tsx` *(already done)*
-  - [ ] 1.2 Remove the `Projects` import from `src/App.tsx` *(already done)*
-  - [ ] 1.3 Remove the `Projects` export from `src/pages/index.ts` *(already done)*
-  - [ ] 1.4 Delete `src/pages/Projects/Projects.tsx` and the entire `src/pages/Projects/` folder from disk
+- [x] 1.0 Remove `/projects` standalone route and delete the Projects page
+  - [x] 1.1 Remove `<Route path='/projects' element={<Projects />} />` from `src/App.tsx` *(already done)*
+  - [x] 1.2 Remove the `Projects` import from `src/App.tsx` *(already done)*
+  - [x] 1.3 Remove the `Projects` export from `src/pages/index.ts` *(already done)*
+  - [x] 1.4 Delete `src/pages/Projects/Projects.tsx` and the entire `src/pages/Projects/` folder from disk
 - [ ] 2.0 Update Navigation bar "Projects" link to point to `/`
   - [ ] 2.1 Change `navigationItems` entry from `{ path: '/projects', label: 'Projects' }` to `{ path: '/', label: 'Projects' }` in `src/components/Navigation/Navigation.tsx` *(already done)*
   - [ ] 2.2 Update `isActive()` to use exact match (`===`) for the `/` path so it doesn't highlight on every route *(already done)*

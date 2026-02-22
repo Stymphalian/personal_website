@@ -21,7 +21,7 @@ describe('Navigation', () => {
 
     expect(screen.getAllByText('Projects')[0]).toHaveAttribute(
       'href',
-      '/projects'
+      '/'
     );
     expect(screen.getAllByText('About')[0]).toHaveAttribute('href', '/about');
   });

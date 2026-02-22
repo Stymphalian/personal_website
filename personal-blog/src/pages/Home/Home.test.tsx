@@ -3,31 +3,42 @@ import { MemoryRouter } from 'react-router-dom';
 import Home from './Home';
 
 describe('Home', () => {
-  it('renders the hero heading', () => {
+  it('renders the hero bio paragraph', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     );
-    expect(screen.getByText(/Jordan Yu/i)).toBeInTheDocument();
+    expect(screen.getByText(/software engineer by trade/i)).toBeInTheDocument();
   });
 
-  it('renders Senior Software Developer subtitle', () => {
+  it('does not render Senior Software Developer subtitle', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     );
-    expect(screen.getByText('Senior Software Developer')).toBeInTheDocument();
+    expect(
+      screen.queryByText('Senior Software Developer')
+    ).not.toBeInTheDocument();
   });
 
-  it('renders Featured Projects section', () => {
+  it('renders Projects section heading', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     );
-    expect(screen.getByText('Featured Projects')).toBeInTheDocument();
+    expect(screen.getByText('Projects')).toBeInTheDocument();
+  });
+
+  it('does not render Featured Projects heading', () => {
+    render(
+      <MemoryRouter>
+        <Home />
+      </MemoryRouter>
+    );
+    expect(screen.queryByText('Featured Projects')).not.toBeInTheDocument();
   });
 
   it('does not render Technical Expertise section', () => {
@@ -59,31 +70,21 @@ describe('Home', () => {
     expect(screen.queryByTestId('project-carousel')).not.toBeInTheDocument();
   });
 
-  it('renders project cards in a grid', () => {
+  it('does not render View My Work button', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     );
-    const cards = screen.queryAllByTestId('project-card');
-    expect(cards.length).toBeGreaterThanOrEqual(0);
+    expect(screen.queryByText('View My Work')).not.toBeInTheDocument();
   });
 
-  it('renders View My Work button', () => {
+  it('does not render Download Resume button', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     );
-    expect(screen.getByText('View My Work')).toBeInTheDocument();
-  });
-
-  it('renders Download Resume button', () => {
-    render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
-    );
-    expect(screen.getByText('Download Resume')).toBeInTheDocument();
+    expect(screen.queryByText('Download Resume')).not.toBeInTheDocument();
   });
 });
