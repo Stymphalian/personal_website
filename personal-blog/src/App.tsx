@@ -1,7 +1,13 @@
 import { useEffect } from 'react';
-import { Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
+import {
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
+import Footer from './components/Footer/Footer';
 import Navigation from './components/Navigation/Navigation';
-import { ErrorPage, Home, Projects } from './pages';
+import { About, ErrorPage, Home, Projects } from './pages';
 import ProjectDetail from './pages/ProjectDetail/ProjectDetail';
 
 // ScrollToTop component to handle scroll behavior on route changes
@@ -40,15 +46,19 @@ const ScrollToTop: React.FC = () => {
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-vs-editor-bg">
+      <div className='min-h-screen bg-vs-editor-bg flex flex-col'>
         <Navigation />
         <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/projects/:projectId" element={<ProjectDetail />} />
-          <Route path="*" element={<ErrorPage errorType="not-found" />} />
-        </Routes>
+        <main className='flex-1'>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/about' element={<About />} />
+            <Route path='/projects' element={<Projects />} />
+            <Route path='/projects/:projectId' element={<ProjectDetail />} />
+            <Route path='*' element={<ErrorPage errorType='not-found' />} />
+          </Routes>
+        </main>
+        <Footer />
       </div>
     </Router>
   );

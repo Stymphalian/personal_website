@@ -3,7 +3,7 @@ import {
   generateFallbackProject,
   getFallbackOptionsFromError,
   shouldUseFallback,
-  type FallbackContentOptions
+  type FallbackContentOptions,
 } from './fallback-content';
 
 describe('Fallback Content Utility', () => {
@@ -12,14 +12,16 @@ describe('Fallback Content Utility', () => {
       const options: FallbackContentOptions = {
         contentType: 'project',
         errorType: 'not-found',
-        originalSlug: 'test-project'
+        originalSlug: 'test-project',
       };
 
       const result = generateFallbackProject(options);
 
       expect(result.frontmatter.id).toBe('fallback-test-project');
       expect(result.frontmatter.title).toBe('Project Not Found');
-      expect(result.frontmatter.description).toBe('The project you\'re looking for doesn\'t exist.');
+      expect(result.frontmatter.description).toBe(
+        "The project you're looking for doesn't exist."
+      );
       expect(result.frontmatter.techStack).toContain('Error Handling');
       expect(result.frontmatter.techStack).toContain('Fallback System');
     });
@@ -28,7 +30,7 @@ describe('Fallback Content Utility', () => {
       const options: FallbackContentOptions = {
         contentType: 'project',
         errorType: 'generic',
-        customMessage: 'Something went wrong'
+        customMessage: 'Something went wrong',
       };
 
       const result = generateFallbackProject(options);
@@ -43,7 +45,7 @@ describe('Fallback Content Utility', () => {
     it('generates project fallback for project type', () => {
       const options: FallbackContentOptions = {
         contentType: 'project',
-        errorType: 'network-error'
+        errorType: 'network-error',
       };
 
       const result = generateFallbackContent(options);
@@ -57,10 +59,12 @@ describe('Fallback Content Utility', () => {
     it('throws error for unsupported content type', () => {
       const options = {
         contentType: 'invalid-type' as any,
-        errorType: 'generic' as const
+        errorType: 'generic' as const,
       };
 
-      expect(() => generateFallbackContent(options)).toThrow('Unsupported content type: invalid-type');
+      expect(() => generateFallbackContent(options)).toThrow(
+        'Unsupported content type: invalid-type'
+      );
     });
   });
 
@@ -71,20 +75,29 @@ describe('Fallback Content Utility', () => {
     });
 
     it('returns true when there is an error', () => {
-      const mockContent = { frontmatter: { id: 'test' }, content: 'test' } as any;
+      const mockContent = {
+        frontmatter: { id: 'test' },
+        content: 'test',
+      } as any;
       const error = new Error('Test error');
       const result = shouldUseFallback(mockContent, error, 'idle');
       expect(result).toBe(true);
     });
 
     it('returns true when loading state is error', () => {
-      const mockContent = { frontmatter: { id: 'test' }, content: 'test' } as any;
+      const mockContent = {
+        frontmatter: { id: 'test' },
+        content: 'test',
+      } as any;
       const result = shouldUseFallback(mockContent, null, 'error');
       expect(result).toBe(true);
     });
 
     it('returns false when content exists and no error', () => {
-      const mockContent = { frontmatter: { id: 'test' }, content: 'test' } as any;
+      const mockContent = {
+        frontmatter: { id: 'test' },
+        content: 'test',
+      } as any;
       const result = shouldUseFallback(mockContent, null, 'loaded');
       expect(result).toBe(false);
     });
@@ -92,18 +105,30 @@ describe('Fallback Content Utility', () => {
 
   describe('getFallbackOptionsFromError', () => {
     it('identifies not-found errors', () => {
-      const error = new Error('Failed to load content from /test.md: Not Found');
-      const result = getFallbackOptionsFromError(error, 'project', 'test-project');
+      const error = new Error(
+        'Failed to load content from /test.md: Not Found'
+      );
+      const result = getFallbackOptionsFromError(
+        error,
+        'project',
+        'test-project'
+      );
 
       expect(result.errorType).toBe('not-found');
       expect(result.contentType).toBe('project');
       expect(result.originalSlug).toBe('test-project');
-      expect(result.customMessage).toBe('Failed to load content from /test.md: Not Found');
+      expect(result.customMessage).toBe(
+        'Failed to load content from /test.md: Not Found'
+      );
     });
 
     it('identifies network errors', () => {
       const error = new Error('Failed to fetch');
-      const result = getFallbackOptionsFromError(error, 'project', 'test-project');
+      const result = getFallbackOptionsFromError(
+        error,
+        'project',
+        'test-project'
+      );
 
       expect(result.errorType).toBe('network-error');
       expect(result.contentType).toBe('project');
@@ -111,7 +136,9 @@ describe('Fallback Content Utility', () => {
     });
 
     it('identifies malformed content errors', () => {
-      const error = new Error('Invalid frontmatter: Missing required field: title');
+      const error = new Error(
+        'Invalid frontmatter: Missing required field: title'
+      );
       const result = getFallbackOptionsFromError(error, 'project');
 
       expect(result.errorType).toBe('malformed-content');
@@ -139,7 +166,7 @@ describe('Fallback Content Utility', () => {
     it('generates valid project frontmatter structure', () => {
       const options: FallbackContentOptions = {
         contentType: 'project',
-        errorType: 'network-error'
+        errorType: 'network-error',
       };
 
       const result = generateFallbackProject(options);
@@ -161,7 +188,7 @@ describe('Fallback Content Utility', () => {
     it('generates content with proper markdown structure', () => {
       const options: FallbackContentOptions = {
         contentType: 'project',
-        errorType: 'generic'
+        errorType: 'generic',
       };
 
       const result = generateFallbackProject(options);

@@ -2,8 +2,8 @@ import { Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const ThemeToggle: React.FC = () => {
-  const [isDark, setIsDark] = useState<boolean>(
-    () => document.documentElement.classList.contains('dark')
+  const [isDark, setIsDark] = useState<boolean>(() =>
+    document.documentElement.classList.contains('dark')
   );
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const ThemeToggle: React.FC = () => {
   return (
     <button
       onClick={() => setIsDark(prev => !prev)}
-      className="p-2 rounded-lg text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-surface transition-colors duration-200"
+      className='p-2 rounded-lg text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-surface transition-colors duration-200'
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       {isDark ? <Sun size={20} /> : <Moon size={20} />}

@@ -22,80 +22,93 @@ export interface FallbackContentOptions {
 }
 
 // Default fallback content for different scenarios
-const getDefaultFallbackContent = (options: FallbackContentOptions): FallbackContent => {
+const getDefaultFallbackContent = (
+  options: FallbackContentOptions
+): FallbackContent => {
   const { errorType, customMessage } = options;
 
   switch (errorType) {
     case 'not-found':
       return {
         title: 'Project Not Found',
-        message: customMessage || `The project you're looking for doesn't exist.`,
+        message:
+          customMessage || `The project you're looking for doesn't exist.`,
         suggestions: [
           'Check the URL for typos',
           'Use the navigation menu to browse available content',
-          'Try searching for similar content'
+          'Try searching for similar content',
         ],
         actions: [
           { label: 'Browse Projects', action: 'navigate', target: '/projects' },
           { label: 'Go Home', action: 'navigate', target: '/' },
-          { label: 'Contact Support', action: 'contact' }
-        ]
+          { label: 'Contact Support', action: 'contact' },
+        ],
       };
 
     case 'network-error':
       return {
         title: 'Connection Error',
-        message: customMessage || 'Unable to load content due to a network issue.',
+        message:
+          customMessage || 'Unable to load content due to a network issue.',
         suggestions: [
           'Check your internet connection',
           'Try refreshing the page',
-          'Wait a moment and try again'
+          'Wait a moment and try again',
         ],
         actions: [
           { label: 'Retry', action: 'retry' },
           { label: 'Go Back', action: 'navigate', target: 'back' },
-          { label: 'Go Home', action: 'navigate', target: '/' }
-        ]
+          { label: 'Go Home', action: 'navigate', target: '/' },
+        ],
       };
 
     case 'malformed-content':
       return {
         title: 'Content Format Error',
-        message: customMessage || 'The requested content has formatting issues and cannot be displayed.',
+        message:
+          customMessage ||
+          'The requested content has formatting issues and cannot be displayed.',
         suggestions: [
           'Try refreshing the page',
           'Report this issue to support',
-          'Try accessing other content'
+          'Try accessing other content',
         ],
         actions: [
           { label: 'Retry', action: 'retry' },
-          { label: 'Browse Other Content', action: 'navigate', target: '/projects' },
-          { label: 'Report Issue', action: 'contact' }
-        ]
+          {
+            label: 'Browse Other Content',
+            action: 'navigate',
+            target: '/projects',
+          },
+          { label: 'Report Issue', action: 'contact' },
+        ],
       };
 
     default:
       return {
         title: 'Content Loading Error',
-        message: customMessage || 'There was a problem loading the requested content.',
+        message:
+          customMessage || 'There was a problem loading the requested content.',
         suggestions: [
           'Try refreshing the page',
           'Clear your browser cache',
-          'Contact support if the problem persists'
+          'Contact support if the problem persists',
         ],
         actions: [
           { label: 'Retry', action: 'retry' },
           { label: 'Go Home', action: 'navigate', target: '/' },
-          { label: 'Contact Support', action: 'contact' }
-        ]
+          { label: 'Contact Support', action: 'contact' },
+        ],
       };
   }
 };
 
 // Generate fallback project content
-export const generateFallbackProject = (options: FallbackContentOptions): ProjectContent => {
+export const generateFallbackProject = (
+  options: FallbackContentOptions
+): ProjectContent => {
   const fallback = getDefaultFallbackContent(options);
-  
+
   return {
     frontmatter: {
       id: `fallback-${options.originalSlug || 'unknown'}`,
@@ -110,7 +123,7 @@ export const generateFallbackProject = (options: FallbackContentOptions): Projec
       tags: ['error', 'fallback'],
       liveDemo: undefined,
       githubRepo: undefined,
-      showDetails: false
+      showDetails: false,
     },
     content: `
 # ${fallback.title}
@@ -139,12 +152,14 @@ If you need assistance or want to report this issue, please contact our support 
     `,
     excerpt: fallback.message,
     wordCount: 50,
-    readTime: 1
+    readTime: 1,
   };
 };
 
 // Main function to generate fallback content
-export const generateFallbackContent = (options: FallbackContentOptions): ProjectContent => {
+export const generateFallbackContent = (
+  options: FallbackContentOptions
+): ProjectContent => {
   switch (options.contentType) {
     case 'project':
       return generateFallbackProject(options);
@@ -169,19 +184,25 @@ export const getFallbackOptionsFromError = (
   slug?: string
 ): FallbackContentOptions => {
   let errorType: FallbackContentOptions['errorType'] = 'generic';
-  
+
   if (error.message.includes('Not Found') || error.message.includes('404')) {
     errorType = 'not-found';
-  } else if (error.message.includes('Failed to fetch') || error.message.includes('network')) {
+  } else if (
+    error.message.includes('Failed to fetch') ||
+    error.message.includes('network')
+  ) {
     errorType = 'network-error';
-  } else if (error.message.includes('Invalid frontmatter') || error.message.includes('format')) {
+  } else if (
+    error.message.includes('Invalid frontmatter') ||
+    error.message.includes('format')
+  ) {
     errorType = 'malformed-content';
   }
-  
+
   return {
     contentType,
     errorType,
     originalSlug: slug,
-    customMessage: error.message
+    customMessage: error.message,
   };
 };

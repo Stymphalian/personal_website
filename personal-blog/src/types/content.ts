@@ -78,11 +78,27 @@ export type ContentUnion = ProjectContent;
 
 // Frontmatter validation schemas
 export const REQUIRED_PROJECT_FIELDS: (keyof ProjectFrontmatter)[] = [
-  'id', 'title', 'slug', 'date', 'featured', 'tags', 'description', 'shortDescription', 'image', 'techStack', 'showDetails'
+  'id',
+  'title',
+  'slug',
+  'date',
+  'featured',
+  'tags',
+  'description',
+  'shortDescription',
+  'image',
+  'techStack',
+  'showDetails',
 ];
 
 // Content loading states
-export type ContentLoadingState = 'idle' | 'loading' | 'loaded' | 'error' | 'not-found' | 'malformed';
+export type ContentLoadingState =
+  | 'idle'
+  | 'loading'
+  | 'loaded'
+  | 'error'
+  | 'not-found'
+  | 'malformed';
 
 export interface ContentLoadingStateData {
   state: ContentLoadingState;
@@ -109,6 +125,3 @@ export interface ErrorHandlingOptions {
   logErrors?: boolean;
   gracefulDegradation?: boolean;
 }
-
-
-

@@ -4,7 +4,7 @@ import App from './App';
 // Mock window.scrollTo for Jest environment
 Object.defineProperty(window, 'scrollTo', {
   value: jest.fn(),
-  writable: true
+  writable: true,
 });
 
 describe('App', () => {

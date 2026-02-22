@@ -10,7 +10,7 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   onViewDetails,
-  className = ''
+  className = '',
 }) => {
   const handleViewDetails = () => {
     if (onViewDetails) {
@@ -20,7 +20,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   return (
     <div
-      data-testid="project-card"
+      data-testid='project-card'
       className={`bg-vs-editor-surface rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-vs-editor-border ${className}`}
     >
       <div className='flex flex-col lg:flex-row'>
@@ -30,7 +30,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             src={project.image}
             alt={project.title}
             className='w-full h-full object-cover hover:scale-105 transition-transform duration-300'
-            onError={(e) => {
+            onError={e => {
               const target = e.target as HTMLImageElement;
               target.style.display = 'none';
               target.nextElementSibling?.classList.remove('hidden');
@@ -47,18 +47,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             <h3 className='text-lg sm:text-xl font-semibold text-vs-editor-text mb-2 sm:mb-3 leading-tight'>
               {project.title}
             </h3>
-            <p className='text-vs-editor-text2 mb-3 sm:mb-4 text-sm sm:text-base overflow-hidden leading-relaxed' style={{
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical'
-            }}>
+            <p
+              className='text-vs-editor-text2 mb-3 sm:mb-4 text-sm sm:text-base overflow-hidden leading-relaxed'
+              style={{
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical',
+              }}
+            >
               {project.description}
             </p>
 
             {/* Tech Stack */}
             <div className='mb-3 sm:mb-4'>
               <div className='flex flex-wrap gap-1.5 sm:gap-2'>
-                {project.techStack.map((tech) => (
+                {project.techStack.map(tech => (
                   <span
                     key={tech}
                     className='px-2 sm:px-3 py-1 bg-crystal-blue-500/20 text-crystal-blue-400 text-xs sm:text-sm rounded-full font-medium'
@@ -73,12 +76,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {/* Footer Section */}
           <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4 pt-2 sm:pt-0'>
             <span className='text-xs sm:text-sm text-vs-editor-text3 flex items-center'>
-              <svg className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <svg
+                className='w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
+                />
               </svg>
               {new Date(project.date).toLocaleDateString('en-US', {
                 year: 'numeric',
-                month: 'long'
+                month: 'long',
               })}
             </span>
             {project.showDetails && (

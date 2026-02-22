@@ -4,11 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Navigation from './Navigation';
 
 const renderWithRouter = (component: React.ReactElement) => {
-  return render(
-    <BrowserRouter>
-      {component}
-    </BrowserRouter>
-  );
+  return render(<BrowserRouter>{component}</BrowserRouter>);
 };
 
 describe('Navigation', () => {
@@ -23,7 +19,10 @@ describe('Navigation', () => {
   it('renders Projects and About nav links', () => {
     renderWithRouter(<Navigation />);
 
-    expect(screen.getAllByText('Projects')[0]).toHaveAttribute('href', '/projects');
+    expect(screen.getAllByText('Projects')[0]).toHaveAttribute(
+      'href',
+      '/projects'
+    );
     expect(screen.getAllByText('About')[0]).toHaveAttribute('href', '/about');
   });
 
@@ -47,7 +46,9 @@ describe('Navigation', () => {
   it('renders the ThemeToggle button', () => {
     renderWithRouter(<Navigation />);
 
-    const toggleButtons = screen.getAllByRole('button', { name: /switch to (light|dark) mode/i });
+    const toggleButtons = screen.getAllByRole('button', {
+      name: /switch to (light|dark) mode/i,
+    });
     expect(toggleButtons.length).toBeGreaterThanOrEqual(1);
   });
 
@@ -60,41 +61,55 @@ describe('Navigation', () => {
   it('shows mobile menu button', () => {
     renderWithRouter(<Navigation />);
 
-    const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
+    const mobileMenuButton = screen.getByRole('button', {
+      name: /open main menu/i,
+    });
     expect(mobileMenuButton).toBeInTheDocument();
   });
 
   it('toggles mobile menu when button is clicked', () => {
     renderWithRouter(<Navigation />);
 
-    const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
+    const mobileMenuButton = screen.getByRole('button', {
+      name: /open main menu/i,
+    });
 
     // Open menu
     fireEvent.click(mobileMenuButton);
-    expect(screen.getByRole('button', { name: /close main menu/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /close main menu/i })
+    ).toBeInTheDocument();
 
     // Close menu
     fireEvent.click(mobileMenuButton);
-    expect(screen.getByRole('button', { name: /open main menu/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /open main menu/i })
+    ).toBeInTheDocument();
   });
 
   it('closes mobile menu when a navigation link is clicked', () => {
     renderWithRouter(<Navigation />);
 
-    const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
+    const mobileMenuButton = screen.getByRole('button', {
+      name: /open main menu/i,
+    });
     fireEvent.click(mobileMenuButton);
 
     // Click the mobile Projects link (last occurrence is the mobile one)
     const projectsLinks = screen.getAllByText('Projects');
     fireEvent.click(projectsLinks[projectsLinks.length - 1]);
 
-    expect(screen.getByRole('button', { name: /open main menu/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /open main menu/i })
+    ).toBeInTheDocument();
   });
 
   it('has proper accessibility attributes on hamburger button', () => {
     renderWithRouter(<Navigation />);
 
-    const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
+    const mobileMenuButton = screen.getByRole('button', {
+      name: /open main menu/i,
+    });
     expect(mobileMenuButton).toHaveAttribute('aria-expanded', 'false');
 
     fireEvent.click(mobileMenuButton);
@@ -104,7 +119,9 @@ describe('Navigation', () => {
   it('prevents body scroll when mobile menu is open', () => {
     renderWithRouter(<Navigation />);
 
-    const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
+    const mobileMenuButton = screen.getByRole('button', {
+      name: /open main menu/i,
+    });
 
     fireEvent.click(mobileMenuButton);
     expect(document.body.style.overflow).toBe('hidden');
@@ -116,7 +133,9 @@ describe('Navigation', () => {
   it('shows mobile menu header and footer text', () => {
     renderWithRouter(<Navigation />);
 
-    const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
+    const mobileMenuButton = screen.getByRole('button', {
+      name: /open main menu/i,
+    });
     fireEvent.click(mobileMenuButton);
 
     expect(screen.getByText('Navigation')).toBeInTheDocument();
@@ -126,7 +145,9 @@ describe('Navigation', () => {
   it('shows Projects, About, and Resume in the mobile menu', () => {
     renderWithRouter(<Navigation />);
 
-    const mobileMenuButton = screen.getByRole('button', { name: /open main menu/i });
+    const mobileMenuButton = screen.getByRole('button', {
+      name: /open main menu/i,
+    });
     fireEvent.click(mobileMenuButton);
 
     expect(screen.getAllByText('Projects').length).toBeGreaterThan(1);

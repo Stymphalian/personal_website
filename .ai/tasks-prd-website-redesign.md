@@ -100,31 +100,31 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
   - [x] 4.3 Ensure the "Resume" link opens in a new tab or triggers a download (use `<a href="/resume.pdf" target="_blank">`).
   - [x] 4.4 Update the mobile hamburger menu to reflect the new navigation items (Projects, About, Resume, ThemeToggle).
   - [x] 4.5 Update `Navigation.test.tsx` to verify new nav structure: "Jordan Yu" link, Projects, About, Resume links, and ThemeToggle presence.
-- [ ] 5.0 Create Footer Component
-  - [ ] 5.1 Create `src/components/Footer/Footer.tsx` with left side displaying "Vancouver, Canada" and right side displaying icon links for Email (`mailto:jordanyu1992@gmail.com`), LinkedIn (`https://www.linkedin.com/in/jordanu92/`), and GitHub (`https://github.com/stymphalian`).
-  - [ ] 5.2 Use `lucide-react` icons (`Mail`, `Linkedin`, `Github`) for the social links.
-  - [ ] 5.3 Style the footer to be visually distinct but consistent with the site theme (uses theme CSS variables).
-  - [ ] 5.4 Create barrel export `src/components/Footer/index.ts`.
-  - [ ] 5.5 Add the `Footer` component export to `src/components/index.ts`.
-  - [ ] 5.6 Integrate the `Footer` into the app layout (e.g., in `App.tsx` below `<Routes>`, or in the `Layout` component) so it appears on every page.
-  - [ ] 5.7 Write unit tests for the `Footer` component (`Footer.test.tsx`) verifying location text, icon links with correct hrefs, and accessibility attributes.
-- [ ] 6.0 Redesign Homepage
-  - [ ] 6.1 In `Home.tsx`, remove the "Technical Expertise" section (the skills grid).
-  - [ ] 6.2 Remove the "Professional Experience" and "Education & Background" section (the experience/education grid).
-  - [ ] 6.3 Replace the `ProjectCarousel` section with a responsive 2-column grid of `ProjectCard` components (1 column on mobile, 2 columns on `md:` and above).
-  - [ ] 6.4 Remove the `ProjectCarousel` import from `Home.tsx`; import and use `ProjectCard` instead. Use `projects` data (all or featured) to populate the grid.
-  - [ ] 6.5 Simplify the hero section: keep the profile picture, name, and a single-sentence description. Remove or condense the longer bio paragraph.
-  - [ ] 6.6 Update or create tests for the Home page to verify the new layout (grid of project cards, no carousel, no skills/experience sections).
-- [ ] 7.0 Create About Page
-  - [ ] 7.1 Create `src/pages/About/About.tsx` as a placeholder page with a title ("About") and placeholder text.
-  - [ ] 7.2 Create barrel export `src/pages/About/index.ts`.
-  - [ ] 7.3 Add the `About` export to `src/pages/index.ts`.
-  - [ ] 7.4 Add a route for `/about` in `App.tsx` pointing to the `About` component.
-  - [ ] 7.5 Write a basic unit test for the About page (`About.test.tsx`) verifying it renders the placeholder content.
-- [ ] 8.0 Update Tests & Final Cleanup
-  - [ ] 8.1 Run the full test suite (`npx jest`) and fix any failures caused by the changes above.
-  - [ ] 8.2 Run the TypeScript type checker (`npx tsc --noEmit`) and fix any type errors.
-  - [ ] 8.3 Run the linter (`npm run lint`) and fix any lint issues.
-  - [ ] 8.4 Remove any remaining dead imports, unused variables, or orphaned files related to removed features.
-  - [ ] 8.5 Verify the app builds successfully (`npm run build`).
-  - [ ] 8.6 Manually verify the dev server starts and all pages render correctly (`npm run dev`).
+- [x] 5.0 Create Footer Component
+  - [x] 5.1 Create `src/components/Footer/Footer.tsx` with left side displaying "Vancouver, Canada" and right side displaying icon links for Email (`mailto:jordanyu1992@gmail.com`), LinkedIn (`https://www.linkedin.com/in/jordanu92/`), and GitHub (`https://github.com/stymphalian`).
+  - [x] 5.2 Use `lucide-react` icons (`Mail`, `Linkedin`, `Github`) for the social links.
+  - [x] 5.3 Style the footer to be visually distinct but consistent with the site theme (uses theme CSS variables).
+  - [x] 5.4 Create barrel export `src/components/Footer/index.ts`.
+  - [x] 5.5 Add the `Footer` component export to `src/components/index.ts`.
+  - [x] 5.6 Integrate the `Footer` into the app layout (e.g., in `App.tsx` below `<Routes>`, or in the `Layout` component) so it appears on every page.
+  - [x] 5.7 Write unit tests for the `Footer` component (`Footer.test.tsx`) verifying location text, icon links with correct hrefs, and accessibility attributes.
+- [x] 6.0 Redesign Homepage
+  - [x] 6.1 In `Home.tsx`, remove the "Technical Expertise" section (the skills grid).
+  - [x] 6.2 Remove the "Professional Experience" and "Education & Background" section (the experience/education grid).
+  - [x] 6.3 Replace the `ProjectCarousel` section with a responsive 2-column grid of `ProjectCard` components (1 column on mobile, 2 columns on `md:` and above).
+  - [x] 6.4 Remove the `ProjectCarousel` import from `Home.tsx`; import and use `ProjectCard` instead. Use `projects` data (all or featured) to populate the grid.
+  - [x] 6.5 Simplify the hero section: keep the profile picture, name, and a single-sentence description. Remove or condense the longer bio paragraph.
+  - [x] 6.6 Update or create tests for the Home page to verify the new layout (grid of project cards, no carousel, no skills/experience sections).
+- [x] 7.0 Create About Page
+  - [x] 7.1 Create `src/pages/About/About.tsx` as a placeholder page with a title ("About") and placeholder text.
+  - [x] 7.2 Create barrel export `src/pages/About/index.ts`.
+  - [x] 7.3 Add the `About` export to `src/pages/index.ts`.
+  - [x] 7.4 Add a route for `/about` in `App.tsx` pointing to the `About` component.
+  - [x] 7.5 Write a basic unit test for the About page (`About.test.tsx`) verifying it renders the placeholder content.
+- [x] 8.0 Update Tests & Final Cleanup
+  - [x] 8.1 Run the full test suite (`npx jest`) and fix any failures caused by the changes above.
+  - [x] 8.2 Run the TypeScript type checker (`npx tsc --noEmit`) and fix any type errors.
+  - [x] 8.3 Run the linter (`npm run lint`) and fix any lint issues.
+  - [x] 8.4 Remove any remaining dead imports, unused variables, or orphaned files related to removed features.
+  - [x] 8.5 Verify the app builds successfully (`npm run build`).
+  - [x] 8.6 Manually verify the dev server starts and all pages render correctly (`npm run dev`).

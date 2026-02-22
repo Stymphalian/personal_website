@@ -6,11 +6,15 @@ import { loadContent } from '../utils/content-loader';
 import type { Project } from './interfaces';
 import { projects } from './projects_list';
 
-
 // Content loading functions that integrate with existing data layer
-export const loadProjectContent = async (slug: string): Promise<ProjectContent | null> => {
+export const loadProjectContent = async (
+  slug: string
+): Promise<ProjectContent | null> => {
   try {
-    const content = await loadContent(`/content/projects/${slug}.md`, 'project');
+    const content = await loadContent(
+      `/content/projects/${slug}.md`,
+      'project'
+    );
     return content as ProjectContent;
   } catch (error) {
     console.error(`Failed to load project content for slug: ${slug}`, error);
@@ -18,7 +22,9 @@ export const loadProjectContent = async (slug: string): Promise<ProjectContent |
   }
 };
 
-export const loadProjectContentById = async (id: string): Promise<ProjectContent | null> => {
+export const loadProjectContentById = async (
+  id: string
+): Promise<ProjectContent | null> => {
   const project = getProjectById(id);
   if (!project) return null;
   return loadProjectContent(project.slug);
@@ -26,7 +32,9 @@ export const loadProjectContentById = async (id: string): Promise<ProjectContent
 
 export const preloadProjectContent = async (slug: string): Promise<void> => {
   try {
-    await loadContent(`/content/projects/${slug}.md`, 'project', { cacheEnabled: true });
+    await loadContent(`/content/projects/${slug}.md`, 'project', {
+      cacheEnabled: true,
+    });
   } catch (error) {
     console.warn(`Failed to preload project content for slug: ${slug}`, error);
   }

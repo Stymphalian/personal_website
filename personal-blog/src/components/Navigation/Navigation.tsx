@@ -57,7 +57,10 @@ const Navigation: React.FC = () => {
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
         closeMenu();
       }
     };
@@ -85,27 +88,31 @@ const Navigation: React.FC = () => {
   }, [location.pathname]);
 
   return (
-    <nav className="fixed top-0 right-0 z-50 w-full bg-vs-editor-surface/95 backdrop-blur-sm border-b border-vs-editor-border shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <nav className='fixed top-0 right-0 z-50 w-full bg-vs-editor-surface/95 backdrop-blur-sm border-b border-vs-editor-border shadow-sm'>
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+        <div className='flex justify-between items-center h-16'>
           {/* Logo/Brand - Left side */}
-          <div className="flex-shrink-0">
-            <Link to="/" className="text-xl font-bold text-vs-editor-text hover:text-crystal-blue-400 transition-colors">
+          <div className='flex-shrink-0'>
+            <Link
+              to='/'
+              className='text-xl font-bold text-vs-editor-text hover:text-crystal-blue-400 transition-colors'
+            >
               Jordan Yu
             </Link>
           </div>
 
           {/* Desktop Navigation - Right side */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              {navigationItems.map((item) => (
+          <div className='hidden md:block'>
+            <div className='ml-10 flex items-baseline space-x-8'>
+              {navigationItems.map(item => (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive(item.path)
-                    ? 'text-crystal-blue-400 bg-vs-editor-selection'
-                    : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover'
-                    }`}
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isActive(item.path)
+                      ? 'text-crystal-blue-400 bg-vs-editor-selection'
+                      : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover'
+                  }`}
                 >
                   {item.label}
                 </Link>
@@ -113,10 +120,10 @@ const Navigation: React.FC = () => {
 
               {/* Resume link */}
               <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3 py-2 rounded-md text-sm font-medium transition-colors text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover"
+                href='/resume.pdf'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='px-3 py-2 rounded-md text-sm font-medium transition-colors text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover'
               >
                 Resume
               </a>
@@ -127,19 +134,21 @@ const Navigation: React.FC = () => {
           </div>
 
           {/* Mobile: ThemeToggle + hamburger button */}
-          <div className="md:hidden flex items-center space-x-1">
+          <div className='md:hidden flex items-center space-x-1'>
             <ThemeToggle />
             <button
               onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover focus:outline-none focus:ring-2 focus:ring-inset focus:ring-crystal-blue-500 transition-colors active:bg-vs-editor-surface2"
+              className='inline-flex items-center justify-center p-2 rounded-md text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover focus:outline-none focus:ring-2 focus:ring-inset focus:ring-crystal-blue-500 transition-colors active:bg-vs-editor-surface2'
               aria-expanded={isMenuOpen}
               aria-label={isMenuOpen ? 'Close main menu' : 'Open main menu'}
             >
-              <span className="sr-only">{isMenuOpen ? 'Close main menu' : 'Open main menu'}</span>
+              <span className='sr-only'>
+                {isMenuOpen ? 'Close main menu' : 'Open main menu'}
+              </span>
               {isMenuOpen ? (
-                <X className="block h-6 w-6" aria-hidden="true" />
+                <X className='block h-6 w-6' aria-hidden='true' />
               ) : (
-                <Menu className="block h-6 w-6" aria-hidden="true" />
+                <Menu className='block h-6 w-6' aria-hidden='true' />
               )}
             </button>
           </div>
@@ -150,28 +159,29 @@ const Navigation: React.FC = () => {
       {isMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className="md:hidden fixed inset-0 z-40 bg-black bg-opacity-25 backdrop-blur-sm transition-all duration-300 ease-in-out"
+          className='md:hidden fixed inset-0 z-40 bg-black bg-opacity-25 backdrop-blur-sm transition-all duration-300 ease-in-out'
           onClick={closeMenu}
         >
           <div
-            className="absolute right-0 top-16 w-64 h-full bg-vs-editor-surface shadow-2xl transform transition-all duration-500 ease-out"
+            className='absolute right-0 top-16 w-64 h-full bg-vs-editor-surface shadow-2xl transform transition-all duration-500 ease-out'
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
-            <div className="px-4 pt-6 pb-8 space-y-2">
-              <div className="text-xs font-semibold text-vs-editor-text2 uppercase tracking-wider mb-4 px-3 transition-colors duration-300">
+            <div className='px-4 pt-6 pb-8 space-y-2'>
+              <div className='text-xs font-semibold text-vs-editor-text2 uppercase tracking-wider mb-4 px-3 transition-colors duration-300'>
                 Navigation
               </div>
               {navigationItems.map((item, index) => (
                 <Link
                   key={`mobile-${item.path}`}
                   to={item.path}
-                  className={`block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:-translate-x-1 ${isActive(item.path)
-                    ? 'text-crystal-blue-400 bg-vs-editor-selection border-l-4 border-crystal-blue-400 shadow-md'
-                    : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover hover:shadow-md active:bg-vs-editor-surface2 active:scale-95'
-                    }`}
+                  className={`block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:-translate-x-1 ${
+                    isActive(item.path)
+                      ? 'text-crystal-blue-400 bg-vs-editor-selection border-l-4 border-crystal-blue-400 shadow-md'
+                      : 'text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover hover:shadow-md active:bg-vs-editor-surface2 active:scale-95'
+                  }`}
                   onClick={closeMenu}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
@@ -181,10 +191,10 @@ const Navigation: React.FC = () => {
 
               {/* Resume mobile link */}
               <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:-translate-x-1 text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover hover:shadow-md active:bg-vs-editor-surface2 active:scale-95"
+                href='/resume.pdf'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='block px-3 py-3 rounded-lg text-base font-medium transition-all duration-300 ease-in-out transform hover:scale-105 hover:-translate-x-1 text-vs-editor-text hover:text-crystal-blue-400 hover:bg-vs-editor-hover hover:shadow-md active:bg-vs-editor-surface2 active:scale-95'
                 onClick={closeMenu}
                 style={{ animationDelay: `${navigationItems.length * 100}ms` }}
               >
@@ -193,8 +203,8 @@ const Navigation: React.FC = () => {
             </div>
 
             {/* Mobile menu footer */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-vs-editor-border bg-gradient-to-r from-vs-editor-surface to-vs-editor-surface2">
-              <div className="text-xs text-vs-editor-text2 text-center transition-colors duration-300 hover:text-crystal-blue-400">
+            <div className='absolute bottom-0 left-0 right-0 p-4 border-t border-vs-editor-border bg-gradient-to-r from-vs-editor-surface to-vs-editor-surface2'>
+              <div className='text-xs text-vs-editor-text2 text-center transition-colors duration-300 hover:text-crystal-blue-400'>
                 Swipe left to close
               </div>
             </div>

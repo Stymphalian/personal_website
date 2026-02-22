@@ -7,7 +7,8 @@ const mockProjects = [
   {
     id: 'project-1',
     title: 'E-Commerce Platform',
-    description: 'A full-stack e-commerce platform built with React and Node.js',
+    description:
+      'A full-stack e-commerce platform built with React and Node.js',
     shortDescription: 'Modern e-commerce solution',
     image: '/project-1.jpg',
     techStack: ['React', 'Node.js', 'MongoDB'],
@@ -15,40 +16,38 @@ const mockProjects = [
     githubRepo: 'https://github.com/project1',
     featured: true,
     date: '2024-01-01',
-    showDetails: true
+    showDetails: true,
   },
   {
     id: 'project-2',
     title: 'Task Management App',
-    description: 'A collaborative task management application with real-time updates',
+    description:
+      'A collaborative task management application with real-time updates',
     shortDescription: 'Team collaboration tool',
     image: '/project-2.jpg',
     techStack: ['Vue.js', 'Express', 'Socket.io'],
     featured: true,
     date: '2024-02-01',
-    showDetails: false
+    showDetails: false,
   },
   {
     id: 'project-3',
     title: 'Weather Dashboard',
-    description: 'A weather dashboard with interactive charts and location-based data',
+    description:
+      'A weather dashboard with interactive charts and location-based data',
     shortDescription: 'Weather visualization app',
     image: '/project-3.jpg',
     techStack: ['React', 'Chart.js', 'OpenWeather API'],
     liveDemo: 'https://weather.demo.com',
     featured: true,
     date: '2024-03-01',
-    showDetails: true
-  }
+    showDetails: true,
+  },
 ];
 
 // Helper function to render with Router
 const renderWithRouter = (component: React.ReactElement) => {
-  return render(
-    <BrowserRouter>
-      {component}
-    </BrowserRouter>
-  );
+  return render(<BrowserRouter>{component}</BrowserRouter>);
 };
 
 describe('ProjectCarousel', () => {
@@ -61,7 +60,11 @@ describe('ProjectCarousel', () => {
   it('displays project information correctly', () => {
     renderWithRouter(<ProjectCarousel projects={mockProjects} />);
 
-    expect(screen.getByText('A full-stack e-commerce platform built with React and Node.js')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'A full-stack e-commerce platform built with React and Node.js'
+      )
+    ).toBeInTheDocument();
     expect(screen.getByText('React')).toBeInTheDocument();
     expect(screen.getByText('Node.js')).toBeInTheDocument();
     expect(screen.getByText('MongoDB')).toBeInTheDocument();
@@ -73,7 +76,11 @@ describe('ProjectCarousel', () => {
     const dotButtons = screen.getAllByLabelText(/Go to project/);
     fireEvent.click(dotButtons[2]); // Click third dot
 
-    expect(screen.getByText('A weather dashboard with interactive charts and location-based data')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'A weather dashboard with interactive charts and location-based data'
+      )
+    ).toBeInTheDocument();
   });
 
   it('shows View Details button only for projects with showDetails: true', () => {
@@ -95,7 +102,10 @@ describe('ProjectCarousel', () => {
 
     const liveDemoButton = screen.getByText('Live Demo');
     expect(liveDemoButton).toBeInTheDocument();
-    expect(liveDemoButton.closest('a')).toHaveAttribute('href', 'https://demo.com');
+    expect(liveDemoButton.closest('a')).toHaveAttribute(
+      'href',
+      'https://demo.com'
+    );
   });
 
   it('shows GitHub button when available', () => {
@@ -103,7 +113,10 @@ describe('ProjectCarousel', () => {
 
     const githubButton = screen.getByText('View Code');
     expect(githubButton).toBeInTheDocument();
-    expect(githubButton.closest('a')).toHaveAttribute('href', 'https://github.com/project1');
+    expect(githubButton.closest('a')).toHaveAttribute(
+      'href',
+      'https://github.com/project1'
+    );
   });
 
   it('displays tech stack tags', () => {
@@ -131,5 +144,4 @@ describe('ProjectCarousel', () => {
 
     expect(screen.getByLabelText('Go to project 1')).toBeInTheDocument();
   });
-
 });

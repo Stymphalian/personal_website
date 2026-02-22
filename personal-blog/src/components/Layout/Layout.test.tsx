@@ -5,7 +5,7 @@ describe('Layout', () => {
   it('renders children content correctly', () => {
     render(
       <Layout>
-        <div data-testid="test-content">Test Content</div>
+        <div data-testid='test-content'>Test Content</div>
       </Layout>
     );
 
@@ -26,7 +26,7 @@ describe('Layout', () => {
 
   it('applies custom maxWidth classes correctly', () => {
     render(
-      <Layout maxWidth="lg">
+      <Layout maxWidth='lg'>
         <div>Content</div>
       </Layout>
     );
@@ -37,7 +37,7 @@ describe('Layout', () => {
 
   it('applies custom padding classes correctly', () => {
     render(
-      <Layout padding="xl">
+      <Layout padding='xl'>
         <div>Content</div>
       </Layout>
     );
@@ -48,7 +48,11 @@ describe('Layout', () => {
 
   it('shows page title when showPageTitle is true', () => {
     render(
-      <Layout showPageTitle pageTitle="Test Page" pageDescription="Test Description">
+      <Layout
+        showPageTitle
+        pageTitle='Test Page'
+        pageDescription='Test Description'
+      >
         <div>Content</div>
       </Layout>
     );
@@ -59,7 +63,7 @@ describe('Layout', () => {
 
   it('does not show page title when showPageTitle is false', () => {
     render(
-      <Layout pageTitle="Test Page" pageDescription="Test Description">
+      <Layout pageTitle='Test Page' pageDescription='Test Description'>
         <div>Content</div>
       </Layout>
     );
@@ -70,13 +74,14 @@ describe('Layout', () => {
 
   it('applies custom className correctly', () => {
     render(
-      <Layout className="custom-class">
+      <Layout className='custom-class'>
         <div>Content</div>
       </Layout>
     );
 
     // The custom class is applied to the outermost div (Parent 4)
-    const layoutDiv = screen.getByText('Content').closest('div')?.parentElement?.parentElement?.parentElement?.parentElement;
+    const layoutDiv = screen.getByText('Content').closest('div')?.parentElement
+      ?.parentElement?.parentElement?.parentElement;
     expect(layoutDiv).toHaveClass('custom-class');
   });
 
@@ -87,12 +92,14 @@ describe('Layout', () => {
       </Layout>
     );
 
-    expect(screen.getByText('2025. Built with React & Tailwind & Cursor')).toBeInTheDocument();
+    expect(
+      screen.getByText('2025. Built with React & Tailwind & Cursor')
+    ).toBeInTheDocument();
   });
 
   it('applies correct maxWidth classes for different sizes', () => {
     const { rerender } = render(
-      <Layout maxWidth="sm">
+      <Layout maxWidth='sm'>
         <div>Content</div>
       </Layout>
     );
@@ -101,7 +108,7 @@ describe('Layout', () => {
     expect(mainElement).toHaveClass('max-w-sm');
 
     rerender(
-      <Layout maxWidth="full">
+      <Layout maxWidth='full'>
         <div>Content</div>
       </Layout>
     );
@@ -112,7 +119,7 @@ describe('Layout', () => {
 
   it('applies correct padding classes for different sizes', () => {
     const { rerender } = render(
-      <Layout padding="sm">
+      <Layout padding='sm'>
         <div>Content</div>
       </Layout>
     );
@@ -121,7 +128,7 @@ describe('Layout', () => {
     expect(mainElement).toHaveClass('px-4', 'py-6');
 
     rerender(
-      <Layout padding="none">
+      <Layout padding='none'>
         <div>Content</div>
       </Layout>
     );
@@ -132,7 +139,11 @@ describe('Layout', () => {
 
   it('renders page header with correct styling when enabled', () => {
     render(
-      <Layout showPageTitle pageTitle="Test Page" pageDescription="Test Description">
+      <Layout
+        showPageTitle
+        pageTitle='Test Page'
+        pageDescription='Test Description'
+      >
         <div>Content</div>
       </Layout>
     );
@@ -140,13 +151,18 @@ describe('Layout', () => {
     const pageTitle = screen.getByText('Test Page');
     const pageDescription = screen.getByText('Test Description');
 
-    expect(pageTitle).toHaveClass('text-3xl', 'md:text-4xl', 'font-bold', 'text-vs-editor-text');
+    expect(pageTitle).toHaveClass(
+      'text-3xl',
+      'md:text-4xl',
+      'font-bold',
+      'text-vs-editor-text'
+    );
     expect(pageDescription).toHaveClass('text-lg', 'text-vs-editor-text2');
   });
 
   it('maintains consistent structure across different configurations', () => {
     render(
-      <Layout maxWidth="xl" padding="md" showPageTitle pageTitle="Test">
+      <Layout maxWidth='xl' padding='md' showPageTitle pageTitle='Test'>
         <div>Content</div>
       </Layout>
     );

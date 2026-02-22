@@ -9,7 +9,7 @@ import {
   loadContent,
   loadProjectContent,
   removeFromCache,
-  searchContent
+  searchContent,
 } from './content-loader';
 
 // Mock fetch for testing
@@ -45,19 +45,27 @@ This is the content of the test project.`;
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        text: () => Promise.resolve(mockMarkdown)
+        text: () => Promise.resolve(mockMarkdown),
       });
 
       const result = await loadProjectContent('/test.md');
 
       expect(result.frontmatter.id).toBe('test-project');
       expect(result.frontmatter.title).toBe('Test Project');
-      expect(result.frontmatter.description).toBe('This is a test project description');
+      expect(result.frontmatter.description).toBe(
+        'This is a test project description'
+      );
       expect(result.frontmatter.shortDescription).toBe('Test project');
       expect(result.frontmatter.image).toBe('/test-image.jpg');
-      expect(result.frontmatter.techStack).toEqual(['React', 'TypeScript', 'Node.js']);
+      expect(result.frontmatter.techStack).toEqual([
+        'React',
+        'TypeScript',
+        'Node.js',
+      ]);
       expect(result.frontmatter.liveDemo).toBe('https://demo.com');
-      expect(result.frontmatter.githubRepo).toBe('https://github.com/test/project');
+      expect(result.frontmatter.githubRepo).toBe(
+        'https://github.com/test/project'
+      );
       expect(result.content).toContain('# Test Project');
     });
 
@@ -73,10 +81,12 @@ Missing required fields.`;
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        text: () => Promise.resolve(invalidMarkdown)
+        text: () => Promise.resolve(invalidMarkdown),
       });
 
-      await expect(loadProjectContent('/test.md')).rejects.toThrow('Invalid frontmatter: Missing required field: slug');
+      await expect(loadProjectContent('/test.md')).rejects.toThrow(
+        'Invalid frontmatter: Missing required field: slug'
+      );
     });
   });
 
@@ -102,7 +112,7 @@ Content here.`;
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        text: () => Promise.resolve(mockMarkdown)
+        text: () => Promise.resolve(mockMarkdown),
       });
 
       const result = await loadContent('/test.md', 'project');
@@ -110,14 +120,16 @@ Content here.`;
     });
 
     it('should throw error for unsupported content type', async () => {
-      await expect(loadContent('/test.md', 'invalid-type' as ContentType)).rejects.toThrow('Unsupported content type: invalid-type');
+      await expect(
+        loadContent('/test.md', 'invalid-type' as ContentType)
+      ).rejects.toThrow('Unsupported content type: invalid-type');
     });
   });
 
   describe('discoverContentFiles', () => {
     it('should return project files when type is project', async () => {
       const files = await discoverContentFiles('project');
-      
+
       expect(files).toHaveLength(3);
       expect(files[0].filename).toBe('personal-blog-portfolio.md');
       expect(files[1].filename).toBe('ecommerce-platform.md');
@@ -133,7 +145,7 @@ Content here.`;
   describe('getContentMetadata', () => {
     it('should return correct content metadata', async () => {
       const metadata = await getContentMetadata();
-      
+
       expect(metadata.totalProjects).toBe(3);
       expect(metadata.totalTags).toBe(15);
     });
@@ -142,14 +154,14 @@ Content here.`;
   describe('searchContent', () => {
     it('should return search results when no type specified', async () => {
       const results = await searchContent('React');
-      
+
       expect(results).toHaveLength(1);
       expect(results[0].type).toBe('project');
     });
 
     it('should return only project results when type is project', async () => {
       const results = await searchContent('React', 'project');
-      
+
       expect(results).toHaveLength(1);
       expect(results[0].type).toBe('project');
       expect(results[0].title).toContain('Personal Blog & Portfolio');
@@ -179,7 +191,7 @@ Content here.`;
 
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        text: () => Promise.resolve(mockMarkdown)
+        text: () => Promise.resolve(mockMarkdown),
       });
 
       await loadProjectContent('/test1.md');
@@ -212,7 +224,7 @@ Content here.`;
 
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        text: () => Promise.resolve(mockMarkdown)
+        text: () => Promise.resolve(mockMarkdown),
       });
 
       await loadProjectContent('/test1.md');
@@ -245,7 +257,7 @@ Content here.`;
 
       (global.fetch as jest.Mock).mockResolvedValue({
         ok: true,
-        text: () => Promise.resolve(mockMarkdown)
+        text: () => Promise.resolve(mockMarkdown),
       });
 
       await loadProjectContent('/test1.md');
@@ -266,7 +278,7 @@ Content here.`;
   describe('Error Handling', () => {
     it('should create initial loading state', () => {
       const state = createLoadingState();
-      
+
       expect(state.state).toBe('idle');
       expect(state.retryCount).toBe(0);
       expect(state.error).toBeUndefined();
@@ -274,7 +286,7 @@ Content here.`;
 
     it('should handle content errors with retry logic', () => {
       const error = new Error('Network error');
-      
+
       const firstAttempt = handleContentError(error, 0);
       expect(firstAttempt.state).toBe('error');
       expect(firstAttempt.error).toBe('Network error');
@@ -312,12 +324,14 @@ showDetails: false
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        text: () => Promise.resolve(mockMarkdown)
+        text: () => Promise.resolve(mockMarkdown),
       });
 
       const result = await loadProjectContent('/test.md');
       expect(result.frontmatter.title).toBe('Test Project');
-      expect(result.frontmatter.description).toBe("This is a 'quoted' description");
+      expect(result.frontmatter.description).toBe(
+        "This is a 'quoted' description"
+      );
     });
 
     it('should parse YAML arrays in frontmatter correctly', async () => {
@@ -344,11 +358,15 @@ showDetails: false
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        text: () => Promise.resolve(mockMarkdown)
+        text: () => Promise.resolve(mockMarkdown),
       });
 
       const result = await loadProjectContent('/test.md');
-      expect(result.frontmatter.tags).toEqual(['React', 'TypeScript', 'Node.js']);
+      expect(result.frontmatter.tags).toEqual([
+        'React',
+        'TypeScript',
+        'Node.js',
+      ]);
       expect(result.frontmatter.techStack).toEqual(['React', 'TypeScript']);
     });
 
@@ -371,7 +389,7 @@ showDetails: false
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        text: () => Promise.resolve(mockMarkdown)
+        text: () => Promise.resolve(mockMarkdown),
       });
 
       const result = await loadProjectContent('/test.md');
@@ -386,7 +404,7 @@ No frontmatter here.`;
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        text: () => Promise.resolve(mockMarkdown)
+        text: () => Promise.resolve(mockMarkdown),
       });
 
       // No frontmatter means empty object — validation is skipped when no keys present
@@ -420,7 +438,7 @@ More content here.`;
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        text: () => Promise.resolve(mockMarkdown)
+        text: () => Promise.resolve(mockMarkdown),
       });
 
       const result = await loadProjectContent('/test.md');

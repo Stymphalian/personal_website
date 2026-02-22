@@ -26,7 +26,9 @@ global.IntersectionObserver = class IntersectionObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-  takeRecords() { return []; }
+  takeRecords() {
+    return [];
+  }
   root: Element | null = null;
   rootMargin: string = '';
   thresholds: ReadonlyArray<number> = [];

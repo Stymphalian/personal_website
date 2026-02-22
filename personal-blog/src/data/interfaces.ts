@@ -1,4 +1,4 @@
-import type { ProjectFrontmatter } from "../types/content";
+import type { ProjectFrontmatter } from '../types/content';
 
 export interface ProjectMedia {
   type: 'image' | 'video';

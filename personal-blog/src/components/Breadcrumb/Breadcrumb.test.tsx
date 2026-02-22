@@ -12,7 +12,7 @@ const renderWithRouter = (component: React.ReactElement) => {
 describe('Breadcrumb', () => {
   const mockItems: BreadcrumbItem[] = [
     { label: 'Projects', path: '/projects' },
-    { label: 'Project Name', isCurrent: true }
+    { label: 'Project Name', isCurrent: true },
   ];
 
   it('renders without crashing', () => {
@@ -39,7 +39,11 @@ describe('Breadcrumb', () => {
 
     const projectsLink = screen.getByText('Projects');
     expect(projectsLink).toHaveAttribute('href', '/projects');
-    expect(projectsLink).toHaveClass('text-vs-editor-text2', 'hover:text-vs-editor-text', 'transition-colors');
+    expect(projectsLink).toHaveClass(
+      'text-vs-editor-text2',
+      'hover:text-vs-editor-text',
+      'transition-colors'
+    );
   });
 
   it('renders current page item without link', () => {
@@ -69,7 +73,7 @@ describe('Breadcrumb', () => {
   it('handles items without paths', () => {
     const itemsWithoutPaths: BreadcrumbItem[] = [
       { label: 'Section' },
-      { label: 'Current Page', isCurrent: true }
+      { label: 'Current Page', isCurrent: true },
     ];
 
     renderWithRouter(<Breadcrumb items={itemsWithoutPaths} />);
@@ -102,7 +106,7 @@ describe('Breadcrumb', () => {
       { label: 'Category', path: '/category' },
       { label: 'Subcategory', path: '/category/subcategory' },
       { label: 'Item', path: '/category/subcategory/item' },
-      { label: 'Current Page', isCurrent: true }
+      { label: 'Current Page', isCurrent: true },
     ];
 
     renderWithRouter(<Breadcrumb items={complexItems} />);

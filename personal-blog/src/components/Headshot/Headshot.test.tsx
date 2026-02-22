@@ -19,7 +19,7 @@ global.Image = class {
   onload: any = null;
   onerror: any = null;
   src = '';
-  
+
   constructor() {
     setTimeout(() => {
       if (this.onload) {
@@ -32,61 +32,61 @@ global.Image = class {
 
 describe('Headshot', () => {
   it('renders with default props', () => {
-    render(<Headshot alt="Professional headshot" />);
-    
+    render(<Headshot alt='Professional headshot' />);
+
     const fallback = screen.getByText('👨‍💻');
     expect(fallback).toBeInTheDocument();
   });
 
   it('displays fallback emoji when no image source is provided', () => {
-    render(<Headshot alt="Professional headshot" />);
-    
+    render(<Headshot alt='Professional headshot' />);
+
     const fallback = screen.getByText('👨‍💻');
     expect(fallback).toBeInTheDocument();
   });
 
   it('displays custom fallback emoji', () => {
-    render(<Headshot alt="Professional headshot" fallbackEmoji="😊" />);
-    
+    render(<Headshot alt='Professional headshot' fallbackEmoji='😊' />);
+
     const fallback = screen.getByText('😊');
     expect(fallback).toBeInTheDocument();
   });
 
   it('applies correct size classes', () => {
-    const { rerender } = render(<Headshot alt="Test" size="sm" />);
+    const { rerender } = render(<Headshot alt='Test' size='sm' />);
     let container = screen.getByText('👨‍💻').parentElement?.parentElement;
     expect(container).toHaveClass('w-24', 'h-24');
 
-    rerender(<Headshot alt="Test" size="md" />);
+    rerender(<Headshot alt='Test' size='md' />);
     container = screen.getByText('👨‍💻').parentElement?.parentElement;
     expect(container).toHaveClass('w-32', 'h-32');
 
-    rerender(<Headshot alt="Test" size="lg" />);
+    rerender(<Headshot alt='Test' size='lg' />);
     container = screen.getByText('👨‍💻').parentElement?.parentElement;
     expect(container).toHaveClass('w-48', 'h-48');
 
-    rerender(<Headshot alt="Test" size="xl" />);
+    rerender(<Headshot alt='Test' size='xl' />);
     container = screen.getByText('👨‍💻').parentElement?.parentElement;
     expect(container).toHaveClass('w-64', 'h-64');
   });
 
   it('applies custom className', () => {
-    render(<Headshot alt="Test" className="custom-class" />);
-    
+    render(<Headshot alt='Test' className='custom-class' />);
+
     const container = screen.getByText('👨‍💻').parentElement?.parentElement;
     expect(container).toHaveClass('custom-class');
   });
 
   it('shows loading spinner when image is loading', () => {
-    render(<Headshot alt="Test" src="/test-image.jpg" />);
-    
+    render(<Headshot alt='Test' src='/test-image.jpg' />);
+
     const image = screen.getByAltText('Test');
     expect(image).toBeInTheDocument();
   });
 
   it('handles image load success', () => {
-    render(<Headshot alt="Test" src="/test-image.jpg" />);
-    
+    render(<Headshot alt='Test' src='/test-image.jpg' />);
+
     const image = screen.getByAltText('Test');
     expect(image).toBeInTheDocument();
   });
@@ -101,7 +101,7 @@ describe('Headshot', () => {
       onload: any = null;
       onerror: any = null;
       src = '';
-      
+
       constructor() {
         setTimeout(() => {
           if (this.onerror) {
@@ -112,8 +112,8 @@ describe('Headshot', () => {
       }
     } as any;
 
-    render(<Headshot alt="Test" src="/invalid-image.jpg" />);
-    
+    render(<Headshot alt='Test' src='/invalid-image.jpg' />);
+
     // Should show fallback after error
     const fallback = screen.getByText('👨‍💻');
     expect(fallback).toBeInTheDocument();
@@ -123,19 +123,19 @@ describe('Headshot', () => {
   });
 
   it('has proper accessibility attributes', () => {
-    render(<Headshot alt="Professional headshot" src="/test-image.jpg" />);
-    
+    render(<Headshot alt='Professional headshot' src='/test-image.jpg' />);
+
     const image = screen.getByAltText('Professional headshot');
     expect(image).toHaveAttribute('alt', 'Professional headshot');
     expect(image).toHaveAttribute('loading', 'lazy');
   });
 
   it('applies proper styling classes', () => {
-    render(<Headshot alt="Test" />);
-    
+    render(<Headshot alt='Test' />);
+
     const container = screen.getByText('👨‍💻').parentElement?.parentElement;
     expect(container).toHaveClass('relative');
-    
+
     const innerDiv = screen.getByText('👨‍💻').parentElement;
     expect(innerDiv).toHaveClass('rounded-full', 'shadow-lg');
   });

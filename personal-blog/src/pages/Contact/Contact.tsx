@@ -18,10 +18,13 @@ const Contact: React.FC = () => {
     <div className='min-h-screen bg-vs-editor-bg pt-16'>
       <div className='container mx-auto px-4 py-4'>
         <div className='text-center mb-4 md:mb-6'>
-          <h1 className='heading-1 mb-2 md:mb-3 text-3xl md:text-4xl lg:text-5xl'>Get In Touch</h1>
+          <h1 className='heading-1 mb-2 md:mb-3 text-3xl md:text-4xl lg:text-5xl'>
+            Get In Touch
+          </h1>
           <p className='body-text max-w-2xl mx-auto px-4 text-sm md:text-base'>
             I'm always interested in hearing about new opportunities,
-            interesting projects, or just want to say hello. Feel free to reach out!
+            interesting projects, or just want to say hello. Feel free to reach
+            out!
           </p>
         </div>
 
@@ -30,7 +33,9 @@ const Contact: React.FC = () => {
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4'>
             {/* Personal Contact */}
             <div className='bg-vs-editor-surface/80 backdrop-blur-sm rounded-lg p-3 md:p-4 border border-vs-editor-border hover:border-crystal-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-crystal-blue-500/20'>
-              <h2 className='heading-2 mb-2 md:mb-3 text-center text-xl md:text-2xl'>Personal Contact</h2>
+              <h2 className='heading-2 mb-2 md:mb-3 text-center text-xl md:text-2xl'>
+                Personal Contact
+              </h2>
               <div className='space-y-1.5 md:space-y-2'>
                 <button
                   onClick={handleEmailClick}
@@ -54,7 +59,9 @@ const Contact: React.FC = () => {
 
             {/* Professional Links */}
             <div className='bg-vs-editor-surface/80 backdrop-blur-sm rounded-lg p-3 md:p-4 border border-vs-editor-border hover:border-crystal-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-crystal-blue-500/20'>
-              <h2 className='heading-2 mb-2 md:mb-3 text-center text-xl md:text-2xl'>Professional Links</h2>
+              <h2 className='heading-2 mb-2 md:mb-3 text-center text-xl md:text-2xl'>
+                Professional Links
+              </h2>
               <div className='space-y-1.5 md:space-y-2'>
                 <button
                   onClick={handleGithubClick}

@@ -1,4 +1,3 @@
-
 import { fireEvent, render, screen } from '@testing-library/react';
 import type { Project } from '../../data';
 import ProjectCard from './ProjectCard';
@@ -8,7 +7,8 @@ const mockProject: Project = {
   id: 'test-project-1',
   title: 'Test Project',
   slug: 'test-project-1',
-  description: 'This is a test project description that should be displayed in the card.',
+  description:
+    'This is a test project description that should be displayed in the card.',
   shortDescription: 'Test project',
   image: '/test-image.jpg',
   techStack: ['React', 'TypeScript', 'Tailwind CSS'],
@@ -17,7 +17,7 @@ const mockProject: Project = {
   liveDemo: 'https://example.com',
   githubRepo: 'https://github.com/example/test',
   tags: ['React', 'TypeScript', 'Web Development'],
-  showDetails: true
+  showDetails: true,
 };
 
 describe('ProjectCard', () => {
@@ -25,7 +25,11 @@ describe('ProjectCard', () => {
     render(<ProjectCard project={mockProject} />);
 
     expect(screen.getByText('Test Project')).toBeInTheDocument();
-    expect(screen.getByText('This is a test project description that should be displayed in the card.')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'This is a test project description that should be displayed in the card.'
+      )
+    ).toBeInTheDocument();
     expect(screen.getByText('React')).toBeInTheDocument();
     expect(screen.getByText('TypeScript')).toBeInTheDocument();
     expect(screen.getByText('Tailwind CSS')).toBeInTheDocument();
@@ -58,7 +62,9 @@ describe('ProjectCard', () => {
 
   it('calls onViewDetails when View Details button is clicked', () => {
     const mockOnViewDetails = jest.fn();
-    render(<ProjectCard project={mockProject} onViewDetails={mockOnViewDetails} />);
+    render(
+      <ProjectCard project={mockProject} onViewDetails={mockOnViewDetails} />
+    );
 
     const viewDetailsButton = screen.getByText('View Details');
     fireEvent.click(viewDetailsButton);
@@ -101,14 +107,20 @@ describe('ProjectCard', () => {
     mockProject.techStack.forEach((tech: string) => {
       const techTag = screen.getByText(tech);
       expect(techTag).toBeInTheDocument();
-      expect(techTag).toHaveClass('px-2', 'sm:px-3', 'py-1', 'bg-crystal-blue-500/20', 'text-crystal-blue-400');
+      expect(techTag).toHaveClass(
+        'px-2',
+        'sm:px-3',
+        'py-1',
+        'bg-crystal-blue-500/20',
+        'text-crystal-blue-400'
+      );
     });
   });
 
   it('formats date correctly', () => {
     const projectWithDifferentDate: Project = {
       ...mockProject,
-      date: '2024-12-25'
+      date: '2024-12-25',
     };
 
     render(<ProjectCard project={projectWithDifferentDate} />);
@@ -119,7 +131,7 @@ describe('ProjectCard', () => {
   it('handles empty tech stack', () => {
     const projectWithNoTech: Project = {
       ...mockProject,
-      techStack: []
+      techStack: [],
     };
 
     render(<ProjectCard project={projectWithNoTech} />);

@@ -13,9 +13,7 @@ import type {
   ProjectContent,
   ProjectFrontmatter,
 } from './content';
-import {
-  REQUIRED_PROJECT_FIELDS
-} from './content';
+import { REQUIRED_PROJECT_FIELDS } from './content';
 
 describe('Content Types', () => {
   describe('BaseContent interface', () => {
@@ -26,7 +24,7 @@ describe('Content Types', () => {
         slug: 'test-slug',
         date: '2024-01-01',
         featured: false,
-        tags: ['test', 'example']
+        tags: ['test', 'example'],
       };
 
       expect(baseContent.id).toBe('test-id');
@@ -53,7 +51,7 @@ describe('Content Types', () => {
         techStack: ['React', 'TypeScript', 'Node.js'],
         liveDemo: 'https://demo.com',
         githubRepo: 'https://github.com/example/project',
-        showDetails: true
+        showDetails: true,
       };
 
       expect(project.description).toBe('This is a project description');
@@ -79,9 +77,9 @@ describe('Content Types', () => {
           shortDescription: 'Short description',
           image: '/image.jpg',
           techStack: ['React', 'TypeScript'],
-          showDetails: true
+          showDetails: true,
         },
-        content: '# Project Content\n\nThis is the project markdown content.'
+        content: '# Project Content\n\nThis is the project markdown content.',
       };
 
       expect(projectContent.frontmatter.title).toBe('Project Title');
@@ -95,7 +93,7 @@ describe('Content Types', () => {
         path: '/content/projects/test.md',
         filename: 'test.md',
         lastModified: new Date('2024-01-01'),
-        size: 1024
+        size: 1024,
       };
 
       expect(contentFile.path).toBe('/content/projects/test.md');
@@ -121,13 +119,13 @@ describe('Content Types', () => {
               shortDescription: 'Short description',
               image: '/image.jpg',
               techStack: ['React', 'TypeScript'],
-              showDetails: true
+              showDetails: true,
             },
-            content: 'Content'
+            content: 'Content',
           },
           timestamp: Date.now(),
-          expiresAt: Date.now() + 3600000 // 1 hour
-        }
+          expiresAt: Date.now() + 3600000, // 1 hour
+        },
       };
 
       expect(cache['project-1'].content.frontmatter.id).toBe('project-1');
@@ -142,7 +140,7 @@ describe('Content Types', () => {
         cacheEnabled: true,
         cacheExpiry: 3600000,
         parseMarkdown: true,
-        validateFrontmatter: true
+        validateFrontmatter: true,
       };
 
       expect(options.cacheEnabled).toBe(true);
@@ -153,7 +151,7 @@ describe('Content Types', () => {
 
     it('should work with partial options', () => {
       const partialOptions: ContentLoaderOptions = {
-        cacheEnabled: true
+        cacheEnabled: true,
       };
 
       expect(partialOptions.cacheEnabled).toBe(true);
@@ -166,13 +164,13 @@ describe('Content Types', () => {
       const validResult: ContentValidationResult = {
         isValid: true,
         errors: [],
-        warnings: ['Consider adding more tags']
+        warnings: ['Consider adding more tags'],
       };
 
       const invalidResult: ContentValidationResult = {
         isValid: false,
         errors: ['Missing required field: description'],
-        warnings: []
+        warnings: [],
       };
 
       expect(validResult.isValid).toBe(true);
@@ -193,7 +191,7 @@ describe('Content Types', () => {
         title: 'Project Title',
         description: 'Project description',
         tags: ['React', 'TypeScript'],
-        relevance: 0.85
+        relevance: 0.85,
       };
 
       expect(searchResult.type).toBe('project');
@@ -237,9 +235,9 @@ describe('Content Types', () => {
           shortDescription: 'Short',
           image: '/image.jpg',
           techStack: ['React'],
-          showDetails: true
+          showDetails: true,
         },
-        content: 'Content'
+        content: 'Content',
       };
 
       expect(content.frontmatter.id).toBe('project-1');
@@ -266,8 +264,13 @@ describe('Content Types', () => {
 
   describe('ContentLoadingState types', () => {
     it('should support all loading states', () => {
-      const states: ContentLoadingState[] = ['idle', 'loading', 'loaded', 'error'];
-      
+      const states: ContentLoadingState[] = [
+        'idle',
+        'loading',
+        'loaded',
+        'error',
+      ];
+
       expect(states).toContain('idle');
       expect(states).toContain('loading');
       expect(states).toContain('loaded');
@@ -277,13 +280,13 @@ describe('Content Types', () => {
     it('should work with ContentLoadingStateData interface', () => {
       const loadingData: ContentLoadingStateData = {
         state: 'loading',
-        retryCount: 0
+        retryCount: 0,
       };
 
       const errorData: ContentLoadingStateData = {
         state: 'error',
         error: 'Failed to load content',
-        retryCount: 3
+        retryCount: 3,
       };
 
       expect(loadingData.state).toBe('loading');
@@ -294,6 +297,3 @@ describe('Content Types', () => {
     });
   });
 });
-
-
-

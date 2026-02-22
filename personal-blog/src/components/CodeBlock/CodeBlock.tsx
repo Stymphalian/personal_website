@@ -38,16 +38,16 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
     switch (lang.toLowerCase()) {
       case 'typescript':
       case 'ts':
-        return <FileCode className="w-4 h-4" />;
+        return <FileCode className='w-4 h-4' />;
       case 'javascript':
       case 'js':
-        return <FileCode className="w-4 h-4" />;
+        return <FileCode className='w-4 h-4' />;
       case 'bash':
       case 'shell':
       case 'sh':
-        return <Terminal className="w-4 h-4" />;
+        return <Terminal className='w-4 h-4' />;
       default:
-        return <FileCode className="w-4 h-4" />;
+        return <FileCode className='w-4 h-4' />;
     }
   };
 
@@ -138,7 +138,9 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
 
     return lines
       .map((line, index) => {
-        const lineNumber = (index + 1).toString().padStart(lineNumberWidth, ' ');
+        const lineNumber = (index + 1)
+          .toString()
+          .padStart(lineNumberWidth, ' ');
         return `${lineNumber}  ${line}`;
       })
       .join('\n');
@@ -159,17 +161,19 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
   };
 
   return (
-    <div className={`code-block rounded-lg border overflow-hidden ${getThemeClasses()} ${className}`}>
+    <div
+      className={`code-block rounded-lg border overflow-hidden ${getThemeClasses()} ${className}`}
+    >
       {/* Header */}
       {(filename || language) && (
-        <div className={`flex items-center justify-between px-4 py-2 border-b ${getHeaderThemeClasses()}`}>
-          <div className="flex items-center space-x-2">
+        <div
+          className={`flex items-center justify-between px-4 py-2 border-b ${getHeaderThemeClasses()}`}
+        >
+          <div className='flex items-center space-x-2'>
             {getLanguageIcon(language)}
-            <span className="text-sm font-medium">
+            <span className='text-sm font-medium'>
               {filename && (
-                <span className="mr-2 text-vs-editor-text3">
-                  {filename}
-                </span>
+                <span className='mr-2 text-vs-editor-text3'>{filename}</span>
               )}
               {getLanguageLabel(language)}
             </span>
@@ -178,17 +182,18 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
           {showCopyButton && (
             <button
               onClick={handleCopy}
-              className={`p-1.5 rounded-md transition-colors ${theme === 'dark'
-                ? 'hover:bg-vs-editor-hover text-vs-editor-text2 hover:text-vs-editor-text'
-                : 'hover:bg-vs-editor-hover text-vs-editor-text2 hover:text-vs-editor-text'
-                }`}
-              title="Copy code"
-              aria-label="Copy code to clipboard"
+              className={`p-1.5 rounded-md transition-colors ${
+                theme === 'dark'
+                  ? 'hover:bg-vs-editor-hover text-vs-editor-text2 hover:text-vs-editor-text'
+                  : 'hover:bg-vs-editor-hover text-vs-editor-text2 hover:text-vs-editor-text'
+              }`}
+              title='Copy code'
+              aria-label='Copy code to clipboard'
             >
               {copied ? (
-                <Check className="w-4 h-4 text-green-500" />
+                <Check className='w-4 h-4 text-green-500' />
               ) : (
-                <Copy className="w-4 h-4" />
+                <Copy className='w-4 h-4' />
               )}
             </button>
           )}
@@ -196,16 +201,17 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
       )}
 
       {/* Code Content */}
-      <div
-        className="relative overflow-auto"
-        style={{ maxHeight }}
-      >
-        <pre className={`p-4 text-sm font-mono leading-relaxed m-0 ${showLineNumbers ? 'pl-8' : ''
-          }`}>
+      <div className='relative overflow-auto' style={{ maxHeight }}>
+        <pre
+          className={`p-4 text-sm font-mono leading-relaxed m-0 ${
+            showLineNumbers ? 'pl-8' : ''
+          }`}
+        >
           <code
             className={`language-${language}`}
             style={{
-              fontFamily: 'JetBrains Mono, Fira Code, Consolas, Monaco, monospace',
+              fontFamily:
+                'JetBrains Mono, Fira Code, Consolas, Monaco, monospace',
             }}
           >
             {getDisplayCode(code)}
@@ -215,23 +221,28 @@ const CodeBlock: React.FC<CodeBlockProps> = ({
         {/* Line numbers overlay */}
         {showLineNumbers && code.trim() && (
           <div
-            className={`absolute top-0 left-0 w-12 h-full text-xs font-mono select-none pointer-events-none ${theme === 'dark'
-              ? 'bg-vs-editor-bg text-vs-editor-text3 border-r border-vs-editor-border'
-              : 'bg-vs-editor-surface text-vs-editor-text3 border-r border-vs-editor-border'
-              }`}
+            className={`absolute top-0 left-0 w-12 h-full text-xs font-mono select-none pointer-events-none ${
+              theme === 'dark'
+                ? 'bg-vs-editor-bg text-vs-editor-text3 border-r border-vs-editor-border'
+                : 'bg-vs-editor-surface text-vs-editor-text3 border-r border-vs-editor-border'
+            }`}
             style={{
-              fontFamily: 'JetBrains Mono, Fira Code, Consolas, Monaco, monospace',
+              fontFamily:
+                'JetBrains Mono, Fira Code, Consolas, Monaco, monospace',
             }}
           >
-            {code.trim().split('\n').map((_, index) => (
-              <div
-                key={index}
-                className="px-2 py-1 text-right"
-                style={{ lineHeight: '1.5rem' }}
-              >
-                {index + 1}
-              </div>
-            ))}
+            {code
+              .trim()
+              .split('\n')
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className='px-2 py-1 text-right'
+                  style={{ lineHeight: '1.5rem' }}
+                >
+                  {index + 1}
+                </div>
+              ))}
           </div>
         )}
       </div>
