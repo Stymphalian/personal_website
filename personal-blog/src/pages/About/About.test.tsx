@@ -3,21 +3,30 @@ import { MemoryRouter } from 'react-router-dom';
 import About from './About';
 
 describe('About', () => {
-  it('renders the About page title', () => {
+  it('does not render an About heading', () => {
     render(
       <MemoryRouter>
         <About />
       </MemoryRouter>
     );
-    expect(screen.getByText('About')).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'About' })).not.toBeInTheDocument();
   });
 
-  it('renders placeholder content', () => {
+  it('does not render coming soon text', () => {
     render(
       <MemoryRouter>
         <About />
       </MemoryRouter>
     );
-    expect(screen.getByText(/coming soon/i)).toBeInTheDocument();
+    expect(screen.queryByText(/coming soon/i)).not.toBeInTheDocument();
+  });
+
+  it('renders placeholder bio content', () => {
+    render(
+      <MemoryRouter>
+        <About />
+      </MemoryRouter>
+    );
+    expect(screen.getByText(/Vancouver, Canada/i)).toBeInTheDocument();
   });
 });

@@ -87,13 +87,13 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
     }
     ```
   - [x] 8.4 Verify in the browser that no raw YAML `---` block appears at the top of any project detail page after the fix
-- [ ] 9.0 Update the About page
-  - [ ] 9.1 Change the `Layout` call in `src/pages/About/About.tsx` to use `showPageTitle={false}` so the "About" heading is not rendered by the layout
-  - [ ] 9.2 Remove any inline `<h1>` or heading element reading "About" from the page component body
-  - [ ] 9.3 Replace the "This page is coming soon." placeholder with 2–3 short placeholder paragraphs of bio text (Jordan will replace this later — add a `{/* TODO: Replace with real bio content */}` comment)
-- [ ] 10.0 Update all affected tests
-  - [ ] 10.1 **`ProjectCard.test.tsx`**: Remove the assertion that the "View Details" button exists; add an assertion that the image is wrapped in a link pointing to `/projects/test-project-1`
-  - [ ] 10.2 **`Home.test.tsx`**: Remove assertions for "Senior Software Developer" subtitle and "Featured Projects" heading; update the hero text assertion to match the new single-sentence copy; add assertion that all projects from `projects_list` are rendered (check count or specific titles)
-  - [ ] 10.3 **`About.test.tsx`**: Remove the `expect(screen.getByText('About')).toBeInTheDocument()` assertion; remove the "coming soon" assertion; add an assertion for one of the new placeholder paragraph strings
-  - [ ] 10.4 **`ProjectCarousel.test.tsx`**: Delete this file from disk (component is deleted)
-  - [ ] 10.5 Run the full test suite with `npx jest` from `personal-blog/` and confirm all tests pass
+- [x] 9.0 Update the About page
+  - [x] 9.1 Change the `Layout` call in `src/pages/About/About.tsx` to use `showPageTitle={false}` so the "About" heading is not rendered by the layout
+  - [x] 9.2 Remove any inline `<h1>` or heading element reading "About" from the page component body
+  - [x] 9.3 Replace the "This page is coming soon." placeholder with 2–3 short placeholder paragraphs of bio text (Jordan will replace this later — add a `{/* TODO: Replace with real bio content */}` comment)
+- [x] 10.0 Update all affected tests
+  - [x] 10.1 **`ProjectCard.test.tsx`**: Remove the assertion that the "View Details" button exists; add an assertion that the image is wrapped in a link pointing to `/projects/test-project-1`
+  - [x] 10.2 **`Home.test.tsx`**: Remove assertions for "Senior Software Developer" subtitle and "Featured Projects" heading; update the hero text assertion to match the new single-sentence copy; add assertion that all projects from `projects_list` are rendered (check count or specific titles)
+  - [x] 10.3 **`About.test.tsx`**: Remove the `expect(screen.getByText('About')).toBeInTheDocument()` assertion; remove the "coming soon" assertion; add an assertion for one of the new placeholder paragraph strings
+  - [x] 10.4 **`ProjectCarousel.test.tsx`**: Delete this file from disk (component is deleted)
+  - [x] 10.5 Run the full test suite with `npx jest` from `personal-blog/` and confirm all tests pass
