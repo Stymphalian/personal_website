@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Footer from './Footer';
 
 describe('Footer', () => {
@@ -48,5 +48,22 @@ describe('Footer', () => {
   it('renders a footer element', () => {
     render(<Footer />);
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
+  });
+
+  it('renders tools button', () => {
+    render(<Footer />);
+    expect(screen.getByRole('button', { name: /tools/i })).toBeInTheDocument();
+  });
+
+  it('shows Graph Editor link when tools dropdown is opened', () => {
+    render(<Footer />);
+    const toolsBtn = screen.getByRole('button', { name: /tools/i });
+    fireEvent.click(toolsBtn);
+    const graphEditorLink = screen.getByRole('link', { name: /graph editor/i });
+    expect(graphEditorLink).toHaveAttribute(
+      'href',
+      'https://blog.jordanyu.com/tools/graph_editor'
+    );
+    expect(graphEditorLink).toHaveAttribute('target', '_blank');
   });
 });
