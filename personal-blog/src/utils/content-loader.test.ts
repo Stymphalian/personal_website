@@ -292,59 +292,19 @@ Content here.`;
     });
   });
 
-  describe('Frontmatter Parsing Edge Cases', () => {
-    it('should handle quoted strings in frontmatter', async () => {
+  describe('Frontmatter Parsing (gray-matter)', () => {
+    it('should parse quoted strings in frontmatter correctly', async () => {
       const mockMarkdown = `---
-id: "test-project"
-title: 'Test Project'
+id: test-project
+title: "Test Project"
+slug: test-project
+date: 2024-01-01
+featured: false
+tags: [React]
 description: "This is a 'quoted' description"
----
-
-# Content`;
-
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        text: () => Promise.resolve(mockMarkdown)
-      });
-
-      // This should not throw an error about missing required fields
-      // since we're just testing the parsing, not validation
-      try {
-        await loadProjectContent('/test.md');
-      } catch (error) {
-        // Expected to fail validation, but parsing should work
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it('should handle arrays in frontmatter', async () => {
-      const mockMarkdown = `---
-id: test-project
-title: Test Project
-tags: [React, TypeScript, "Node.js"]
+shortDescription: Test project
+image: /test.jpg
 techStack: [React, TypeScript]
----
-
-# Content`;
-
-      (global.fetch as jest.Mock).mockResolvedValueOnce({
-        ok: true,
-        text: () => Promise.resolve(mockMarkdown)
-      });
-
-      try {
-        await loadProjectContent('/test.md');
-      } catch (error) {
-        // Expected to fail validation, but parsing should work
-        expect(error).toBeInstanceOf(Error);
-      }
-    });
-
-    it('should handle boolean values in frontmatter', async () => {
-      const mockMarkdown = `---
-id: test-project
-title: Test Project
-featured: true
 showDetails: false
 ---
 
@@ -355,12 +315,118 @@ showDetails: false
         text: () => Promise.resolve(mockMarkdown)
       });
 
-      try {
-        await loadProjectContent('/test.md');
-      } catch (error) {
-        // Expected to fail validation, but parsing should work
-        expect(error).toBeInstanceOf(Error);
-      }
+      const result = await loadProjectContent('/test.md');
+      expect(result.frontmatter.title).toBe('Test Project');
+      expect(result.frontmatter.description).toBe("This is a 'quoted' description");
+    });
+
+    it('should parse YAML arrays in frontmatter correctly', async () => {
+      const mockMarkdown = `---
+id: test-project
+title: Test Project
+slug: test-project
+date: 2024-01-01
+featured: false
+tags:
+  - React
+  - TypeScript
+  - Node.js
+description: Test project description
+shortDescription: Test project
+image: /test.jpg
+techStack:
+  - React
+  - TypeScript
+showDetails: false
+---
+
+# Content`;
+
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve(mockMarkdown)
+      });
+
+      const result = await loadProjectContent('/test.md');
+      expect(result.frontmatter.tags).toEqual(['React', 'TypeScript', 'Node.js']);
+      expect(result.frontmatter.techStack).toEqual(['React', 'TypeScript']);
+    });
+
+    it('should parse boolean values in frontmatter correctly', async () => {
+      const mockMarkdown = `---
+id: test-project
+title: Test Project
+slug: test-project
+date: 2024-01-01
+featured: true
+tags: [React]
+description: Test project description
+shortDescription: Test project
+image: /test.jpg
+techStack: [React]
+showDetails: false
+---
+
+# Content`;
+
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve(mockMarkdown)
+      });
+
+      const result = await loadProjectContent('/test.md');
+      expect(result.frontmatter.featured).toBe(true);
+      expect(result.frontmatter.showDetails).toBe(false);
+    });
+
+    it('should parse content with no frontmatter gracefully', async () => {
+      const mockMarkdown = `# Just a heading
+
+No frontmatter here.`;
+
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve(mockMarkdown)
+      });
+
+      // No frontmatter means empty object — validation is skipped when no keys present
+      const result = await loadProjectContent('/test.md');
+      expect(result.content).toContain('# Just a heading');
+      expect(result.frontmatter).toEqual({});
+    });
+
+    it('should separate markdown body from frontmatter correctly', async () => {
+      const mockMarkdown = `---
+id: test-project
+title: Test Project
+slug: test-project
+date: 2024-01-01
+featured: false
+tags: [React]
+description: Test description
+shortDescription: Short desc
+image: /test.jpg
+techStack: [React]
+showDetails: false
+---
+
+# My Project
+
+This is the body content.
+
+## Section
+
+More content here.`;
+
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve(mockMarkdown)
+      });
+
+      const result = await loadProjectContent('/test.md');
+      expect(result.content).toContain('# My Project');
+      expect(result.content).toContain('This is the body content.');
+      expect(result.content).not.toContain('title:');
     });
   });
 });

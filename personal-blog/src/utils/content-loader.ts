@@ -1,6 +1,7 @@
 // Content loader utility for markdown-based content management
 // Handles dynamic file loading, frontmatter parsing, and content caching
 
+import matter from 'gray-matter';
 import type {
   ContentCache,
   ContentFile,
@@ -15,7 +16,7 @@ import type {
   ProjectFrontmatter
 } from '../types/content';
 import { REQUIRED_PROJECT_FIELDS } from '../types/content';
-import { getContentStats, parseMarkdown, validateMarkdownContent } from './markdown';
+import { parseMarkdown } from './markdown';
 
 
 
@@ -30,121 +31,18 @@ const DEFAULT_OPTIONS: Required<ContentLoaderOptions> = {
 // Content cache for performance optimization
 let contentCache: ContentCache = {};
 
-// Frontmatter parsing utilities - dead simple approach with graceful fallbacks
-const parseFrontmatter = (content: string): { frontmatter: string; markdown: string } => {
-  if (content.startsWith('---')) {
-    const parts = content.split('---');
-    if (parts.length < 3) {
-      // Try to recover from malformed frontmatter
-      if (parts.length === 1) {
-        // No frontmatter at all, treat entire content as markdown
-        console.warn('No frontmatter found, treating entire content as markdown');
-        return {
-          frontmatter: '',
-          markdown: content.trim()
-        };
-      } else if (parts.length === 2) {
-        // Only one delimiter, try to determine if it's opening or closing
-        if (content.startsWith('---')) {
-          // Starts with frontmatter but no closing delimiter
-          console.warn('Frontmatter missing closing delimiter, treating as markdown');
-          return {
-            frontmatter: '',
-            markdown: content.trim()
-          };
-        } else {
-          // Ends with frontmatter but no opening delimiter
-          console.warn('Frontmatter missing opening delimiter, treating as markdown');
-          return {
-            frontmatter: '',
-            markdown: content.trim()
-          };
-        }
-      }
-      
-      // If we can't recover, throw a more descriptive error
-      throw new Error(`Invalid frontmatter format: expected 3 parts separated by ---, got ${parts.length}`);
-    }
-
-    return {
-      frontmatter: parts[1].trim(),
-      markdown: parts.slice(2).join('---').trim()
-    };
-  }
-
-  
-  return {
-    frontmatter: '',
-    markdown: content.trim()
+// Parse frontmatter and markdown body using gray-matter
+const parseFrontmatterWithGrayMatter = (content: string): { frontmatterData: Record<string, any>; markdown: string } => {
+  try {
+    const { data, content: body } = matter(content);
+    return { frontmatterData: data, markdown: body.trim() };
+  } catch (error) {
+    console.warn('Failed to parse frontmatter with gray-matter, treating entire content as markdown:', error);
+    return { frontmatterData: {}, markdown: content.trim() };
   }
 };
 
-const parseYamlFrontmatter = (yamlString: string): Record<string, any> => {
-  const lines = yamlString.split('\n');
-  const result: Record<string, any> = {};
-  
-  // If no frontmatter content, return empty object
-  if (!yamlString.trim()) {
-    console.warn('Empty frontmatter, using default values');
-    return result;
-  }
-  
-  for (const line of lines) {
-    const trimmedLine = line.trim();
-    if (!trimmedLine || trimmedLine.startsWith('#')) continue;
-    
-    const colonIndex = trimmedLine.indexOf(':');
-    if (colonIndex === -1) {
-      // Line without colon, log warning but continue
-      console.warn(`Skipping malformed frontmatter line: "${trimmedLine}"`);
-      continue;
-    }
-    
-    const key = trimmedLine.substring(0, colonIndex).trim();
-    let value: any = trimmedLine.substring(colonIndex + 1).trim();
-    
-    // Skip empty keys
-    if (!key) {
-      console.warn('Skipping line with empty key');
-      continue;
-    }
-    
-    // Handle quoted strings
-    if (value.startsWith('"') && value.endsWith('"')) {
-      value = value.slice(1, -1);
-    } else if (value.startsWith("'") && value.endsWith("'")) {
-      value = value.slice(1, -1);
-    }
-    
-    // Handle arrays
-    if (value.startsWith('[') && value.endsWith(']')) {
-      try {
-        value = value.slice(1, -1).split(',').map((item: string) => item.trim());
-      } catch (error) {
-        console.warn(`Failed to parse array value for key "${key}":`, error);
-        value = []; // Fallback to empty array
-      }
-    }
-    
-    // Handle booleans - must be exact string matches
-    if (value === 'true') {
-      value = true;
-    } else if (value === 'false') {
-      value = false;
-    }
-    
-    // Handle numbers - only convert if it's not already a boolean
-    if (typeof value === 'string' && !isNaN(Number(value)) && value !== '') {
-      value = Number(value);
-    }
-    
-    result[key] = value;
-  }
-  
-  return result;
-};
-
-// Enhanced content processing with markdown integration
+// Content processing with reading-time statistics
 const processContent = (
   markdownContent: string,
   options: ContentLoaderOptions = {}
@@ -156,30 +54,15 @@ const processContent = (
   }
   
   try {
-    // Validate markdown content first
-    const validation = validateMarkdownContent(markdownContent);
-    if (!validation.isValid) {
-      console.warn('Markdown validation warnings:', validation.errors);
-    }
-    
-    // Parse markdown for statistics only
-    const parsed = parseMarkdown(markdownContent);
-    
-    return {
-      content: markdownContent,
-      wordCount: parsed.wordCount,
-      readTime: parsed.readTime
-    };
-  } catch (error) {
-    console.error('Error processing markdown content:', error);
-    // Fallback to basic content processing
-    const stats = getContentStats(markdownContent);
-    
+    const stats = parseMarkdown(markdownContent);
     return {
       content: markdownContent,
       wordCount: stats.wordCount,
       readTime: stats.readTime
     };
+  } catch (error) {
+    console.error('Error processing markdown content:', error);
+    return { content: markdownContent };
   }
 };
 
@@ -274,8 +157,7 @@ export const loadProjectContent = async (
     const content = await response.text();
     console.log(`Successfully loaded content from: "${filePath}"`);
     
-    const { frontmatter: yamlFrontmatter, markdown } = parseFrontmatter(content);
-    const frontmatterData = parseYamlFrontmatter(yamlFrontmatter);
+    const { frontmatterData, markdown } = parseFrontmatterWithGrayMatter(content);
     
     if (Object.keys(frontmatterData).length > 0 && opts.validateFrontmatter) {
       const validation = validateProjectFrontmatter(frontmatterData);

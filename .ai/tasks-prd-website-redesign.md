@@ -56,7 +56,10 @@
 _Living scratchpad for the AI agent during implementation. Updated as work progresses._
 
 - **MCP Playwright tool** is available for browser testing at `localhost:3000`. Use it to visually verify changes after implementation steps.
-- (no other notes yet)
+- **After each parent task**: Run `npx jest` (all tests must pass), then `npx tsc --noEmit` (no type errors), then commit.
+- **After any content/data change**: Run `node scripts/generate-projects.mjs` from `personal-blog/` and verify `src/data/projects_list.ts` is regenerated correctly.
+- **Before marking a parent task complete**: Open `localhost:3000` in MCP Playwright and visually verify the affected pages still render correctly.
+- **Dev server**: Assume `localhost:3000` is always running. If it isn't, the user will start it.
 
 ## Tasks
 
@@ -75,13 +78,13 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
   - [x] 1.12 Remove blog-related references from `src/utils/content-loader.ts` (blog-post content type handling, blog-post validation, blog-post specific frontmatter parsing).
   - [x] 1.13 Update `src/utils/content-loader.test.ts` to remove blog-related test cases.
   - [x] 1.14 Remove the `Contact` page and its route from `App.tsx` if it is no longer in the navigation (the footer now handles contact info). Remove from `src/pages/index.ts` as well.
-- [ ] 2.0 Replace Custom Markdown Parsing with Standard Libraries
-  - [ ] 2.1 Move `gray-matter` from `devDependencies` to `dependencies` in `package.json` and install `reading-time` as a dependency. Run `npm install`.
-  - [ ] 2.2 In `src/utils/content-loader.ts`, replace the custom `parseFrontmatter` and `parseYamlFrontmatter` functions with `gray-matter` for frontmatter extraction.
-  - [ ] 2.3 In `src/utils/markdown.ts`, replace `parseMarkdown` and `getContentStats` with calls to the `reading-time` library. Remove the `validateMarkdownContent` function entirely.
-  - [ ] 2.4 Update all imports of the removed functions across the codebase (e.g., `content-loader.ts` importing from `markdown.ts`).
-  - [ ] 2.5 Update `src/utils/content-loader.test.ts` to test the new `gray-matter`-based parsing.
-  - [ ] 2.6 Update or remove tests in `src/utils/markdown.ts` related tests if they exist, to reflect the `reading-time` integration and removal of `validateMarkdownContent`.
+- [x] 2.0 Replace Custom Markdown Parsing with Standard Libraries
+  - [x] 2.1 Move `gray-matter` from `devDependencies` to `dependencies` in `package.json` and install `reading-time` as a dependency. Run `npm install`.
+  - [x] 2.2 In `src/utils/content-loader.ts`, replace the custom `parseFrontmatter` and `parseYamlFrontmatter` functions with `gray-matter` for frontmatter extraction.
+  - [x] 2.3 In `src/utils/markdown.ts`, replace `parseMarkdown` and `getContentStats` with calls to the `reading-time` library. Remove the `validateMarkdownContent` function entirely.
+  - [x] 2.4 Update all imports of the removed functions across the codebase (e.g., `content-loader.ts` importing from `markdown.ts`).
+  - [x] 2.5 Update `src/utils/content-loader.test.ts` to test the new `gray-matter`-based parsing.
+  - [x] 2.6 Update or remove tests in `src/utils/markdown.ts` related tests if they exist, to reflect the `reading-time` integration and removal of `validateMarkdownContent`.
 - [ ] 3.0 Implement light/dark toggle
   - [ ] 3.1 Define CSS variables for light and dark themes in `globals.css` (background, surface, border, text colors, etc.) under `:root` (light) and `.dark` (dark) selectors.
   - [ ] 3.2 Update `tailwind.config.js` to reference the new CSS variables instead of hardcoded hex values for the `vs-editor` and `crystal-blue` color palettes.
