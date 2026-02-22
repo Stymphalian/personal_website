@@ -69,14 +69,14 @@ _Living scratchpad for the AI agent during implementation. Updated as work progr
   - [x] 6.2 Delete `src/components/ProjectCarousel/ProjectCarousel.tsx` from disk
   - [x] 6.3 Delete `src/components/ProjectCarousel/ProjectCarousel.test.tsx` from disk
   - [x] 6.4 Delete the `src/components/ProjectCarousel/` folder from disk
-- [ ] 7.0 Simplify the ProjectDetail page
-  - [ ] 7.1 Remove the `Breadcrumb` import and the `<Breadcrumb items={breadcrumbItems} />` element (and the `breadcrumbItems` array) from `src/pages/ProjectDetail/ProjectDetail.tsx`
-  - [ ] 7.2 Remove the "Back to Projects" `<button>` and its wrapping container `<div>` from `src/pages/ProjectDetail/ProjectDetail.tsx`
-  - [ ] 7.3 Remove the `MediaGallery` import and `<MediaGallery ... />` element from `src/pages/ProjectDetail/ProjectDetail.tsx`
-  - [ ] 7.4 Remove the project banner `<img src={project.image} ... />` block from `src/pages/ProjectDetail/ProjectDetail.tsx`
-  - [ ] 7.5 Remove the word-count display (`📝 N words` block) from the tags/read-time row in `src/pages/ProjectDetail/ProjectDetail.tsx`
-  - [ ] 7.6 Verify the title, description, tags, read-time, "View on GitHub", and "View Live Demo" (conditional) elements are all still present and correctly positioned
-  - [ ] 7.7 Clean up any now-unused imports (e.g. `useNavigate`, `Breadcrumb`, `MediaGallery`) from the file
+- [x] 7.0 Simplify the ProjectDetail page
+  - [x] 7.1 Remove the `Breadcrumb` import and the `<Breadcrumb items={breadcrumbItems} />` element (and the `breadcrumbItems` array) from `src/pages/ProjectDetail/ProjectDetail.tsx`
+  - [x] 7.2 Remove the "Back to Projects" `<button>` and its wrapping container `<div>` from `src/pages/ProjectDetail/ProjectDetail.tsx`
+  - [x] 7.3 Remove the `MediaGallery` import and `<MediaGallery ... />` element from `src/pages/ProjectDetail/ProjectDetail.tsx`
+  - [x] 7.4 Remove the project banner `<img src={project.image} ... />` block from `src/pages/ProjectDetail/ProjectDetail.tsx`
+  - [x] 7.5 Remove the word-count display (`📝 N words` block) from the tags/read-time row in `src/pages/ProjectDetail/ProjectDetail.tsx`
+  - [x] 7.6 Verify the title, description, tags, read-time, "View on GitHub", and "View Live Demo" (conditional) elements are all still present and correctly positioned
+  - [x] 7.7 Clean up any now-unused imports (e.g. `useNavigate`, `Breadcrumb`, `MediaGallery`) from the file
 - [ ] 8.0 Investigate and fix frontmatter rendering in project detail pages
   - [ ] 8.1 Inspect `src/utils/content-loader.ts`: confirm that `parseFrontmatterWithGrayMatter()` is called and the returned `markdown` body (not `content`) is what gets stored in `projectContent.content`
   - [ ] 8.2 Check whether the `loadContent` → `loadProjectContent` dispatch path actually strips frontmatter or returns raw text (trace the code path used by `ProjectDetail.tsx`)
