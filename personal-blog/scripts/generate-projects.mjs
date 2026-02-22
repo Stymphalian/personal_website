@@ -34,115 +34,108 @@ function parseProjectFile(filePath) {
 }
 
 /**
- * Convert frontmatter data to TypeScript object literal
+ * Convert frontmatter data to TypeScript object literal.
+ * baseIndent: number of spaces before the opening '{' (default 2 for array items).
  */
-function formatProject(frontmatter, indent = 2) {
-  const spaces = ' '.repeat(indent);
+function formatProject(frontmatter, baseIndent = 2) {
+  const base = ' '.repeat(baseIndent);       // indent for { and }
+  const prop = ' '.repeat(baseIndent + 2);   // indent for properties
   const lines = [];
-  
-  lines.push(`{`);
-  
+
+  lines.push(`${base}{`);
+
   // Required fields
-  if (frontmatter.id) lines.push(`${spaces}id: '${frontmatter.id}',`);
-  if (frontmatter.slug) lines.push(`${spaces}slug: '${frontmatter.slug}',`);
-  if (frontmatter.title) lines.push(`${spaces}title: '${escapeString(frontmatter.title)}',`);
-  if (frontmatter.description) lines.push(`${spaces}description: '${escapeString(frontmatter.description)}',`);
-  if (frontmatter.shortDescription) lines.push(`${spaces}shortDescription: '${escapeString(frontmatter.shortDescription)}',`);
-  if (frontmatter.image) lines.push(`${spaces}image: '${frontmatter.image}',`);
-  
+  if (frontmatter.id) lines.push(`${prop}id: '${frontmatter.id}',`);
+  if (frontmatter.slug) lines.push(`${prop}slug: '${frontmatter.slug}',`);
+  if (frontmatter.title) lines.push(`${prop}title: '${escapeString(frontmatter.title)}',`);
+  if (frontmatter.description) lines.push(`${prop}description: '${escapeString(frontmatter.description)}',`);
+  if (frontmatter.shortDescription) lines.push(`${prop}shortDescription: '${escapeString(frontmatter.shortDescription)}',`);
+  if (frontmatter.image) lines.push(`${prop}image: '${frontmatter.image}',`);
+
   // Array fields
   if (frontmatter.techStack && Array.isArray(frontmatter.techStack)) {
-    lines.push(`${spaces}techStack: [${frontmatter.techStack.map(t => `'${t}'`).join(', ')}],`);
+    lines.push(`${prop}techStack: [${frontmatter.techStack.map(t => `'${t}'`).join(', ')}],`);
   }
-  
+
   if (frontmatter.tags && Array.isArray(frontmatter.tags)) {
-    lines.push(`${spaces}tags: [${frontmatter.tags.map(t => `'${t}'`).join(', ')}],`);
+    lines.push(`${prop}tags: [${frontmatter.tags.map(t => `'${t}'`).join(', ')}],`);
   }
-  
+
   // Boolean and other fields
   if (typeof frontmatter.featured === 'boolean') {
-    lines.push(`${spaces}featured: ${frontmatter.featured},`);
+    lines.push(`${prop}featured: ${frontmatter.featured},`);
   }
-  
+
   if (frontmatter.date) {
     // Convert date to YYYY-MM-DD format if it's a Date object
-    const dateStr = frontmatter.date instanceof Date 
+    const dateStr = frontmatter.date instanceof Date
       ? frontmatter.date.toISOString().split('T')[0]
       : String(frontmatter.date);
-    lines.push(`${spaces}date: '${dateStr}',`);
+    lines.push(`${prop}date: '${dateStr}',`);
   }
-  
+
   // Optional fields
   if (frontmatter.liveDemo) {
-    lines.push(`${spaces}liveDemo: '${frontmatter.liveDemo}',`);
+    lines.push(`${prop}liveDemo: '${frontmatter.liveDemo}',`);
   }
-  
+
   if (frontmatter.githubRepo) {
-    lines.push(`${spaces}githubRepo: '${frontmatter.githubRepo}',`);
+    lines.push(`${prop}githubRepo: '${frontmatter.githubRepo}',`);
   }
-  
+
   if (typeof frontmatter.showDetails === 'boolean') {
-    lines.push(`${spaces}showDetails: ${frontmatter.showDetails},`);
+    lines.push(`${prop}showDetails: ${frontmatter.showDetails},`);
   }
-  
+
   // Handle images array
+  // Media arrays start inline after the property name, so inner items indent at baseIndent + 4
   if (frontmatter.images && Array.isArray(frontmatter.images) && frontmatter.images.length > 0) {
-    lines.push(`${spaces}images: ${formatMediaArray(frontmatter.images, indent + 2)},`);
+    lines.push(`${prop}images: ${formatMediaArray(frontmatter.images, baseIndent + 4)},`);
   } else {
-    lines.push(`${spaces}images: [],`);
+    lines.push(`${prop}images: [],`);
   }
-  
+
   // Handle videos array
   if (frontmatter.videos && Array.isArray(frontmatter.videos) && frontmatter.videos.length > 0) {
-    lines.push(`${spaces}videos: ${formatMediaArray(frontmatter.videos, indent + 2)}`);
+    lines.push(`${prop}videos: ${formatMediaArray(frontmatter.videos, baseIndent + 4)},`);
   } else {
-    lines.push(`${spaces}videos: []`);
+    lines.push(`${prop}videos: [],`);
   }
-  
-  lines.push(`}`);
-  
-  return lines.join('\n' + ' '.repeat(indent - 2));
+
+  lines.push(`${base}},`);
+
+  return lines.join('\n');
 }
 
 /**
- * Format images/videos array for TypeScript
+ * Format images/videos array for TypeScript.
+ * itemIndent: spaces before each '{' inside the array.
+ * The '[' is emitted inline (caller writes `prop: [`), and
+ * the closing ']' is indented at itemIndent - 2.
  */
-function formatMediaArray(mediaArray, indent = 2) {
+function formatMediaArray(mediaArray, itemIndent = 4) {
   if (!mediaArray || mediaArray.length === 0) {
     return '[]';
   }
-  
-  const spaces = ' '.repeat(indent);
+
+  const item = ' '.repeat(itemIndent);           // indent for { and }
+  const mprop = ' '.repeat(itemIndent + 2);      // indent for media properties
+  const close = ' '.repeat(itemIndent - 2);      // indent for closing ]
+
   const lines = ['['];
-  
+
   mediaArray.forEach((media, index) => {
     const isLast = index === mediaArray.length - 1;
-    lines.push(`${spaces}{`);
-    
-    if (media.type) {
-      lines.push(`${spaces}  type: '${media.type}',`);
-    }
-    if (media.src) {
-      lines.push(`${spaces}  src: '${media.src}',`);
-    }
-    if (media.alt) {
-      lines.push(`${spaces}  alt: '${escapeString(media.alt)}',`);
-    }
-    if (media.caption) {
-      lines.push(`${spaces}  caption: '${escapeString(media.caption)}',`);
-    }
-    if (media.thumbnail) {
-      lines.push(`${spaces}  thumbnail: '${media.thumbnail}'`);
-    } else {
-      // Remove trailing comma from last property
-      const lastLine = lines[lines.length - 1];
-      lines[lines.length - 1] = lastLine.replace(/,$/, '');
-    }
-    
-    lines.push(`${spaces}}${isLast ? '' : ','}`);
+    lines.push(`${item}{`);
+    if (media.type) lines.push(`${mprop}type: '${media.type}',`);
+    if (media.src) lines.push(`${mprop}src: '${media.src}',`);
+    if (media.alt) lines.push(`${mprop}alt: '${escapeString(media.alt)}',`);
+    if (media.caption) lines.push(`${mprop}caption: '${escapeString(media.caption)}',`);
+    if (media.thumbnail) lines.push(`${mprop}thumbnail: '${media.thumbnail}',`);
+    lines.push(`${item}}${isLast ? '' : ','}`);
   });
-  
-  lines.push(`${' '.repeat(indent - 2)}]`);
+
+  lines.push(`${close}]`);
   return lines.join('\n');
 }
 
@@ -210,7 +203,7 @@ function generateProjectsList() {
  */
 
 export const projects: Project[] = [
-${projects.map(p => formatProject(p, 4)).join(',\n')}
+${projects.map(p => formatProject(p, 2)).join('\n')}
 ];
 `;
   

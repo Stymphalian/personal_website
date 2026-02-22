@@ -25,7 +25,7 @@
   //   1. Mark /workspace as a safe.directory so git doesn't refuse to run
   //      (container may run as a different UID than the host file owner)
   //   2. Install npm dependencies
-  "postCreateCommand": "git config --global --add safe.directory /workspace && cd /workspace/personal-blog && npm install",
+  "postCreateCommand": "git config --add safe.directory /workspace && cd /workspace/personal-blog && npm install",
 
   "forwardPorts": [5173, 3000],
   "portsAttributes": {
@@ -61,7 +61,6 @@
     }
   },
 
-  // Run as root inside the container (simplest default; node:alpine's node user
-  // is uid 1000 — change remoteUser to "node" if you prefer non-root)
-  "remoteUser": "root"
+  // // Run as root inside the container
+  "remoteUser": "node"
 }

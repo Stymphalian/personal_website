@@ -21,7 +21,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --coverage --watchAll=false",
-    "generate:projects": "node scripts/generate-projects.mjs",
+    "generate:projects": "node scripts/generate-projects.mjs && prettier --write src/data/projects_list.ts",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "postbuild": "npm run type-check",
