@@ -29,6 +29,9 @@ RUN npm ci
 # Return to workspace root
 WORKDIR /workspace
 
+# Switch to the built-in node user (UID/GID 1000) so new files aren't owned by root
+USER node
+
 # Expose development port
 EXPOSE 5173
 
