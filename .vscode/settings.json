@@ -32,10 +32,4 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "terminal.integrated.defaultProfile.linux": "bash",
-  "terminal.integrated.profiles.linux": {
-    "bash": {
-      "path": "/bin/bash"
-    }
-  }
 }

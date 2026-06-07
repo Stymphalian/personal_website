@@ -27,7 +27,7 @@ This is a **React/TypeScript/Vite personal portfolio blog** under `personal-blog
 # All commands from personal-blog/
 cd personal-blog
 
-npm run dev          # Dev server at http://localhost:5173 (or 3000 via docker)
+npm run dev          # Dev server at http://localhost:3000
 npx jest             # Run all tests — must pass before every commit
 npx tsc --noEmit     # Type-check — must pass before every commit
 npm run build        # Production build
